@@ -1,5 +1,4 @@
 <template>
-    <h1>結帳頁面</h1>
     <table class="table">
         <thead>
             <tr>
@@ -14,6 +13,20 @@
             </CheckCartComponents>
         </thead>
     </table>
+    <br><br>
+    <div class="mb-3">
+        <label for="formGroupExampleInput" class="form-label">收件人</label>
+        <input type="text" class="form-control" id="formGroupExampleInput" v-model="name">
+    </div>
+    <div class="mb-3">
+        <label for="formGroupExampleInput2" class="form-label">收件地址</label>
+        <input type="text" class="form-control" id="formGroupExampleInput2" v-model="address">
+    </div>
+    <div class="mb-3">
+        <label for="formGroupExampleInput2" class="form-label">收件地址</label>
+        <input type="text" class="form-control" id="formGroupExampleInput2" v-model="phone">
+    </div>
+    <button type="button" @click="dopay">結帳</button>
 </template>
 <script setup>
 import CheckCartComponents from '@/components/shopping/CheckCartComponents.vue'
@@ -22,7 +35,10 @@ const router = useRouter();
 import { ref, onMounted } from "vue";
 import xxx from "@/plugins/axios.js"
 const result = ref({})
-const disabled = ref(false)
+const message = ref({})
+const name = ref(null)
+const phone = ref(null)
+const address = ref(null)
 onMounted(function () {
     cart()
     people()
@@ -46,8 +62,22 @@ function cart() {
         });
     });
 }
+//結帳要有個資memberid///////////////////////////////////////////////////////////////////////////////////////
+//暫時寫固定值
 function people() {
+    xxx.get(`/hotel/carts/mes/${1}`).then(function (response) {
+        message.value = response.data.listt[0];
+        console.log(message.value)
+        name.value = response.data.listt[0].MemberName
+        phone.value = response.data.listt[0].phoneNumber
+        address.value = response.data.listt[0].contactAddress
+    }).catch(function (error) {
+        console.log("callFindById error", error);
+    });
+}
 
+function dopay() {
+    console.log("hahaha")
 }
 </script>
 <style></style>
