@@ -12,7 +12,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 
 /* add icons to the library */
 library.add(fas)
-
+/*第一次push的練習*/
 
 createApp(App)
     .component('font-awesome-icon', FontAwesomeIcon)
