@@ -23,7 +23,7 @@
         <input type="text" class="form-control" id="formGroupExampleInput2" v-model="address">
     </div>
     <div class="mb-3">
-        <label for="formGroupExampleInput2" class="form-label">收件地址</label>
+        <label for="formGroupExampleInput2" class="form-label">收件電話</label>
         <input type="text" class="form-control" id="formGroupExampleInput2" v-model="phone">
     </div>
     <button type="button" @click="dopay">結帳</button>

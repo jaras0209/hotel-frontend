@@ -50,6 +50,9 @@
                                 <RouterLink class=" active dropdown-item" to="/shopping/cart">
                                     <font-awesome-icon :icon="['fas', 'cart-shopping']" />&nbsp;&nbsp;&nbsp;購物車
                                 </RouterLink>
+                                <RouterLink class=" active dropdown-item" to="/shopping/myorder">
+                                    <font-awesome-icon :icon="['fas', 'truck-fast']" />&nbsp;&nbsp;&nbsp;訂單查詢
+                                </RouterLink>
                             </li>
                             <li><a class="dropdown-item">link1</a></li>
                             <li><a class="dropdown-item">link2</a></li>
