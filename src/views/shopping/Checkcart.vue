@@ -34,6 +34,7 @@ import { useRouter } from "vue-router"
 const router = useRouter();
 import { ref, onMounted } from "vue";
 import xxx from "@/plugins/axios.js"
+import Swal from "sweetalert2"
 const result = ref({})
 const message = ref({})
 const name = ref(null)
@@ -76,8 +77,28 @@ function people() {
     });
 }
 
+//真的確定付款
 function dopay() {
-    console.log("hahaha")
+    Swal.fire({
+        text: "確定結帳",
+        icon: 'question',
+        allowOutsideClick: false,
+        confirmButtonText: '確認',
+        showCancelButton: true,
+        cancelButtonText: '取消',
+    }).then(function (result) {
+        if (result.isConfirmed) {
+            let data = {
+                "memberId": 1,
+                "name": name.value,
+                "phone": phone.value,
+                "address": address.value,
+            }
+            xxx.post(`/hotel/carts/order`, data).then(function (response) {
+                console.log(response)
+            })
+        }
+    })
 }
 </script>
 <style></style>
