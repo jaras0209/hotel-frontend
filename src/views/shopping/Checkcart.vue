@@ -50,7 +50,7 @@ function cart() {
     let send = {
         "memberId": 1,//目前寫死
     }
-    xxx.post(`/hotel/carts/find`, send).then(function (response) {
+    xxx.post(`/hotel/carts/check`, send).then(function (response) {
         console.log(response.data.list);
         result.value = response.data.list
     }).catch(function (error) {
@@ -95,7 +95,8 @@ function dopay() {
                 "address": address.value,
             }
             xxx.post(`/hotel/carts/order`, data).then(function (response) {
-                console.log(response)
+                Swal.fire({ title: "謝謝您的購買!", })
+                router.push({ path: '/shopping/shoppinglist' });
             })
         }
     })

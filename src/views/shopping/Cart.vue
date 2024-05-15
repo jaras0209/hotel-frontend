@@ -23,7 +23,6 @@
     <RouterLink :to="{ name: 'checkcart-link' }">
         <button type="button" :disabled="disabled">結帳</button>
     </RouterLink>
-    <!-- <button type="button" :disabled="disabled">結帳</button> -->
 </template>
 <script setup>
 import Cartlist from '@/components/shopping/Cartlist.vue'
@@ -85,6 +84,7 @@ function cliick2(productid) {
     xxx.put("/hotel/carts/checkoutchange", data).then(function (response) {
         console.log(response);
         cart();//但我覺得這個寫法不好////////////////////////////////////////////////////////////////////////////////////
+        router.go(0)
     }).catch(function (error) {
         console.log(error);
     });

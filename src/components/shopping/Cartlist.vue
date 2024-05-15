@@ -15,7 +15,7 @@
                 style="cursor: pointer; color: red;" />
         </td>
     </tr>
-    <td v-if="stock < quantity" style="color: red;">{{ abc() }}</td>
+    <td v-if="stock < quantity && checked === true" style="color: red;">{{ abc() }}</td>
 </template>
 <script setup>
 const props = defineProps(["name", "quantity", "productprice", "options", "productid", "memberid", "checked", "stock"]);
@@ -23,6 +23,7 @@ const emits = defineEmits(["cliick", "cliick2", "move", "method-result"]);
 function cliick3(productid) {
     emits("move", productid)
 }
+//這個方法成立是不能按
 function abc() {
     console.log("abc 方法被執行了");
     const result = "disabled";
