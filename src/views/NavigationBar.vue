@@ -1,11 +1,13 @@
 <template>
     <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="red">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">ooo HOTEL</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">ooo HOTEL</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
         <form class="d-flex justify-content-center" role="search">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -30,7 +32,7 @@
             </ul>
             </li>
 
-            <li class="nav-item dropdown">
+                    <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
                             起始網頁
@@ -39,11 +41,14 @@
                             <li>
                                 <RouterLink class=" active dropdown-item" to="/supplier/allsupplier">合作夥伴(後端)
                                 </RouterLink>
-                                <!-- <RouterLink class=" active dropdown-item" to="/shopping/mall">單一商品
-                                </RouterLink> -->
-                                <RouterLink class=" active dropdown-item" to="/shopping/shoppinglist">商城首頁
+                                <RouterLink class=" active dropdown-item" to="/shopping/shoppinglist">
+                                    <font-awesome-icon :icon="['fas', 'shop']" /> &nbsp;&nbsp;商城
                                 </RouterLink>
-                                <RouterLink class=" active dropdown-item" to="/shopping/cart">購物車
+                                <RouterLink class=" active dropdown-item" to="/shopping/cart">
+                                    <font-awesome-icon :icon="['fas', 'cart-shopping']" />&nbsp;&nbsp;&nbsp;購物車
+                                </RouterLink>
+                                <RouterLink class=" active dropdown-item" to="/shopping/myorder">
+                                    <font-awesome-icon :icon="['fas', 'truck-fast']" />&nbsp;&nbsp;&nbsp;訂單查詢
                                 </RouterLink>
                             </li>
                             <li><a class="dropdown-item">link1</a></li>
@@ -53,13 +58,13 @@
                     </li>
 
 
-            <li class="nav-item">
-            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-            </li>
-        </ul>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                    </li>
+                </ul>
 
+            </div>
         </div>
-    </div>
     </nav>
 </template>
 

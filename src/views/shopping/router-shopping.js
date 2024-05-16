@@ -6,7 +6,7 @@ import Productphoto from "./Productphoto.vue"
 import Shopping from "./Shopping.vue"
 import Shoppinglist from "./Shoppinglist.vue"
 import suppliers from './suppliers.vue'
-
+import Myorder from './Myorder.vue'
 
 //設定路由網址
 
@@ -17,6 +17,6 @@ export default [
     { name: "productphoto-link", path: "/path/productphoto:productid", component: Productphoto },
     { name: "shopping-link", path: "/shopping/mall:id", component: Shopping },
     { name: "shoppinglist-link", path: "/shopping/shoppinglist", component: Shoppinglist },
-    { name: "suppliers-link", path: "/supplier/allsupplier", component: suppliers }
-
+    { name: "suppliers-link", path: "/supplier/allsupplier", component: suppliers },
+    { name: "myorder-link", path: "/shopping/myorder", component: Myorder }
 ];

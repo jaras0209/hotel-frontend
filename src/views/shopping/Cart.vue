@@ -16,14 +16,13 @@
             <Cartlist v-for="result in result" :memberid="result.memberid" :productid="result.productid"
                 :name="result.productname" :quantity="result.quantity" :productprice="result.productprice"
                 :checked="result.check" :options="options" @cliick="cliick" @cliick2="cliick2" @move="move"
-                :stock="result.productStock" @method-result="handleMethodResult">
+                :stock="result.productStock" @method-result="handleMethodResult" @method-resultt="handleMethodResultt">
             </Cartlist>
         </thead>
     </table>
     <RouterLink :to="{ name: 'checkcart-link' }">
-        <button type="button" :disabled="disabled">結帳</button>
+        <button type="button" :disabled="disabled || disabledd">結帳</button>
     </RouterLink>
-    <!-- <button type="button" :disabled="disabled">結帳</button> -->
 </template>
 <script setup>
 import Cartlist from '@/components/shopping/Cartlist.vue'
@@ -33,13 +32,19 @@ const options = ref([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 
 import { ref, onMounted } from "vue";
 import xxx from "@/plugins/axios.js"
 const result = ref({})
-const disabled = ref(false)
+const disabled = ref(false) // red
+const disabledd = ref(true) // green
+// const disabledd = ref(true)
 onMounted(function () {
     cart()
 })
 function handleMethodResult(result) {
     console.log("父元件收到方法的返回值：", result);
     disabled.value = result
+}
+function handleMethodResultt(result) {
+    console.log("父元件收到方法的返回值：", result);
+    disabledd.value = result
 }
 //修改購物車數量要有memberid/////////////////////////////////////////////////////////////////////////////////////////
 function cliick(quantity, productid) {
@@ -85,6 +90,7 @@ function cliick2(productid) {
     xxx.put("/hotel/carts/checkoutchange", data).then(function (response) {
         console.log(response);
         cart();//但我覺得這個寫法不好////////////////////////////////////////////////////////////////////////////////////
+        router.go(0)
     }).catch(function (error) {
         console.log(error);
     });
