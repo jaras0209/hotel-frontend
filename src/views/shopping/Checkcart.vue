@@ -19,7 +19,36 @@
                         </CheckCartComponents>
                     </thead>
                 </table>
-                <br><br>
+                <div class="mb-3">
+                    <label for="formGroupExampleInput2" class="form-label"
+                        style="width: 120px; font-size: 18px; height: 28px; border-radius: 5px; color: #43badd;">寄件人</label>
+                    <input type="text" id="formGroupExampleInput" v-model="payername">
+                </div>
+                <div class="mb-3">
+                    <div>
+                        <label for="formGroupExampleInput2" class="form-label"
+                            style="width: 120px; font-size: 18px; height: 28px; border-radius: 5px; color: #43badd;">發票地址</label>
+                        <select v-model="payercity" @change="payerdocitychange"
+                            style="width: 120px; font-size: 18px; height: 28px; border-radius: 5px;">
+                            <option :value="null">請選擇</option>
+                            <option v-for="item in arr" :key="item.name" :value="item.name">{{ item.name }}</option>
+                        </select>
+                        <select v-model="payerdistricts"
+                            style="width: 90px; font-size: 18px; height: 28px; border-radius: 5px; ">
+                            <option :value="null">請選擇</option>
+                            <option v-for="item in arr[y].districts" :key="item.name" :value="item.name">{{ item.name }}
+                            </option>
+                        </select>
+                        <input type="text" id="formGroupExampleInput2" v-model="payeraddressback"
+                            style="width: 270px; font-size: 18px; height: 28px; ">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="formGroupExampleInput2"
+                        style="width: 120px; font-size: 18px; height: 28px; border-radius: 5px; color: #43badd;">寄件電話</label>
+                    <input type="text" id="formGroupExampleInput2" v-model="payerphone">
+                </div>
+                <br><br><br><br>
                 <div class="mb-3">
                     <label for="formGroupExampleInput2" class="form-label"
                         style="width: 120px; font-size: 18px; height: 28px; border-radius: 5px; color: #FF5433;">收件人</label>
@@ -74,15 +103,26 @@ const router = useRouter();
 import { ref, onMounted } from "vue";
 import xxx from "@/plugins/axios.js"
 import Swal from "sweetalert2"
+//收件人START
 const result = ref({})
 const message = ref({})
 const name = ref(null)
 const phone = ref(null)
 const address = ref(null)
 const x = ref(0)
-const districts = ref(null);
+const districts = ref(null)
 const city = ref(null);
 const addressback = ref(null)
+//收件人END
+//寄件人START
+const y = ref(0)
+const payername = ref(null)
+const payercity = ref(null)
+const payerdistricts = ref(null)
+const payeraddressback = ref(null)
+const payerphone = ref(null)
+const payeraddress = ref(null)
+//寄件人END
 onMounted(function () {
     cart()
     people()
@@ -112,6 +152,7 @@ function people() {
     xxx.get(`/hotel/carts/mes/${1}`).then(function (response) {
         message.value = response.data.listt[0];
         console.log(message.value)
+        //收件人開始
         name.value = response.data.listt[0].MemberName
         phone.value = response.data.listt[0].phoneNumber
         city.value = response.data.listt[0].contactAddress.substr(3, 3) //第一部分地址
@@ -122,6 +163,17 @@ function people() {
         addressback.value = response.data.listt[0].contactAddress.substr(9)  //第三部分地址
         console.log(addressback.value)
         address.value = city.value + districts.value + addressback.value
+        //收件人結束
+
+        //寄件人開始
+        payername.value = response.data.listt[0].MemberName
+        payerphone.value = response.data.listt[0].phoneNumber
+        payercity.value = response.data.listt[0].contactAddress.substr(3, 3) //第一部分地址
+        payerdocitychange()
+        payerdistricts.value = response.data.listt[0].contactAddress.substr(6, 3)//第二部分地址
+        payeraddressback.value = response.data.listt[0].contactAddress.substr(9)  //第三部分地址
+        payeraddress.value = payercity.value + payerdistricts.value + payeraddressback.value
+        //寄件人結束
     }).catch(function (error) {
         console.log("callFindById error", error);
     });
@@ -142,6 +194,9 @@ function dopay() {
                 "name": name.value,
                 "phone": phone.value,
                 "address": city.value + districts.value + addressback.value,
+                "payername": payername.value,
+                "payerphone": payerphone.value,
+                "payeradress": payercity.value + payerdistricts.value + payeraddressback.value
             }
             xxx.post(`/hotel/carts/order`, data).then(function (response) {
                 Swal.fire({ title: "謝謝您的購買!", })
@@ -151,7 +206,8 @@ function dopay() {
     })
 }
 function docitychange() {
-    districts.value = null
+    districts.value = null;
+    addressback.value = null;
     if (city.value === '臺北市') {
         x.value = 0;
     }
@@ -223,6 +279,82 @@ function docitychange() {
     }
     if (city.value === '花蓮縣') {
         x.value = 23;
+    }
+}
+function payerdocitychange() {
+    payerdistricts.value = null;
+    payeraddressback.value = null;
+    if (payercity.value === '臺北市') {
+        y.value = 0;
+    }
+    if (payercity.value === '基隆市') {
+        y.value = 1;
+    }
+    if (payercity.value === '新北市') {
+        y.value = 2;
+    }
+    if (payercity.value === '連江縣') {
+        y.value = 3;
+    }
+    if (payercity.value === '宜蘭縣') {
+        y.value = 4;
+    }
+    if (payercity.value === '釣魚臺') {
+        y.value = 5;
+    }
+    if (payercity.value === '新竹市') {
+        y.value = 6;
+    }
+    if (payercity.value === '新竹縣') {
+        y.value = 7;
+    }
+    if (payercity.value === '桃園市') {
+        y.value = 8;
+    }
+    if (payercity.value === '苗栗縣') {
+        y.value = 9;
+    }
+    if (payercity.value === '臺中市') {
+        y.value = 10;
+    }
+    if (payercity.value === '彰化縣') {
+        y.value = 11;
+    }
+    if (payercity.value === '南投縣') {
+        y.value = 12;
+    }
+    if (payercity.value === '嘉義市') {
+        y.value = 13;
+    }
+    if (payercity.value === '嘉義縣') {
+        y.value = 14;
+    }
+    if (payercity.value === '雲林縣') {
+        y.value = 15;
+    }
+    if (payercity.value === '臺南市') {
+        y.value = 16;
+    }
+    if (payercity.value === '高雄市') {
+        y.value = 17;
+    }
+    if (payercity.value === '南海島') {
+        y.value = 18;
+    }
+    if (payercity.value === '澎湖縣') {
+        y.value = 19;
+    }
+    if (payercity.value === '金門縣') {
+        y.value = 20;
+    }
+    if (payercity.value === '屏東縣') {
+        y.value = 21;
+    }
+    if (payercity.value === '臺東縣') {
+        y.value = 22;
+    }
+    if (payercity.value === '花蓮縣') {
+        y.value = 23;
     }
 }
 const arr = ref([{
