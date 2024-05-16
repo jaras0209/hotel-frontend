@@ -11,6 +11,7 @@
             </aside>
             <main>
                 MAIN CONTENT
+                <h1>{{ user }}</h1>
             </main>
             <aside class="right">
                 RIGHT
@@ -30,6 +31,8 @@
     </footer>
 </template>
 <script setup>
+const user = sessionStorage.getItem("user");
+console.log("user", user);
 </script>
 <style scoped>
 * {

@@ -17,9 +17,7 @@
             <li class="nav-item">
                 <RouterLink class="nav-link active" aria-current="page" to="/">Home</RouterLink>
             </li>
-            <li class="nav-item">
-                <RouterLink class="nav-link" to="/member/login">登入/註冊</RouterLink>
-            </li>
+
             <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Dropdown
@@ -61,6 +59,23 @@
                     <li class="nav-item">
                         <a class="nav-link disabled" aria-disabled="true">Disabled</a>
                     </li>
+
+                    <li class="nav-item" v-if="user==null">
+                        <RouterLink class="nav-link" to="/member/login">登入/註冊{{ user }}</RouterLink>
+                    </li>
+
+                    <li class="nav-item dropdown" v-if="user!=null">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            哈囉! {{ user }}
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" @click="logout">登出</a></li>
+                        </ul>
+                    </li>
+        
                 </ul>
 
             </div>
@@ -69,7 +84,16 @@
 </template>
 
 <script setup>
+    import axiosapi from '@/plugins/axios.js';
+    import { useRouter } from "vue-router"
+    const router = useRouter();
+    const user = sessionStorage.getItem("user");
+    function logout(){
+        sessionStorage.removeItem("user");
+        axiosapi.defaults.headers.authorization='';
+        router.go(0);
 
+    }
 </script>
 
 <style></style>
