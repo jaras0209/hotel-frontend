@@ -1,17 +1,30 @@
 <template>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">訂單編號</th>
-                <th scope="col">訂單日期</th>
-                <th scope="col">訂單狀態</th>
-                <th scope="col">總價</th>
-            </tr>
-            <MyorderComponents v-for="result in result" :total="result.total" :AddedTime="result.AddedTime"
-                :Orderstatus="result.Orderstatus" :orderid="result.orderid">
-            </MyorderComponents>
-        </thead>
-    </table>
+
+    <body>
+        <div class="main">
+            <aside class="left">
+            </aside>
+            <main>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">訂單編號</th>
+                            <th scope="col">訂單日期</th>
+                            <th scope="col">訂單狀態</th>
+                            <th scope="col">總價</th>
+                        </tr>
+                        <MyorderComponents v-for="result in result" :total="result.total" :AddedTime="result.AddedTime"
+                            :Orderstatus="result.Orderstatus" :orderid="result.orderid">
+                        </MyorderComponents>
+                    </thead>
+                </table>
+            </main>
+            <aside class="right">
+            </aside>
+        </div>
+    </body>
+    <footer>
+    </footer>
 </template>
 
 <script setup>
@@ -33,5 +46,62 @@ function myorder() {
     });
 }
 </script>
+<style scoped>
+* {
+    margin: 1px;
+    box-sizing: border-box;
+}
 
-<style></style>
+body {
+    height: 95vh;
+    background: #34e7e4;
+    font-family: sans-serif;
+    text-align: start;
+    color: black;
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background: yellow;
+    padding: 2em 0 2em 0;
+}
+
+.left {
+    background: gainsboro;
+    padding: 3em 0 3em 0;
+    flex: 1 1 100px
+}
+
+main {
+    background: white;
+    padding: 3em 0 3em 0;
+    flex: 10 10 150px
+}
+
+.main {
+    display: flex;
+    flex: 1
+}
+
+.right {
+    background: gainsboro;
+    padding: 3em 0 3em 0;
+    flex: 1 1 100px
+}
+
+footer {
+    background: burlywood;
+}
+
+@media all and (max-width: 550px) {
+    .main {
+        flex-direction: column;
+    }
+
+    main {
+        padding: 5em 0 5em 0;
+    }
+}
+</style>
