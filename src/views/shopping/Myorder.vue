@@ -11,10 +11,12 @@
                             <th scope="col">訂單編號</th>
                             <th scope="col">訂單日期</th>
                             <th scope="col">訂單狀態</th>
+                            <th scope="col">抵達日期</th>
                             <th scope="col">總價</th>
                         </tr>
                         <MyorderComponents v-for="result in result" :total="result.total" :AddedTime="result.AddedTime"
-                            :Orderstatus="result.Orderstatus" :orderid="result.orderid">
+                            :Orderstatus="result.Orderstatus" :orderid="result.orderid"
+                            :arriveddTime="result.arriveddTime">
                         </MyorderComponents>
                     </thead>
                 </table>

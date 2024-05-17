@@ -3,6 +3,7 @@
         <td>{{ orderid }}</td>
         <td>{{ AddedTime }}</td>
         <td>{{ Orderstatus }}</td>
+        <td>{{ arriveddTime }}</td>
         <td>{{ total }}</td>
     </tr>
     <div>
@@ -33,13 +34,12 @@
     </div>
 </template>
 <script setup>
-const props = defineProps(["total", "AddedTime", "Orderstatus", "orderid"]);
+const props = defineProps(["total", "AddedTime", "Orderstatus", "orderid", "arriveddTime"]);
 import xxx from "@/plugins/axios.js"
 import { ref } from "vue";
 const newresult = ref(null)
 function myclick(id) {
     xxx.get(`/hotel/orderdetails/mes/${id}`).then(function (response) {
-        console.log(response.data.ist);
         newresult.value = response.data.ist
     }).catch(function (error) {
         console.log("callFindById error", error);
