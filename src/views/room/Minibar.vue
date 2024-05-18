@@ -45,13 +45,13 @@
     import MinibarModal from "@/components/room/MinibarModal.vue";
     import MinibarRows from "@/components/room/MinibarRows.vue";
     import {ref, onMounted} from "vue";
-    // import { useRoute } from "vue-router";
+    import { useRouter } from "vue-router";
 
     const total = ref(0);
     const current = ref(1);
     const pages = ref(10);
     const start = ref(0);
-    const rows = ref(8);
+    const rows = ref(4);
     const lastPageRows = ref(0);
 
     const products = ref(null);
@@ -104,7 +104,7 @@
             "name": findName.value
         };
         //呼叫Service端
-        axiosapi.post("/hotel/minibar/item/", data).then(function(response){
+        axiosapi.post(`/hotel/minibar/findall`).then(function(response){
             products.value = response.data.list;
             total.value = response.data.count;
             pages.value = Math.ceil(response.data.count / rows.value);
@@ -120,11 +120,11 @@
                 allowOutsideClick: false,
                 confirmButtonText: '確認',
             })//檢查登入
-            // .then(function() {
-            //     if(error && error.response.status && error.response.status==403) {
-            //         router.push("/secure/login");
-            //     }
-            // });
+            .then(function() {
+                if(error && error.response.status && error.response.status==403) {
+                    router.push("/secure/login");
+                }
+            });
         });
     }
 
@@ -136,26 +136,23 @@
             allowOutsideClick: false,
         });
         //檢查資料
-        if(product.value.id==="") {
-            product.value.id = null;
+        if(product.value.item === "") {
+            product.value.item = null;
         }
-        if(product.value.name==="") {
-            product.value.name = null;
-        }
-        if(product.value.price==="") {
+        if(product.value.price === "") {
             product.value.price = null;
         }
-        if(product.value.make==="") {
+        if(product.value.make === "") {
             product.value.make = null;
         }
-        if(product.value.expire==="") {
+        if(product.value.expire === "") {
             product.value.expire = null;
         }
         let data = product.value;
         //呼叫Service端
-        axiosapi.post("/hotel/minibar", data),than(function(response){
-            //
-        if(response.data.success){
+        axiosapi.post(`/hotel/minibar`, data),than(function(response){
+            console.log("callCreate", response);
+            if(response.data.success){
             Swal.fire({
                     text: response.data.message,
                     icon: 'success',
@@ -165,22 +162,23 @@
                     minibarModalRef.value.hideModal();
                     callFind(current.value);
                 });
-        }else{
+            }else{
             Swal.fire({
                     text: response.data.message,
                     icon: 'warning',
                     allowOutsideClick: false,
                     confirmButtonText: '確認',
                 });
-        }
-        }).catch(function(error){
+            }
+            }).catch(function(error){
+            console.log("callCreate error", error);
             Swal.fire({
                 text: '失敗：'+error.message,
                 icon: 'error',
                 allowOutsideClick: false,
                 confirmButtonText: '確認',
+                });
             });
-        });
     }
 
     function callRemove(id) {

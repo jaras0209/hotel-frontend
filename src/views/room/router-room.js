@@ -7,6 +7,7 @@ import Minibar from "./Minibar.vue";
 import Executive from "./Executive.vue";
 import Standard from "./Standard.vue";
 import Deluxe from "./Deluxe.vue";
+import Room from "./Room.vue";
 
 
 
@@ -20,4 +21,5 @@ export default [
     {name: "executive-link", path: "/room/executive", component: Executive},
     {name: "standard-link", path: "/room/standard", component: Standard},
     {name: "deluxe-link", path: "/room/deluxe", component: Deluxe},
+    {name: "room-link", path: "/room", component:Room}
 ]
