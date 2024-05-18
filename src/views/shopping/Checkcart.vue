@@ -5,20 +5,31 @@
             <aside class="left">
             </aside>
             <main>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">商品名稱</th>
-                            <th scope="col">數量</th>
-                            <th scope="col">單價</th>
-                            <th scope="col">小計</th>
-                        </tr>
-                        <CheckCartComponents v-for="result in result" :memberid="result.memberid"
-                            :productid="result.productid" :name="result.productname" :quantity="result.quantity"
-                            :productprice="result.productprice" :checked="result.check">
-                        </CheckCartComponents>
-                    </thead>
-                </table>
+                <p class="d-inline-flex gap-1">
+                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        查看明細
+                    </button>
+                </p>
+                <div class="collapse" id="collapseExample">
+                    <div class="card card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">商品名稱</th>
+                                    <th scope="col">數量</th>
+                                    <th scope="col">單價</th>
+                                    <th scope="col">小計</th>
+                                </tr>
+                                <CheckCartComponents v-for="result in result" :memberid="result.memberid"
+                                    :productid="result.productid" :name="result.productname" :quantity="result.quantity"
+                                    :productprice="result.productprice" :checked="result.check">
+                                </CheckCartComponents>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+                <br><br>
                 <div class="mb-3">
                     <label for="formGroupExampleInput2" class="form-label"
                         style="width: 120px; font-size: 18px; height: 28px; border-radius: 5px; color: #43badd;">寄件人</label>
@@ -78,22 +89,13 @@
                         style="width: 120px; font-size: 18px; height: 28px; border-radius: 5px; color: #FF5433;">收件電話</label>
                     <input type="text" id="formGroupExampleInput2" v-model="phone">
                 </div>
-                <button type="button" @click="dopay">貨到付款</button>
+                <button type="button" @click="dopay" style="text-align:center ;">貨到付款</button>
             </main>
             <aside class="right">
             </aside>
         </div>
     </body>
     <footer>
-        https://www.youtube.com/watch?v=oeOQQT7Xn7w
-        footer
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum iusto cumque recusandae, perferendis asperiores
-        esse obcaecati? Nisi a eveniet temporibus. Delectus est provident inventore ex velit. Unde corporis quos iste.
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio, doloremque praesentium quis numquam nisi
-        enim expedita explicabo error voluptatum, vel molestiae amet accusantium voluptate accusamus libero hic veniam
-        deleniti. Voluptates!
-        footer
-        footer
     </footer>
 </template>
 <script setup>
@@ -1947,13 +1949,13 @@ header {
 .left {
     background: gainsboro;
     padding: 3em 0 3em 0;
-    flex: 2 2 100px
+    flex: 1 1 100px
 }
 
 main {
     background: white;
     padding: 3em 0 3em 0;
-    flex: 8 8 150px
+    flex: 10 10 150px
 }
 
 .main {
@@ -1964,7 +1966,7 @@ main {
 .right {
     background: gainsboro;
     padding: 3em 0 3em 0;
-    flex: 2 2 100px
+    flex: 1 1 100px
 }
 
 footer {
