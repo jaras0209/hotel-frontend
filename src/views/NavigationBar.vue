@@ -99,19 +99,26 @@
             </div>
         </div>
     </nav>
+    <MemberModal ref="memberRef"></MemberModal>
 </template>
 
 <script setup>
     import axiosapi from '@/plugins/axios.js';
+    // import MemberModal from '@/components/MemberModal';
     import { useRouter } from "vue-router"
+    import { ref } from 'vue';
     const router = useRouter();
     const user = sessionStorage.getItem("user");
+    const memberRef = ref(null);
     function logout(){
         sessionStorage.removeItem("user");
         axiosapi.defaults.headers.authorization='';
         router.go(0);
-
     }
+
+    // function doclickShow(){
+
+    // }
 </script>
 
 <style></style>
