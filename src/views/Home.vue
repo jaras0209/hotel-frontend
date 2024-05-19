@@ -6,12 +6,34 @@
             HEADER
         </header> -->
         <div class="main">
-            <aside class="left">
+            <!-- <aside class="left">
                 LEFT
-            </aside>
+            </aside> -->
             <main>
                 MAIN CONTENT
-                <h1>{{ user }}</h1>
+                
+                <div id="carouselExample" class="carousel slide" data-bs-ride="carousel" data-bs-wrap="true" data-bs-interval="1800">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active" data-bs-interval="10000">
+                        <img src="@/assets/images/home1.jpg" class="d-block w-100" alt="...">
+                        </div>
+                        <div class="carousel-item" data-bs-interval="2000">
+                        <img src="@/assets/images/home2.jpg" class="d-block w-100" alt="...">
+                        </div>
+                        <div class="carousel-item">
+                        <img src="@/assets/images/home3.jpg" class="d-block w-100" alt="...">
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="false"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="false"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+
             </main>
             <aside class="right">
                 RIGHT
@@ -31,8 +53,7 @@
     </footer>
 </template>
 <script setup>
-const user = sessionStorage.getItem("user");
-console.log("user", user);
+
 </script>
 <style scoped>
 * {
@@ -91,5 +112,10 @@ footer {
     main {
         padding: 5em 0 5em 0;
     }
+}
+img{
+    background-color: blue;
+    display: inline;
+    min-height: 100vh;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="red">
+    <nav class="navbar navbar-expand-lg bg-body-secondary">  <!--顏色 https://getbootstrap.com/docs/5.3/utilities/background/ -->
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">ooo HOTEL</a>
+            <RouterLink class="navbar-brand hotel" to="/"><img src="/logo.png" alt="Logo" style="width:40px; border-radius: 40px;">&nbsp;&nbsp;FreeRelx HOTEL</RouterLink>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -9,15 +9,17 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-                <form class="d-flex justify-content-center" role="search">
+                <!-- <form class="d-flex justify-content-center" role="search">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
+                </form> -->
                 <ul class="navbar-nav  mb-2 mb-lg-0 ms-auto"> <!-- me-auto -->
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <RouterLink class="nav-link active" aria-current="page" to="/">Home</RouterLink>
+                    </li> -->
+                    <li class="nav-item">
+                        <RouterLink class="nav-link" to="/">訂房</RouterLink>
                     </li>
-
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="/room/roomInfo" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">客房介紹</a>
@@ -51,7 +53,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                            起始網頁
+                            Shopping
                         </a>
                         <ul class="dropdown-menu">
                             <li>
@@ -87,7 +89,7 @@
                             哈囉! {{ user }}
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#" @click="doclickShow" >資料修改</a></li>
                             <li><a class="dropdown-item" href="#">Another action</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="#" @click="logout">登出</a></li>
@@ -104,7 +106,8 @@
 
 <script setup>
     import axiosapi from '@/plugins/axios.js';
-    // import MemberModal from '@/components/MemberModal';
+    import MemberModal from '@/components/member/MemberModal.vue';
+    
     import { useRouter } from "vue-router"
     import { ref } from 'vue';
     const router = useRouter();
@@ -116,9 +119,18 @@
         router.go(0);
     }
 
-    // function doclickShow(){
-
-    // }
+    function doclickShow(){
+        memberRef.value.showModal()
+        console.log("ihi");
+    }
 </script>
 
-<style></style>
+<style>
+@import '../assets/style/all.scss';
+.hotel{
+    font-family: "Dancing Script", cursive;
+    font-optical-sizing: auto;
+    font-weight: <weight>;
+    font-style: normal;
+}
+</style>
