@@ -3,7 +3,7 @@
 <div class="card">
     <img class="card-img-top" :src="`${path}${item.id}`" :alt="item.name">
     <div class="card-body">
-                <h5 class="card-title">{{ item.name }}</h5>
+                <h5 class="card-title">{{ item.item }}</h5>
                 <div class="card-text text-danger text-end">NT$ {{item.price}}</div>
                 <div class="row">
                     <div class="col text-start">
@@ -12,6 +12,13 @@
                     <div class="col text-end">
                         <a href="#" class="btn btn-primary" @click="doclick2(item.id)">刪除</a>
                     </div>
+                <!-- <div>
+                    <RouterLink class=" card-link" :to="{
+                        name: 'productphoto-link'
+                        , params: { productid: product.id }
+                    }">修改圖片
+                    </RouterLink>
+                </div> -->
                 </div>
             </div>
         </div>
@@ -19,7 +26,7 @@
 </template>
     
 <script setup>
-    const path = import.meta.env.VITE_BACKEND_URL+"/hotel/minibar/item/";
+    const path = import.meta.env.VITE_BACKEND_URL+"/hotel/minibar/";
     const props = defineProps(["item"]);
     const emits = defineEmits(["openUpdate", "delete"]);
     function doclick1(id) {
