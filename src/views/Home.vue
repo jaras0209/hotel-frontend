@@ -11,14 +11,14 @@
             </aside> -->
             <main>
                 MAIN CONTENT
-                
-                <div id="carouselExample" class="carousel slide" data-bs-ride="carousel" data-bs-wrap="true" data-bs-interval="1800">
+                <div class="row g-0 position-relative" >
+                <div id="carouselExample" class="carousel slide " data-bs-ride="carousel" data-bs-wrap="true" data-bs-interval="1800">
                     <div class="carousel-inner">
-                        <div class="carousel-item active" data-bs-interval="10000">
+                        <div class="carousel-item active" data-bs-interval="1000">
                         <img src="@/assets/images/home1.jpg" class="d-block w-100" alt="...">
                         </div>
-                        <div class="carousel-item" data-bs-interval="2000">
-                        <img src="@/assets/images/home2.jpg" class="d-block w-100" alt="...">
+                        <div class="carousel-item " data-bs-interval="200">
+                        <img src="@/assets/images/home2.jpg" class="d-block w-100" alt="..." >
                         </div>
                         <div class="carousel-item">
                         <img src="@/assets/images/home3.jpg" class="d-block w-100" alt="...">
@@ -33,7 +33,7 @@
                         <span class="visually-hidden">Next</span>
                     </button>
                 </div>
-
+            </div>
             </main>
             <aside class="right">
                 RIGHT
@@ -113,9 +113,18 @@ footer {
         padding: 5em 0 5em 0;
     }
 }
-img{
-    background-color: blue;
+.carousel-item {
+  /* display: flex; */
+  align-items: center; /* 垂直居中 */
+  justify-content: center; /* 水平居中 */
+}
+
+.carousel-item img {
+  width: 100%;
+  height: 500px; /* 根據需求調整高度 */
+  object-fit: cover; /* 保持圖片比例 */
+}
+.carousel-item-start{
     display: inline;
-    min-height: 100vh;
 }
 </style>
