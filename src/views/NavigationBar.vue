@@ -17,6 +17,9 @@
             <RouterLink class="nav-link active" aria-current="page" to="/">Home</RouterLink>
           </li> -->
           <li class="nav-item">
+            <RouterLink class="nav-link" to="/">訂房</RouterLink>
+          </li>
+          <li class="nav-item">
             <RouterLink class="nav-link" aria-current="page" to="/room">Room</RouterLink>
           </li>
           <li class="nav-item dropdown">
@@ -31,10 +34,11 @@
               </li>
             </ul>
           </li>
+
           <li class="nav-item">
             <RouterLink class="nav-link" to="/room/minibar">Room Server</RouterLink>
           </li>
-          <li class="nav-item dropdown">
+          <!-- <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">Dropdown</a>
             <ul class="dropdown-menu">
@@ -45,7 +49,7 @@
               </li>
               <li><a class="dropdown-item" href="#">Something else here</a></li>
             </ul>
-          </li>
+          </li> -->
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">Shopping</a>
@@ -67,9 +71,9 @@
               <li><a class="dropdown-item" href="#">link3</a></li>
             </ul>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-          </li>
+          </li> -->
           <li class="nav-item" v-if="user==null">
             <RouterLink class="nav-link" to="/member/login">登入/註冊{{ user }}</RouterLink>
           </li>
