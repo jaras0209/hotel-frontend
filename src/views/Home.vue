@@ -6,11 +6,34 @@
             HEADER
         </header> -->
         <div class="main">
-            <aside class="left">
+            <!-- <aside class="left">
                 LEFT
-            </aside>
+            </aside> -->
             <main>
                 MAIN CONTENT
+                <div class="row g-0 position-relative" >
+                <div id="carouselExample" class="carousel slide " data-bs-ride="carousel" data-bs-wrap="true" data-bs-interval="1800">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active" data-bs-interval="1000">
+                        <img src="@/assets/images/home1.jpg" class="d-block w-100" alt="...">
+                        </div>
+                        <div class="carousel-item " data-bs-interval="200">
+                        <img src="@/assets/images/home2.jpg" class="d-block w-100" alt="..." >
+                        </div>
+                        <div class="carousel-item">
+                        <img src="@/assets/images/home3.jpg" class="d-block w-100" alt="...">
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="false"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="false"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
             </main>
             <aside class="right">
                 RIGHT
@@ -30,6 +53,7 @@
     </footer>
 </template>
 <script setup>
+
 </script>
 <style scoped>
 * {
@@ -88,5 +112,19 @@ footer {
     main {
         padding: 5em 0 5em 0;
     }
+}
+.carousel-item {
+  /* display: flex; */
+  align-items: center; /* 垂直居中 */
+  justify-content: center; /* 水平居中 */
+}
+
+.carousel-item img {
+  width: 100%;
+  height: 500px; /* 根據需求調整高度 */
+  object-fit: cover; /* 保持圖片比例 */
+}
+.carousel-item-start{
+    display: inline;
 }
 </style>
