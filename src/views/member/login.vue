@@ -123,6 +123,7 @@
         justify-content: center;
         align-items: center;
         box-shadow: 5px 5px 5px black;
+        border-radius: 20px;
     }
     .col-6{
         background-color: rgba(255,255,2255,0.5);;
