@@ -76,7 +76,7 @@
             "email":userEmail.value,
             "password":password.value
         }
-
+        console.log("data", data);
         axiosapi.post("hotel/member/login", data).then((response)=>{
             console.log("response",response);
             if (response.data.success){
@@ -89,7 +89,8 @@
                     if (result.isConfirmed){
                         axiosapi.defaults.headers.authorization = "Bearer "+response.data.token;
                         sessionStorage.setItem("user",response.data.user);
-                        window.location.href = '/'
+                        sessionStorage.setItem("userId",response.data.userId);
+                        window.location.href = '/';
                         // router.push({name:"home-link"})
                     }
                 });
