@@ -30,9 +30,9 @@ const SupplierModalRef = ref(null)//==背
 const suppliers = ref({});        //一開始當然空的
 const supplier = ref({});
 const isShowButtonInsert = ref(true);
-onMounted(function () {             //onMounted就執行某某
-    callFind()                      //onMounted就執行某某
-})                                  //onMounted就執行某某
+onMounted(function () {
+    callFind()
+})
 function callFind() {
     console.log("callFind");
     Swal.fire({

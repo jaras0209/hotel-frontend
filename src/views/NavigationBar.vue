@@ -1,10 +1,10 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <RouterLink class="navbar-brand hotel" to="/"><img src="/logo.png" alt="Logo" style="width:40px; border-radius: 40px;">&nbsp;&nbsp;FreeRelx HOTEL</RouterLink>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-        aria-label="Toggle navigation">
+      <RouterLink class="navbar-brand hotel" to="/"><img src="/logo.png" alt="Logo"
+          style="width:40px; border-radius: 40px;">&nbsp;&nbsp;FreeRelx HOTEL</RouterLink>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -74,17 +74,19 @@
           <!-- <li class="nav-item">
             <a class="nav-link disabled" aria-disabled="true">Disabled</a>
           </li> -->
-          <li class="nav-item" v-if="user==null">
+          <li class="nav-item" v-if="user == null">
             <RouterLink class="nav-link" to="/member/login">登入/註冊{{ user }}</RouterLink>
           </li>
-          <li class="nav-item dropdown" v-if="user!=null">
+          <li class="nav-item dropdown" v-if="user != null">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               哈囉! {{ user }}
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#" @click="doclickShow" >資料修改</a></li>
+              <li><a class="dropdown-item" href="#" @click="doclickShow">資料修改</a></li>
               <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><hr class="dropdown-divider"></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
               <li><a class="dropdown-item" href="#" @click="logout">登出</a></li>
             </ul>
           </li>
@@ -111,25 +113,27 @@ function logout() {
   router.go(0);
 }
 
-function doclickShow(){
-        memberRef.value.showModal()
-        console.log("ihi");
-    }
+function doclickShow() {
+  memberRef.value.showModal()
+  console.log("ihi");
+}
 </script>
 
 <style scoped>
 @import '../assets/style/all.scss';
-.hotel{
-    font-family: "Dancing Script", cursive;
-    font-optical-sizing: auto;
-    font-weight: <weight>;
-    font-style: normal;}
+
+.hotel {
+  font-family: "Dancing Script", cursive;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+}
 
 .navbar-dark .navbar-nav .nav-link {
   color: #fff;
 }
 
-.navbar-dark .navbar-nav{
+.navbar-dark .navbar-nav {
   color: #ccc;
 }
 
@@ -151,7 +155,7 @@ function doclickShow(){
 }
 
 .brand-logo {
-  width: 80px; 
+  width: 80px;
   height: auto;
 }
 
@@ -162,6 +166,4 @@ function doclickShow(){
   padding: 10px;
   z-index: 1050;
 }  */
-
-
 </style>

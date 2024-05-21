@@ -12,6 +12,7 @@
                         查看明細
                     </button>
                 </p>
+                <br>
                 <div class="collapse" id="collapseExample">
                     <div class="card card-body">
                         <table class="table">
@@ -30,6 +31,9 @@
                         </table>
                     </div>
                 </div>
+                <br>
+                目前擁有<span>{{ bonus }}</span>紅利，這次使用<input type="number" style="width: 75px;" min="0" :max="bonus"
+                    v-model="usebonus">
                 <br><br>
                 <div class="parent1">
                     <div class="child11" style="font-size: 26px; writing-mode: vertical-lr; text-align: center;">付款資訊
@@ -63,14 +67,15 @@
                         </div>
                         <div class="mb-3">
                             <label for="formGroupExampleInput2"
-                                style="width: 120px; font-size: 18px; height: 28px; border-radius: 5px;">電話</label>
+                                style="width: 120px; font-size: 18px; height: 28px; border-radius   : 5px;">電話</label>
                             <input type="text" id="formGroupExampleInput2" v-model="payerphone">
                         </div>
                     </div>
                 </div>
                 <br><br>
                 <div class="parent">
-                    <div class="child1" style="font-size: 26px; writing-mode: vertical-lr; text-align: center;">收貨人
+                    <div class="child1 form-label"
+                        style="font-size: 26px; writing-mode: vertical-lr; text-align: center;">收貨人
                     </div>
                     <div class="child2">
                         <div class="mb-3">
@@ -142,15 +147,16 @@ const payeraddressback = ref(null)
 const payerphone = ref(null)
 const payeraddress = ref(null)
 //寄件人END
+const bonus = ref(0)
+const userid = ref(null)
 onMounted(function () {
+    userid.value = sessionStorage.getItem("userid")
     cart()
     people()
 })
-//查看購物車要有memberid///////////////////////////////////////////////////////////////////////////////////////
 function cart() {
-    //目前欠缺一個，之後要補足會員ID，透過token?///////////////////////////////////////////////////////////////////
     let send = {
-        "memberId": 1,//目前寫死
+        "memberId": userid.value,
     }
     xxx.post(`/hotel/carts/check`, send).then(function (response) {
         console.log(response.data.list);
@@ -165,12 +171,11 @@ function cart() {
         });
     });
 }
-//結帳要有個資memberid///////////////////////////////////////////////////////////////////////////////////////
-//暫時寫固定值
 function people() {
-    xxx.get(`/hotel/carts/mes/${1}`).then(function (response) {
+    xxx.get(`/hotel/carts/mes/${userid.value}`).then(function (response) {
         message.value = response.data.listt[0];
         console.log(message.value)
+        bonus.value = Math.ceil(response.data.listt[0].bonus)
         //收件人開始
         name.value = response.data.listt[0].MemberName
         phone.value = response.data.listt[0].phoneNumber
@@ -183,7 +188,6 @@ function people() {
         console.log(addressback.value)
         address.value = city.value + districts.value + addressback.value
         //收件人結束
-
         //寄件人開始
         payername.value = response.data.listt[0].MemberName
         payerphone.value = response.data.listt[0].phoneNumber
@@ -209,7 +213,7 @@ function dopay() {
     }).then(function (result) {
         if (result.isConfirmed) {
             let data = {
-                "memberId": 1,
+                "memberId": userid.value,
                 "name": name.value,
                 "phone": phone.value,
                 "address": city.value + districts.value + addressback.value,
