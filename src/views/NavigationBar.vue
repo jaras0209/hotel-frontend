@@ -170,6 +170,7 @@ function logout() {
 function doclickShow(){
         memberRef.value.showModal()
         console.log("ihi");
+        callFindUser()
         selected();
     }
 
@@ -197,6 +198,7 @@ function doclickShow(){
         showConfirmButton: false,
         allowOutsideClick: false,
       });
+      
       if (userData.value.memberName===""){
         userData.value.memberName = null;
       }
@@ -233,8 +235,9 @@ function doclickShow(){
         "password":userData.value.password,
         "nationality":userData.value.nationality
       }
+      console.log("修改function裡");
       console.log("data",data)
-      axiosapi.put(`hotel/member/alter/${userId}`, data).then(function (){
+      axiosapi.put(`/hotel/member/alert/${userId}`, data).then(function (response){
         if (response.data.success){
           Swal.fire({
             text: response.data.message,
@@ -253,6 +256,7 @@ function doclickShow(){
           });
         }
       }).catch(function (error){
+        console.log("error",error)
         Swal.fire({
           text:'失敗：'+error.message,
           icon: 'error',

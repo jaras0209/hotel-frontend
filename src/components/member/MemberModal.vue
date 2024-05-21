@@ -117,19 +117,6 @@
     import json from '@/CityCountyData.json';
     import countries from '@/Country.json';
     const taiwan = ref(json);
-    const areaList = ref(null);
-
-    function selected(){
-        console.log("select觸發")
-        for (var i=0 ; i<json.length;i++){
-            console.log(json[i]);
-            if (json[i].CityName==props.countSelect){
-                areaList.value = json[i].AreaList;
-                // console.log(areaList.value);
-            }
-        }
-        console.log(json.length)
-    }
 
     const props = defineProps(["name", "nationId", "sexual", "birth", "email", "phone", "creditCard", "nationality", "countSelect", "area", "roadName","areaList"]);
     const emits = defineEmits(["update:name", "update:nationId", "update:sexual", "update:birth", "update:email", "update:phone", "update:creditCard", "update:nationality", "update:countSelect", "update:area", "update:roadName", "update:areaList", "selected", "modify"]);
