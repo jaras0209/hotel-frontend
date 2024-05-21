@@ -93,31 +93,174 @@
         </ul>
       </div>
     </div>
-    <MemberModal ref="memberRef"></MemberModal>
+    <MemberModal ref="memberRef" v-model:name="userData.memberName" v-model:nationId="userData.nationId"
+      v-model:sexual="userData.gender" v-model:birth="userData.birth" v-model:email="userData.email"
+      v-model:phone="userData.phoneNumber" v-model:creditCard="userData.creditCard"
+      v-model:nationality="userData.nationality" v-model:countSelect="addressCounty" v-model:area="addressArea"
+      v-model:roadName="addressRoadname" v-model:areaList="areaList" @selected="selected" @modify="callModify">
+    </MemberModal>
   </nav>
 </template>
 
 <script setup>
 import axiosapi from '@/plugins/axios.js';
 import { useRouter } from 'vue-router';
-import { ref } from 'vue';
+import { ref, onMounted, warn } from 'vue';
 import MemberModal from '@/components/member/MemberModal.vue';
+
+import json from '@/CityCountyData.json';// 可能可以改進
+import Swal from 'sweetalert2';
 
 const router = useRouter();
 const user = sessionStorage.getItem('user');
+const userId = sessionStorage.getItem('userId');
+const userData = ref({});
 const memberRef = ref(null);
+const addressCounty = ref("");
+const addressArea = ref("");
+const addressRoadname = ref("")
+const areaList = ref(null);
+//--------------------------------------------------
+// 使用 Proxy 處理數據
+const handler = {
+  set(target, property, value) {
+    console.log(`Setting ${property} to ${value}`);
+    target[property] = value;
+    return true;
+  },
+  get(target, property) {
+    console.log(`Getting ${property}`);
+    return target[property];
+  }
+};
+
+const proxyData = new Proxy(userData.value, handler);
+
+//-----------------------------
+
+function selected() {
+  // console.log("select觸發")
+  for (var i = 0; i < json.length; i++) {
+    // console.log(json[i]);
+    if (json[i].CityName == addressCounty.value) {
+      areaList.value = json[i].AreaList;
+      // console.log(areaList.value);
+    }
+  }
+  console.log(json.length)
+}
 
 function logout() {
   sessionStorage.removeItem('user');
   axiosapi.defaults.headers.authorization = '';
+  axiosapi.put(`hotel/member/logout/${userId}`).then(function (response) { }).catch(function (error) { })
+  console.log("logout", userId)
+  sessionStorage.removeItem("userId")
   router.go(0);
 }
 
 function doclickShow() {
   memberRef.value.showModal()
   console.log("ihi");
+  selected();
 }
+
+function callFindUser() {
+
+  axiosapi.get(`hotel/member/${userId}`).then(function (response) {
+    // console.log("response",response);
+    // userData.value = response.data;
+    Object.assign(proxyData, response.data);
+    // console.log("userData.value",response.data.birth);
+    console.log("userData.value", userData.value)
+    console.log("userData.value", typeof (userData.value.contactAddress))
+    addressCounty.value = userData.value.contactAddress.substr(0, 3);
+    addressArea.value = userData.value.contactAddress.substr(3, 3);
+    console.log(addressArea.value)
+    addressRoadname.value = userData.value.contactAddress.substr(6);
+  }).catch(function (error) {
+    console.log("error", error);
+  })
+}
+
+function callModify() {
+  Swal.fire({
+    text: "Loading...",
+    showConfirmButton: false,
+    allowOutsideClick: false,
+  });
+  if (userData.value.memberName === "") {
+    userData.value.memberName = null;
+  }
+  if (userData.value.nationId === "") {
+    userData.value.nationId = null;
+  }
+  if (userData.value.gender === "") {
+    userData.value.gender = null;
+  }
+  if (userData.value.birth === "") {
+    userData.value.birth = null;
+  }
+  if (userData.value.email === "") {
+    userData.value.email = null;
+  }
+  if (userData.value.phoneNumber === "") {
+    userData.value.phoneNumber = null;
+  }
+  if (userData.value.creditCard === "") {
+    userData.value.creditCard = null;
+  }
+  if (userData.value.nationality === "") {
+    userData.value.nationality = null;
+  }
+  let data = {
+    "name": userData.value.memberName,
+    "gender": userData.value.gender,
+    "birth": userData.value.birth,
+    "national_id": userData.value.nationId,
+    "email": userData.value.email,
+    "phone_number": userData.value.phoneNumber,
+    "credit_card": userData.value.creditCard,
+    "contact_address": addressCounty.value + addressArea.value + addressRoadname.value,
+    "password": userData.value.password,
+    "nationality": userData.value.nationality
+  }
+  console.log("data", data)
+  axiosapi.put(`hotel/member/alter/${userId}`, data).then(function () {
+    if (response.data.success) {
+      Swal.fire({
+        text: response.data.message,
+        icon: 'success',
+        allowOutsideClick: false,
+        confirmButtonText: '確認',
+      }).then(function () {
+        memberRef.value.hideModal();
+      })
+    } else {
+      Swal.fire({
+        text: response.data.message,
+        icon: "warning",
+        allowOutsideClick: false,
+        confirmButtonText: '確認',
+      });
+    }
+  }).catch(function (error) {
+    Swal.fire({
+      text: '失敗：' + error.message,
+      icon: 'error',
+      allowOutsideClick: false,
+      confirmButtonText: '確認',
+    });
+  });
+}
+
+onMounted(function () {
+  if (userId) {
+    callFindUser()
+  }
+})
 </script>
+
 
 <style scoped>
 @import '../assets/style/all.scss';
@@ -125,7 +268,7 @@ function doclickShow() {
 .hotel {
   font-family: "Dancing Script", cursive;
   font-optical-sizing: auto;
-  font-weight: <weight>;
+  font-weight: weight;
   font-style: normal;
 }
 
