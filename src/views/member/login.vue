@@ -27,7 +27,7 @@
             </div>
 
             <!-- <div th:text="${loginSuccess}"></div>
-                <div th:text="${loginFail}"></div> -->
+            <div th:text="${loginFail}"></div> -->
         </div>
     </div>
 </template>
@@ -80,21 +80,6 @@ function login() {
         "email": userEmail.value,
         "password": password.value
     }
-
-    axiosapi.defaults.headers.authorization = '';
-    sessionStorage.removeItem("user");
-
-    if (userEmail.value === "") {
-        userEmail.value = null;
-    }
-    if (password.value === "") {
-        password.value = null;
-    }
-
-    let data = {
-        "email": userEmail.value,
-        "password": password.value
-    }
     console.log("data", data);
     axiosapi.post("hotel/member/login", data).then((response) => {
         console.log("response", response);
@@ -123,35 +108,12 @@ function login() {
 
     }).catch((error) => {
         Swal.fire({
-            text: response.data.message,
-            icon: "success",
+            text: '登入失敗：' + error.message,
+            icon: 'error',
             allowOutsideClick: false,
-            confirmButtonText: "確認",
-        }).then(function (result) {
-            if (result.isConfirmed) {
-                axiosapi.defaults.headers.authorization = "Bearer " + response.data.token;
-                sessionStorage.setItem("user", response.data.user);
-                sessionStorage.setItem("userid", response.data.userid); //新加的
-                window.location.href = '/'
-                // router.push({name:"home-link"})
-            }
-        });
-    } else {
-        console.log("error")
-            message.value = response.data.message;
-        setTimeout(function() {
-            Swal.close();
-        }, 500);
-}
-
-    }).catch ((error) => {
-    Swal.fire({
-        text: '登入失敗：' + error.message,
-        icon: 'error',
-        allowOutsideClick: false,
-        confirmButtonText: '確認'
+            confirmButtonText: '確認'
+        })
     })
-})
 }
 
 </script>
