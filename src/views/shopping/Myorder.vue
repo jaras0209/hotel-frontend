@@ -34,12 +34,13 @@ import MyorderComponents from '@/components/shopping/MyorderComponents.vue';
 import { ref, onMounted } from "vue";
 import xxx from "@/plugins/axios.js"
 const result = ref({})
+const userId = ref(null)
 onMounted(function () {
+    userId.value = sessionStorage.getItem("userId")
     myorder()
 })
-//目前欠缺一個，之後要補足會員ID，透過token?///////////////////////////////////////////////////////////////////
 function myorder() {
-    xxx.get(`/hotel/orders/mes/${1}`).then(function (response) {
+    xxx.get(`/hotel/orders/mes/${userId.value}`).then(function (response) {
         console.log(response);
         result.value = response.data.list
         console.log(result.value)

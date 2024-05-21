@@ -34,8 +34,9 @@ import xxx from "@/plugins/axios.js"
 const result = ref({})
 const disabled = ref(false) // red
 const disabledd = ref(true) // green
-// const disabledd = ref(true)
+const userId = ref(null)
 onMounted(function () {
+    userId.value = sessionStorage.getItem("userId")
     cart()
 })
 function handleMethodResult(result) {
@@ -46,13 +47,12 @@ function handleMethodResultt(result) {
     console.log("父元件收到方法的返回值：", result);
     disabledd.value = result
 }
-//修改購物車數量要有memberid/////////////////////////////////////////////////////////////////////////////////////////
 function cliick(quantity, productid) {
     let data =
     {
         "quality": quantity,
         "productId": productid,
-        "memberId": 1
+        "memberId": userId.value
     }
     xxx.put("/hotel/carts/modify", data).then(function (response) {
         console.log(response);
@@ -61,11 +61,9 @@ function cliick(quantity, productid) {
         console.log(error);
     });
 }
-//查看購物車要有memberid///////////////////////////////////////////////////////////////////////////////////////
 function cart() {
-    //目前欠缺一個，之後要補足會員ID，透過token?///////////////////////////////////////////////////////////////////
     let send = {
-        "memberId": 1,//目前寫死
+        "memberId": userId.value,
     }
     xxx.post(`/hotel/carts/find`, send).then(function (response) {
         console.log(response.data.list);
@@ -80,12 +78,11 @@ function cart() {
         });
     });
 }
-//修改購物車購買意願要有memberid
 function cliick2(productid) {
     let data =
     {
         "productId": productid,
-        "memberId": 1
+        "memberId": userId.value
     }
     xxx.put("/hotel/carts/checkoutchange", data).then(function (response) {
         console.log(response);
@@ -95,12 +92,11 @@ function cliick2(productid) {
         console.log(error);
     });
 }
-//刪除購物車的某樣要有memberid
 function move(productid) {
     let data =
     {
         "productId": productid,
-        "memberId": 1
+        "memberId": userId.value
     }
     xxx.put("/hotel/carts/delete", data).then(function (response) {
         console.log(response);
@@ -109,11 +105,10 @@ function move(productid) {
         console.log(error);
     });
 }
-//全選購物車要有memberid
 function all() {
     console.log("hahah")
     let send = {
-        "memberId": 1,//目前寫死
+        "memberId": userId.value,
     }
     xxx.post(`/hotel/carts/selectall`, send).then(function (response) {
         console.log(response);

@@ -6,11 +6,13 @@
             </aside>
             <main>
                 <p class="d-inline-flex gap-1">
-                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    <button class="btn " type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
+                        aria-expanded="false" aria-controls="collapseExample"
+                        style="background: linear-gradient(to right, #3EF55C, #12F390, #12F3A8); color: black;">
                         查看明細
                     </button>
                 </p>
+                <br>
                 <div class="collapse" id="collapseExample">
                     <div class="card card-body">
                         <table class="table">
@@ -29,65 +31,85 @@
                         </table>
                     </div>
                 </div>
+                <br>
+                目前擁有<span>{{ bonus }}</span>紅利，這次使用<input type="number" style="width: 75px;" min="0" :max="bonus"
+                    v-model="usebonus">
                 <br><br>
-                <div class="mb-3">
-                    <label for="formGroupExampleInput2" class="form-label"
-                        style="width: 120px; font-size: 18px; height: 28px; border-radius: 5px; color: #43badd;">寄件人</label>
-                    <input type="text" id="formGroupExampleInput" v-model="payername">
-                </div>
-                <div class="mb-3">
-                    <div>
-                        <label for="formGroupExampleInput2" class="form-label"
-                            style="width: 120px; font-size: 18px; height: 28px; border-radius: 5px; color: #43badd;">發票地址</label>
-                        <select v-model="payercity" @change="payerdocitychange"
-                            style="width: 120px; font-size: 18px; height: 28px; border-radius: 5px;">
-                            <option :value="null">請選擇</option>
-                            <option v-for="item in arr" :key="item.name" :value="item.name">{{ item.name }}</option>
-                        </select>
-                        <select v-model="payerdistricts"
-                            style="width: 90px; font-size: 18px; height: 28px; border-radius: 5px; ">
-                            <option :value="null">請選擇</option>
-                            <option v-for="item in arr[y].districts" :key="item.name" :value="item.name">{{ item.name }}
-                            </option>
-                        </select>
-                        <input type="text" id="formGroupExampleInput2" v-model="payeraddressback"
-                            style="width: 270px; font-size: 18px; height: 28px; ">
+                <div class="parent1">
+                    <div class="child11" style="font-size: 26px; writing-mode: vertical-lr; text-align: center;">付款資訊
+                    </div>
+                    <div class="child21">
+                        <div class="mb-3">
+                            <label for="formGroupExampleInput2" class="form-label"
+                                style="width: 120px; font-size: 18px; height: 28px; border-radius: 5px;">姓名</label>
+                            <input type="text" id="formGroupExampleInput" v-model="payername">
+                        </div>
+                        <div class="mb-3">
+                            <div>
+                                <label for="formGroupExampleInput2" class="form-label"
+                                    style="width: 120px; font-size: 18px; height: 28px; border-radius: 5px;">發票地址</label>
+                                <select v-model="payercity" @change="payerdocitychange"
+                                    style="width: 120px; font-size: 18px; height: 28px; border-radius: 5px;">
+                                    <option :value="null">請選擇</option>
+                                    <option v-for="item in arr" :key="item.name" :value="item.name">{{ item.name }}
+                                    </option>
+                                </select>
+                                <select v-model="payerdistricts"
+                                    style="width: 90px; font-size: 18px; height: 28px; border-radius: 5px; ">
+                                    <option :value="null">請選擇</option>
+                                    <option v-for="item in arr[y].districts" :key="item.name" :value="item.name">{{
+                                        item.name }}
+                                    </option>
+                                </select>
+                                <input type="text" id="formGroupExampleInput2" v-model="payeraddressback"
+                                    style="width: 270px; font-size: 18px; height: 28px; ">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="formGroupExampleInput2"
+                                style="width: 120px; font-size: 18px; height: 28px; border-radius   : 5px;">電話</label>
+                            <input type="text" id="formGroupExampleInput2" v-model="payerphone">
+                        </div>
                     </div>
                 </div>
-                <div class="mb-3">
-                    <label for="formGroupExampleInput2"
-                        style="width: 120px; font-size: 18px; height: 28px; border-radius: 5px; color: #43badd;">寄件電話</label>
-                    <input type="text" id="formGroupExampleInput2" v-model="payerphone">
-                </div>
-                <br><br><br><br>
-                <div class="mb-3">
-                    <label for="formGroupExampleInput2" class="form-label"
-                        style="width: 120px; font-size: 18px; height: 28px; border-radius: 5px; color: #FF5433;">收件人</label>
-                    <input type="text" id="formGroupExampleInput" v-model="name">
-                </div>
-                <div class="mb-3">
-                    <div>
-                        <label for="formGroupExampleInput2" class="form-label"
-                            style="width: 120px; font-size: 18px; height: 28px; border-radius: 5px; color: #FF5433;">收件地址</label>
-                        <select v-model="city" @change="docitychange"
-                            style="width: 120px; font-size: 18px; height: 28px; border-radius: 5px;">
-                            <option :value="null">請選擇</option>
-                            <option v-for="item in arr" :key="item.name" :value="item.name">{{ item.name }}</option>
-                        </select>
-                        <select v-model="districts"
-                            style="width: 90px; font-size: 18px; height: 28px; border-radius: 5px; ">
-                            <option :value="null">請選擇</option>
-                            <option v-for="item in arr[x].districts" :key="item.name" :value="item.name">{{ item.name }}
-                            </option>
-                        </select>
-                        <input type="text" id="formGroupExampleInput2" v-model="addressback"
-                            style="width: 270px; font-size: 18px; height: 28px; ">
+                <br><br>
+                <div class="parent">
+                    <div class="child1 form-label"
+                        style="font-size: 26px; writing-mode: vertical-lr; text-align: center;">收貨人
                     </div>
-                </div>
-                <div class="mb-3">
-                    <label for="formGroupExampleInput2"
-                        style="width: 120px; font-size: 18px; height: 28px; border-radius: 5px; color: #FF5433;">收件電話</label>
-                    <input type="text" id="formGroupExampleInput2" v-model="phone">
+                    <div class="child2">
+                        <div class="mb-3">
+                            <label for="formGroupExampleInput2" class="form-label"
+                                style="width: 120px; font-size: 18px; height: 28px; border-radius: 5px;">姓名</label>
+                            <input type="text" id="formGroupExampleInput" v-model="name">
+                        </div>
+                        <div class="mb-3">
+                            <div>
+                                <label for="formGroupExampleInput2" class="form-label"
+                                    style="width: 120px; font-size: 18px; height: 28px; border-radius: 5px;">收件地址</label>
+                                <select v-model="city" @change="docitychange"
+                                    style="width: 120px; font-size: 18px; height: 28px; border-radius: 5px;">
+                                    <option :value="null">請選擇</option>
+                                    <option v-for="item in arr" :key="item.name" :value="item.name">{{ item.name }}
+                                    </option>
+                                </select>
+                                <select v-model="districts"
+                                    style="width: 90px; font-size: 18px; height: 28px; border-radius: 5px; ">
+                                    <option :value="null">請選擇</option>
+                                    <option v-for="item in arr[x].districts" :key="item.name" :value="item.name">{{
+                                        item.name }}
+                                    </option>
+                                </select>
+                                <input type="text" id="formGroupExampleInput2" v-model="addressback"
+                                    style="width: 270px; font-size: 18px; height: 28px; ">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="formGroupExampleInput2"
+                                style="width: 120px; font-size: 18px; height: 28px; border-radius: 5px;">電話</label>
+                            <input type="text" id="formGroupExampleInput2" v-model="phone">
+                        </div>
+                    </div>
                 </div>
                 <button type="button" @click="dopay" style="text-align:center ;">貨到付款</button>
             </main>
@@ -125,15 +147,16 @@ const payeraddressback = ref(null)
 const payerphone = ref(null)
 const payeraddress = ref(null)
 //寄件人END
+const bonus = ref(0)
+const userId = ref(null)
 onMounted(function () {
+    userId.value = sessionStorage.getItem("userId")
     cart()
     people()
 })
-//查看購物車要有memberid///////////////////////////////////////////////////////////////////////////////////////
 function cart() {
-    //目前欠缺一個，之後要補足會員ID，透過token?///////////////////////////////////////////////////////////////////
     let send = {
-        "memberId": 1,//目前寫死
+        "memberId": userId.value,
     }
     xxx.post(`/hotel/carts/check`, send).then(function (response) {
         console.log(response.data.list);
@@ -148,12 +171,11 @@ function cart() {
         });
     });
 }
-//結帳要有個資memberid///////////////////////////////////////////////////////////////////////////////////////
-//暫時寫固定值
 function people() {
-    xxx.get(`/hotel/carts/mes/${1}`).then(function (response) {
+    xxx.get(`/hotel/carts/mes/${userId.value}`).then(function (response) {
         message.value = response.data.listt[0];
         console.log(message.value)
+        bonus.value = Math.ceil(response.data.listt[0].bonus)
         //收件人開始
         name.value = response.data.listt[0].MemberName
         phone.value = response.data.listt[0].phoneNumber
@@ -166,7 +188,6 @@ function people() {
         console.log(addressback.value)
         address.value = city.value + districts.value + addressback.value
         //收件人結束
-
         //寄件人開始
         payername.value = response.data.listt[0].MemberName
         payerphone.value = response.data.listt[0].phoneNumber
@@ -192,7 +213,7 @@ function dopay() {
     }).then(function (result) {
         if (result.isConfirmed) {
             let data = {
-                "memberId": 1,
+                "memberId": userId.value,
                 "name": name.value,
                 "phone": phone.value,
                 "address": city.value + districts.value + addressback.value,
@@ -1981,5 +2002,45 @@ footer {
     main {
         padding: 5em 0 5em 0;
     }
+}
+
+.parent {
+    height: 160px;
+    border: 0px solid white;
+    display: flex;
+    flex-direction: row
+}
+
+.child1 {
+    width: 5%;
+    height: 150px;
+    background: #7D7DFF
+}
+
+.child2 {
+    width: 95%;
+    height: 150px;
+    border-radius: 3px;
+    border: 1px solid #7D7DFF;
+}
+
+.parent1 {
+    height: 160px;
+    border: 3px solid white;
+    display: flex;
+    flex-direction: row
+}
+
+.child11 {
+    width: 5%;
+    height: 150px;
+    background: #74C0fc
+}
+
+.child21 {
+    width: 95%;
+    height: 150px;
+    border-radius: 3px;
+    border: 1px solid #ace7ef;
 }
 </style>

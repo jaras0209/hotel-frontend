@@ -67,24 +67,18 @@
                     <img :src="`http://localhost:8080/hotel/photo/${pic}`" class="d-block w-100" alt="..."
                         style="width: 500px; height: 500px;">
                     <div class="carousel-caption">
-                        <h5>Title 0</h5>
-                        <p>p</p>
                     </div>
                 </div>
                 <div class="carousel-item">
                     <img :src="`http://localhost:8080/hotel/photo/${pict}`" class="d-block w-100" alt="..."
                         style="width: 500px; height: 500px;">
                     <div class="carousel-caption">
-                        <h5>Title 1</h5>
-                        <p>p</p>
                     </div>
                 </div>
                 <div class="carousel-item">
                     <img :src="`http://localhost:8080/hotel/photo/${pictu}`" class="d-block w-100" alt="..."
                         style="width: 500px; height: 500px;">
                     <div class="carousel-caption">
-                        <h5>Title 2</h5>
-                        <p>p</p>
                     </div>
                 </div>
             </div>
