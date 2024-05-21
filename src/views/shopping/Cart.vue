@@ -34,9 +34,9 @@ import xxx from "@/plugins/axios.js"
 const result = ref({})
 const disabled = ref(false) // red
 const disabledd = ref(true) // green
-const userid = ref(null)
+const userId = ref(null)
 onMounted(function () {
-    userid.value = sessionStorage.getItem("userid")
+    userId.value = sessionStorage.getItem("userId")
     cart()
 })
 function handleMethodResult(result) {
@@ -52,7 +52,7 @@ function cliick(quantity, productid) {
     {
         "quality": quantity,
         "productId": productid,
-        "memberId": userid.value
+        "memberId": userId.value
     }
     xxx.put("/hotel/carts/modify", data).then(function (response) {
         console.log(response);
@@ -63,7 +63,7 @@ function cliick(quantity, productid) {
 }
 function cart() {
     let send = {
-        "memberId": userid.value,
+        "memberId": userId.value,
     }
     xxx.post(`/hotel/carts/find`, send).then(function (response) {
         console.log(response.data.list);
@@ -82,7 +82,7 @@ function cliick2(productid) {
     let data =
     {
         "productId": productid,
-        "memberId": userid.value
+        "memberId": userId.value
     }
     xxx.put("/hotel/carts/checkoutchange", data).then(function (response) {
         console.log(response);
@@ -96,7 +96,7 @@ function move(productid) {
     let data =
     {
         "productId": productid,
-        "memberId": userid.value
+        "memberId": userId.value
     }
     xxx.put("/hotel/carts/delete", data).then(function (response) {
         console.log(response);
@@ -108,7 +108,7 @@ function move(productid) {
 function all() {
     console.log("hahah")
     let send = {
-        "memberId": userid.value,
+        "memberId": userId.value,
     }
     xxx.post(`/hotel/carts/selectall`, send).then(function (response) {
         console.log(response);

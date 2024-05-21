@@ -34,13 +34,13 @@ import MyorderComponents from '@/components/shopping/MyorderComponents.vue';
 import { ref, onMounted } from "vue";
 import xxx from "@/plugins/axios.js"
 const result = ref({})
-const userid = ref(null)
+const userId = ref(null)
 onMounted(function () {
-    userid.value = sessionStorage.getItem("userid")
+    userId.value = sessionStorage.getItem("userId")
     myorder()
 })
 function myorder() {
-    xxx.get(`/hotel/orders/mes/${userid.value}`).then(function (response) {
+    xxx.get(`/hotel/orders/mes/${userId.value}`).then(function (response) {
         console.log(response);
         result.value = response.data.list
         console.log(result.value)

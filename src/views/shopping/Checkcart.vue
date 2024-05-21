@@ -148,15 +148,15 @@ const payerphone = ref(null)
 const payeraddress = ref(null)
 //寄件人END
 const bonus = ref(0)
-const userid = ref(null)
+const userId = ref(null)
 onMounted(function () {
-    userid.value = sessionStorage.getItem("userid")
+    userId.value = sessionStorage.getItem("userId")
     cart()
     people()
 })
 function cart() {
     let send = {
-        "memberId": userid.value,
+        "memberId": userId.value,
     }
     xxx.post(`/hotel/carts/check`, send).then(function (response) {
         console.log(response.data.list);
@@ -172,7 +172,7 @@ function cart() {
     });
 }
 function people() {
-    xxx.get(`/hotel/carts/mes/${userid.value}`).then(function (response) {
+    xxx.get(`/hotel/carts/mes/${userId.value}`).then(function (response) {
         message.value = response.data.listt[0];
         console.log(message.value)
         bonus.value = Math.ceil(response.data.listt[0].bonus)
@@ -213,7 +213,7 @@ function dopay() {
     }).then(function (result) {
         if (result.isConfirmed) {
             let data = {
-                "memberId": userid.value,
+                "memberId": userId.value,
                 "name": name.value,
                 "phone": phone.value,
                 "address": city.value + districts.value + addressback.value,

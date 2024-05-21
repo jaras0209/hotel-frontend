@@ -40,12 +40,12 @@ const nationality = ref(null)
 const logintime = ref(null)
 const loginstatus = ref(null)
 //登入資訊
-const userid = ref(null)
+const userId = ref(null)
 onMounted(function () {
-    userid.value = sessionStorage.getItem("userid")
+    userid.value = sessionStorage.getItem("userId")
     callFindid(id)
     callFindProduct(id)
-    xxx.get(`/hotel/carts/mes/${userid.value}`).then(function (response) {
+    xxx.get(`/hotel/carts/mes/${userId.value}`).then(function (response) {
         people.value = response.data.listt[0]
         console.log(people.value)
         memberid.value = people.value.memberid
@@ -120,7 +120,7 @@ function cart(id) {
     console.log("產品id", id)
     console.log("數量", data.value)
     let send = {
-        "memberId": userid.value,
+        "memberId": userId.value,
         "productId": id,
         "quality": data.value,
     }
@@ -156,7 +156,7 @@ function comment() {
         "typeInstance": productName.value,
         "score": 5,
         "member": {
-            "memberId": userid.value,
+            "memberId": userId.value,
             "name": name.value,
             "birth": birth.value,
             "gender": gender.value,
