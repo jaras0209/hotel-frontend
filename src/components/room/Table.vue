@@ -1,104 +1,113 @@
-<!-- <template>
-    <div class="mytable">
-        <el-row type="flex" justify="space-between" :gutter="20">
-            <el-col :span="6"></el-col>
-            <el-col :span="12">
-                <el-button-group>
-                    <el-button size="mini" icon="el-icon-edit" @click="$emit('addNewTable')">添加</el-button>
-                    <el-button size="mini" icon="el-icon-delete" @click="$emit('myDelete', selection)"
-                        :disabled="selection.length === 0" type="danger">删除</el-button>
-                </el-button-group>
-            </el-col>
-            <el-col :span="6"></el-col>
-        </el-row>
-        <el-row type="flex" justify="space-between" :gutter="20">
-            <el-col :span="6">
-                {{ selection }}
-            </el-col>
-            <el-col :span="12">
-                <el-table stripe :data="mydata" @select-all="updateSelection" @select="updateSelection">
-                    <el-table-column label="编号" type="selection" align="center" width="50"></el-table-column>
-
-                    <template v-for="(item, index) in myColsShow" :key="index">
-                        <el-table-column v-if="item.prop && item.type === 'file'" :label="item.label" :prop="item.prop"
-                            :align="item.align" :width="item.width">
-                            <template #default="scope">
-                                <el-image :src="scope.row[item.prop]"></el-image>
-                            </template>
-                        </el-table-column>
-                        <el-table-column v-else-if="item.prop && item.type !== 'select'" :label="item.label"
-                            :prop="item.prop" :align="item.align" :width="item.width"></el-table-column>
-                        <el-table-column v-else-if="item.prop && item.type === 'select'" :label="item.label"
-                            :prop="item.prop" :align="item.align" :width="item.width">
-                            <template #default="scope">
-                                {{ scope.row[item.prop] }}
-                            </template>
-                        </el-table-column>
-                        <el-table-column v-else :label="item.label" :align="item.align" :width="item.width">
-                            <template #default="scope">
-                                <slot :name="item.slot" :myDateData="scope.row"></slot>
-                            </template>
-                        </el-table-column>
-                    </template>
-
-                    <el-table-column label="操作" align="center">
-                        <template #default="scope">
-                            <el-button-group>
-                                <el-button type="primary" size="mini" @click="$emit('myEmit', scope.row)">编辑</el-button>
-                                <el-button type="danger" size="mini" @click="$emit('myDelete', [scope.row])">删除</el-button>
-                            </el-button-group>
-                        </template>
-                    </el-table-column>
-                </el-table>
-            </el-col>
-            <el-col :span="6"></el-col>
-        </el-row>
-        <el-row type="flex" justify="space-between" :gutter="20">
-            <el-col :span="6"></el-col>
-            <el-col :span="12">
-                {{ page }}
-                <el-pagination :current-page.sync="curPage" :total="total" :page-size="size"></el-pagination>
-            </el-col>
-            <el-col :span="6"></el-col>
-        </el-row>
+<template>
+    <div>
+      <h1>附加費用列表</h1>
+      <table class="addition">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Housing</th>
+            <th scope="col">Minibar</th>
+            <th scope="col">數量</th>
+            <th scope="col">金額</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(addition, index) in additions" :key="addition.additionalChargesId">
+            <th scope="row">{{ index + 1 }}</th>
+            <td>{{ addition.additionalChargesId.housingManagementId }}</td>
+            <td>{{ addition.additionalChargesId.minibarId }}</td>
+            <td>{{ addition.quantity }}</td>
+            <td>{{ addition.amount }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="pagination">
+        <button @click="prevPage" :disabled="currentPage === 1">上一頁</button>
+        <span>第 {{ currentPage }} 页</span>
+        <button @click="nextPage" :disabled="additions.length < rowsPerPage">下一頁</button>
+      </div>
     </div>
-</template>
-
-<script>
-import { ref, computed } from 'vue';
-
-export default {
-    props: ['mydata', 'myCols', 'total', 'size', 'page'],
-    setup(props, { emit }) {
-        const selection = ref([]);
-
-        const myColsShow = computed(() => {
-            return props.myCols.filter(item => item.IsShow !== false);
-        });
-
-        const curPage = computed({
-            get() {
-                return props.page;
-            },
-            set(val) {
-                emit('update:page', val);
-            }
-        });
-
-        const updateSelection = (val) => {
-            selection.value = val;
-        };
-
-        return {
-            selection,
-            myColsShow,
-            curPage,
-            updateSelection
-        };
+  </template>
+  
+  <script setup>
+  import { ref, onMounted } from 'vue';
+  import axios from 'axios';
+  import Swal from 'sweetalert2';
+  
+  const additions = ref([]);
+  const currentPage = ref(1);
+  const rowsPerPage = ref(10);
+  
+  function fetchAdditions() {
+    Swal.fire({
+      text: "Loading......",
+      showConfirmButton: false,
+      allowOutsideClick: false,
+    });
+  
+    axios.get('/hotel/backend/additionalCharges', {
+      params: { p: currentPage.value }
+    })
+    .then(response => {
+      additions.value = response.data;
+      Swal.close();
+    })
+    .catch(error => {
+      Swal.fire({
+        text: '查詢失敗：' + error.message,
+        icon: 'error',
+        allowOutsideClick: false,
+        confirmButtonText: '確認',
+      }).then(() => {
+        if (error.response && error.response.status === 403) {
+          this.$router.push("/secure/login");
+        }
+      });
+    });
+  }
+  
+  function nextPage() {
+    currentPage.value++;
+    fetchAdditions();
+  }
+  
+  function prevPage() {
+    if (currentPage.value > 1) {
+      currentPage.value--;
+      fetchAdditions();
     }
-};
-</script>
-
-<style scoped>
-/* 样式 */
-</style> -->
+  }
+  
+  onMounted(() => {
+    fetchAdditions();
+  });
+  </script>
+  
+  <style scoped>
+  .addition {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 18px;
+    text-align: left;
+  }
+  .addition th, .addition td {
+    border: 1px solid #dddddd;
+    padding: 8px;
+  }
+  .addition th {
+    background-color: #f2f2f2;
+  }
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
+  .pagination button {
+    padding: 5px 10px;
+    margin: 0 10px;
+    font-size: 16px;
+  }
+  </style>
+  

@@ -19,9 +19,6 @@
           <li class="nav-item">
             <RouterLink class="nav-link" to="/">訂房</RouterLink>
           </li>
-          <li class="nav-item">
-            <RouterLink class="nav-link" aria-current="page" to="/room">Room</RouterLink>
-          </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="/room/roomInfo" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">客房介紹</a>
@@ -38,6 +35,25 @@
           <li class="nav-item">
             <RouterLink class="nav-link" to="/room/minibar">Room Server</RouterLink>
           </li>
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/room/housingManagement">HousingMana</RouterLink>
+          </li>
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/room/roomAssignment">RoomAss</RouterLink>
+          </li>
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/room/roomManagement">RoomMana</RouterLink>
+          </li>
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/room/roomAssBackend">Ra</RouterLink>
+          </li>
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/room/additionalCharges">Addition</RouterLink>
+          </li>
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/room/booking">book</RouterLink>
+          </li>
+
           <!-- <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">Dropdown</a>
@@ -119,11 +135,13 @@ function doclickShow(){
 
 <style scoped>
 @import '../assets/style/all.scss';
+
 .hotel{
     font-family: "Dancing Script", cursive;
     font-optical-sizing: auto;
-    font-weight: <weight>;
-    font-style: normal;}
+    font-weight: < weight>;
+    font-style: normal;
+  }
 
 .navbar-dark .navbar-nav .nav-link {
   color: #fff;

@@ -8,7 +8,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <img src="/a-double-wing.png" class="card-img-top" alt="...">
+                <img src="/logo.png" class="card-img-top" alt="...">
 
                 <div class="row">
                     <div class="col-md-6">
