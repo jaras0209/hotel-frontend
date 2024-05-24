@@ -11,7 +11,6 @@ const props = defineProps(["find"]);
 const emits = defineEmits(["decesion"]);
 function doclick(id) {
     emits("decesion", id)
-    console.log(id)
 }
 </script>
 <style></style>

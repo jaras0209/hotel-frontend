@@ -1,10 +1,22 @@
 <template>
-    <ShoppingCard v-for="product in find" :key="product.id" :product="product" :pic="pic" :pict="pict" :pictu="pictu"
-        @cart="cart" :options="options" v-model="data">
-    </ShoppingCard>
-    <br><br><br><br><br><br><br><br><br>
-    <button type="button" @click="comment" style="background-color: aquamarine;">評論送出</button>
-    <input type="text" v-model="commentmessage" placeholder="詳細說明您的想法" width="50%">
+
+    <body>
+        <div class="main">
+            <main>
+                <ShoppingCard v-for="product in find" :key="product.id" :product="product" :pic="pic" :pict="pict"
+                    :pictu="pictu" @cart="cart" :options="options" v-model="data">
+                </ShoppingCard>
+                <br><br><br><br><br><br>
+                <button type="button" @click="comment" style="background-color: aquamarine;">評論送出</button>
+                <input type="text" v-model="commentmessage" placeholder="詳細說明您的想法" width="50%">
+            </main>
+        </div>
+        <CommentCard v-for="comment in instancecomment" :memberName="comment.member.memberName"
+            :commentText="comment.commentText" :commentmemberId="comment.member.memberId" :userId="userId">
+        </CommentCard>
+    </body>
+    <footer>
+    </footer>
 </template>
 <script setup>
 const options = ref([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20])
@@ -12,6 +24,7 @@ const data = ref(1)
 import { useRouter } from "vue-router"
 const router = useRouter();
 import ShoppingCard from '@/components/shopping/ShoppingCard.vue';
+import CommentCard from '@/components/shopping/CommentCard.vue';
 import { useRoute } from 'vue-router';
 import Swal from "sweetalert2"
 const route = useRoute();
@@ -22,10 +35,8 @@ const find = ref({});
 const pic = ref(1)
 const pict = ref(1)
 const pictu = ref(1)
-//產品名稱留言用
 const productName = ref(null)
 const commentmessage = ref(null)
-//會員資訊
 const people = ref(null)
 const memberid = ref(null)
 const name = ref(null)
@@ -39,10 +50,10 @@ const creditcard = ref(null)
 const nationality = ref(null)
 const logintime = ref(null)
 const loginstatus = ref(null)
-//登入資訊
 const userId = ref(null)
+const instancecomment = ref({})
 onMounted(function () {
-    userid.value = sessionStorage.getItem("userId")
+    userId.value = sessionStorage.getItem("userId")
     callFindid(id)
     callFindProduct(id)
     xxx.get(`/hotel/carts/mes/${userId.value}`).then(function (response) {
@@ -92,8 +103,8 @@ function callFindid(id) {
 }
 function callFindProduct(id) {
     xxx.get(`/hotel/photosALL/${id}`).then(function (response) {
-        console.log("count", response.data.list.length);//個數
-        console.log("list", response.data.list);//項目
+        console.log("count", response.data.list.length);
+        console.log("list", response.data.list);
         if (response.data.list[0]) {
             pic.value = response.data.list[0].id;
         }
@@ -106,6 +117,7 @@ function callFindProduct(id) {
         console.log(pic.value)
         console.log(pict.value)
         console.log(pictu.value)
+        callcoment()
     }).catch(function (error) {
         console.log("callFind error", error);
         Swal.fire({
@@ -117,8 +129,6 @@ function callFindProduct(id) {
     });
 }
 function cart(id) {
-    console.log("產品id", id)
-    console.log("數量", data.value)
     let send = {
         "memberId": userId.value,
         "productId": id,
@@ -134,7 +144,6 @@ function cart(id) {
             timer: 2000
         });
         console.log(response);
-        // router.push({ path: '/shopping/shoppinglist' })
         setTimeout(function () {
             Swal.close();
             router.push({ path: '/shopping/shoppinglist' });
@@ -189,5 +198,77 @@ function comment() {
         });
     });
 }
+function callcoment() {
+    console.log(productName.value)
+    xxx.get(`/hotel/comments/instances/${productName.value}`).then(function (response) {
+        instancecomment.value = response.data
+        console.log(instancecomment.value)
+    }).catch(function (error) {
+        console.log("callFindById error", error);
+    });
+}
 </script>
-<style></style>
+<style scoped>
+* {
+    margin: 1px;
+    box-sizing: border-box;
+}
+
+body {
+    height: 95vh;
+    background: #34e7e4;
+    font-family: sans-serif;
+    text-align: start;
+    color: black;
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background: yellow;
+    padding: 2em 0 2em 0;
+}
+
+.left {
+    background: gainsboro;
+    padding: 3em 0 3em 0;
+    flex: 1 1 100px
+}
+
+main {
+    background: white;
+    padding: 3em 0 3em 0;
+    flex: 10 10 150px
+}
+
+.main {
+    display: flex;
+    flex: 1
+}
+
+.right {
+    background: gainsboro;
+    padding: 3em 0 3em 0;
+    flex: 1 1 100px
+}
+
+footer {
+    background: rgba(42, 212, 110, 0.29);
+}
+
+@media all and (max-width: 550px) {
+    .main {
+        flex-direction: column;
+    }
+
+    main {
+        padding: 5em 0 5em 0;
+    }
+}
+
+.card {
+    background: white;
+    margin-bottom: 10px
+}
+</style>
