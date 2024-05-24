@@ -8,7 +8,6 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
         <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
 
           <li class="nav-item dropdown">
@@ -16,73 +15,34 @@
               aria-expanded="false">客房介紹</a>
             <ul class="dropdown-menu">
               <li>
-                <RouterLink class="dropdown-item" to="/room/front/booking">Room Information</RouterLink>
-                <RouterLink class="dropdown-item" to="/room/front/deluxe">Deluxe</RouterLink>
-                <RouterLink class="dropdown-item" to="/room/front/executive">Executive</RouterLink>
-                <RouterLink class="dropdown-item" to="/room/front/standard">Standard</RouterLink>
+                <RouterLink class="dropdown-item" to="/room/roomInfo">Room Information</RouterLink>
+                <RouterLink class="dropdown-item" to="/room/deluxe">Deluxe</RouterLink>
+                <RouterLink class="dropdown-item" to="/room/executive">Executive</RouterLink>
+                <RouterLink class="dropdown-item" to="/room/standard">Standard</RouterLink>
               </li>
             </ul>
           </li>
 
           <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/front/frontIndex">frontIndex</RouterLink>
+            <RouterLink class="nav-link" to="/room/minibar">Room Server</RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/front/booking">booking</RouterLink>
+            <RouterLink class="nav-link" to="/room/housingManagement">HousingMana</RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/front/checkAvailability">空房查詢</RouterLink>
+            <RouterLink class="nav-link" to="/room/roomAssignment">RoomAss</RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/front/minibar">RoomService</RouterLink>
+            <RouterLink class="nav-link" to="/room/roomManagement">RoomMana</RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/front/reviews">評論</RouterLink>
+            <RouterLink class="nav-link" to="/room/roomAssBackend">Ra</RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/back/backIndex">backIndex</RouterLink>
+            <RouterLink class="nav-link" to="/room/additionalCharges">Addition</RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/back/housingManagement">住房管理</RouterLink>
-          </li>
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/back/additionalCharges">附加費</RouterLink>
-          </li>
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/back/checkOut">賠償費</RouterLink>
-          </li>
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/back/roomAssignment">分配房型</RouterLink>
-          </li>
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/back/roomInfo">編輯房型</RouterLink>
-          </li>
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/back/roomManagement">客房管理</RouterLink>
-          </li>
-
-
-
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-              aria-expanded="false">Shopping</a>
-            <ul class="dropdown-menu">
-              <li>
-                <RouterLink class="dropdown-item" to="/supplier/allsupplier">合作夥伴(後端)</RouterLink>
-                <RouterLink class="dropdown-item" to="/shopping/shoppinglist">
-                  <font-awesome-icon :icon="['fas', 'shop']" /> &nbsp;&nbsp;商城
-                </RouterLink>
-                <RouterLink class="dropdown-item" to="/shopping/cart">
-                  <font-awesome-icon :icon="['fas', 'cart-shopping']" />&nbsp;&nbsp;&nbsp;購物車
-                </RouterLink>
-                <RouterLink class="dropdown-item" to="/shopping/myorder">
-                  <font-awesome-icon :icon="['fas', 'truck-fast']" />&nbsp;&nbsp;&nbsp;訂單查詢
-                </RouterLink>
-              </li>
-              <li><a class="dropdown-item" href="#">link1</a></li>
-              <li><a class="dropdown-item" href="#">link2</a></li>
-              <li><a class="dropdown-item" href="#">link3</a></li>
-            </ul>
+            <RouterLink class="nav-link" to="/room/booking">book</RouterLink>
           </li>
 
           <li class="nav-item" v-if="user==null">
@@ -134,7 +94,7 @@ function doclickShow(){
 .hotel{
     font-family: "Dancing Script", cursive;
     font-optical-sizing: auto;
-    font-weight: weight;
+    font-weight: < weight>;
     font-style: normal;
   }
 

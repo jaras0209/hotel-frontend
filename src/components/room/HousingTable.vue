@@ -4,20 +4,28 @@
       <thead>
         <tr>
           <th scope="col">#</th>
-          <th scope="col">房間型號</th>
-          <th scope="col">總共間數</th>
-          <th scope="col">剩餘間數</th>
-          <th scope="col">日期</th>
+          <th scope="col">住房編號</th>
+          <th scope="col">房號</th>
+          <th scope="col">訂單資料</th>
+          <th scope="col">CheckIn時間</th>
+          <th scope="col">CheckOut時間</th>
+          <th scope="col">附加費用</th>
+          <th scope="col">退房檢查</th>
+          <th scope="col">備註</th>
           <th scope="col">控制</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(assign, index) in paginatedAssigns" :key="assign.id">
           <th scope="row">{{ (currentPage - 1) * rowsPerPage + index + 1 }}</th>
-          <td>{{ assign.roomInformation.id }}</td>
-          <td>{{ assign.roomInformation.total }}</td>
-          <td>{{ assign.left }}</td>
-          <td>{{ assign.date }}</td>
+          <td>{{ assign.id }}</td>
+          <td>{{ assign.roomManagement.number }}</td>
+          <td>{{ assign.orderRoom.orderId }}</td>
+          <td>{{ assign.checkInTime }}</td>
+          <td>{{ assign.checkOutTime }}</td>
+          <td>{{ assign.totalAdditional }}</td>
+          <td>{{ assign.totalCompensation }}</td>
+          <td>{{ assign.remarks }}</td>
           <td>
             <div>
               <a href="#" @click.prevent="doclick1(assign.id)" class="btn btn btn-sm">增加</a>

@@ -4,24 +4,24 @@
       <thead>
         <tr>
           <th scope="col">#</th>
-          <th scope="col">房間型號</th>
-          <th scope="col">總共間數</th>
-          <th scope="col">剩餘間數</th>
-          <th scope="col">日期</th>
+          <th scope="col">住房編號</th>
+          <th scope="col">商品編號</th>
+          <th scope="col">數量</th>
+          <th scope="col">價格</th>
           <th scope="col">控制</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(assign, index) in paginatedAssigns" :key="assign.id">
           <th scope="row">{{ (currentPage - 1) * rowsPerPage + index + 1 }}</th>
-          <td>{{ assign.roomInformation.id }}</td>
-          <td>{{ assign.roomInformation.total }}</td>
-          <td>{{ assign.left }}</td>
-          <td>{{ assign.date }}</td>
+          <td>{{ assign.additionalChargesId.housingManagementId }}</td>
+          <td>{{ assign.additionalChargesId.minibarId }}</td>
+          <td>{{ assign.quantity }}</td>
+          <td>{{ assign.amount }}</td>
           <td>
             <div>
-              <a href="#" @click.prevent="doclick1(assign.id)" class="btn btn btn-sm">增加</a>
-              <a href="#" @click.prevent="doclick2(assign.id)" class="btn btn btn-sm">減少</a>
+              <a href="#" @click.prevent="doclick1(assign.id)" class="btn btn-sm">增加</a>
+              <a href="#" @click.prevent="doclick2(assign.id)" class="btn btn-sm">減少</a>
             </div>
           </td>
         </tr>

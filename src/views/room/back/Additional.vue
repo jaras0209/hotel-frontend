@@ -5,8 +5,8 @@
       :assigns="assigns"
       :currentPage="currentPage"
       :rowsPerPage="rowsPerPage"
-      @edit="editAddition"
-      @delete="deleteAddition"/>
+      @add1="add1"
+      @minus1="minus1"/>
     
       <!-- :currentPage="currentPage"
 :rowsPerPage="rowsPerPage" -->
@@ -30,8 +30,8 @@ import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import axiosapi from '@/plugins/axios.js';
 import Swal from 'sweetalert2';
-import AssignmentTable from '@/components/room/AssignmentTable.vue';
-// import Paginate from 'vuejs-paginate-next'; // Uncomment if you need pagination
+import AssignmentTable from '@/components/room/AdditionTable.vue';
+import Paginate from 'vuejs-paginate-next'; // Uncomment if you need pagination
 
 const assigns = ref([]);
 const currentPage = ref(1);
@@ -48,7 +48,7 @@ function callFind() {
     allowOutsideClick: false,
   });
 
-  axiosapi.get('/hotel/backend/roomAssignment', {
+  axiosapi.get('/hotel/backend/additionalCharges', {
     params: { p: currentPage.value }
   })
   .then(response => {
@@ -70,12 +70,48 @@ function callFind() {
   });
 }
 
-function editAddition(assign) {
-  console.log('编辑', assign);
+function add1(assign) {
+  console.log('+1', assign);
 }
 
-function deleteAddition(id) {
-  console.log('删除', id);
+// function minus1(assign) {
+  function minus1() {
+  console.log('-1', assign);
+  // Swal.fire({
+  //   text: "Loading......",
+  //   showConfirmButton: false,
+  //   allowOutsideClick: false,
+  // });
+  // let data = assigns.value;
+  // axiosapi.put(`/backend/roomAssignment/${assigns.value.id}`, data)
+  // .then(response => {
+  //     if (response.data.success) {
+  //       Swal.fire({
+  //         text: response.data.message,
+  //         icon: 'success',
+  //         allowOutsideClick: false,
+  //         confirmButtonText: '確認',
+  //       }).then(() => {
+  //         // minibarModalRef.value.hideModal();
+  //         // callFind(current.value);
+  //       });
+  //       } else {
+  //       Swal.fire({
+  //         text: response.data.message,
+  //         icon: 'warning',
+  //         allowOutsideClick: false,
+  //         confirmButtonText: '確認',
+  //       });
+  //     }
+  //   })
+  //   .catch(error => {
+  //     Swal.fire({
+  //       text: '失敗：' + error.message,
+  //       icon: 'error',
+  //       allowOutsideClick: false,
+  //       confirmButtonText: '確認',
+  //     });
+  //   });
 }
 
 onMounted(() => {

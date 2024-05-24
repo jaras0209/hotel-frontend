@@ -126,6 +126,29 @@ function callFind(page) {
   });
 }
 
+function openModal(roomId) {
+  axiosapi.get(`/hotel/minibar/${roomId}`).then(response => {
+    // console.log("openModal", response);
+    selectedProduct.value = response.data;
+    minibarModalRef.value.showModal();
+  }).catch(error => {
+    Swal.fire({
+      text: '查詢失敗：' + error.message,
+      icon: 'error',
+      allowOutsideClick: false,
+      confirmButtonText: '確認',
+    }).then(() => {
+      if (error.response && error.response.status === 403) {
+        router.push("/secure/login");
+      }
+    });
+  });
+}
+
+function closeModal() {
+  selectedProduct.value = null;
+}
+
 // function callFindById(id) {
 //   Swal.fire({
 //     text: "Loading......",

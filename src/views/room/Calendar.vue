@@ -1,4 +1,15 @@
-<!-- src/views/Room.vue -->
+<template>
+    
+</template>
+  
+<script setup lang='ts'>
+  
+</script>
+  
+<style>
+  
+</style>
+<!-- src/views/Room.vue
 <template>
     <b-container class="p-0" fluid>
       <b-row class="header" no-gutters>
@@ -351,4 +362,4 @@
     opacity: 0;
   }
   </style>
-  
+   -->

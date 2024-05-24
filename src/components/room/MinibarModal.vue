@@ -19,14 +19,22 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from 'vue';
+import { ref, defineProps, defineEmits, defineExpose } from 'vue';
 
 const props = defineProps(["item"]);
 const emits = defineEmits(["close"]);
+const isVisible = ref(false);
 
 function closeModal() {
+  isVisible.value = false;
   emits("close");
 }
+
+function showModal() {
+  isVisible.value = true;
+}
+
+defineExpose({ showModal });
 </script>
 
 <style scoped>
