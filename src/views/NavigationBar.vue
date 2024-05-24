@@ -8,48 +8,61 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <!-- <form class="d-flex justify-content-center" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-light" type="submit">Search</button>
-        </form> -->
+
         <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
-          <!-- <li class="nav-item">
-            <RouterLink class="nav-link active" aria-current="page" to="/">Home</RouterLink>
-          </li> -->
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/">訂房</RouterLink>
-          </li>
-          <li class="nav-item">
-            <RouterLink class="nav-link" aria-current="page" to="/room">Room</RouterLink>
-          </li>
+
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="/room/roomInfo" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">客房介紹</a>
             <ul class="dropdown-menu">
               <li>
-                <RouterLink class="dropdown-item" to="/room/roomInfo">Room Information</RouterLink>
-                <RouterLink class="dropdown-item" to="/room/deluxe">Deluxe</RouterLink>
-                <RouterLink class="dropdown-item" to="/room/executive">Executive</RouterLink>
-                <RouterLink class="dropdown-item" to="/room/standard">Standard</RouterLink>
+                <RouterLink class="dropdown-item" to="/room/front/booking">Room Information</RouterLink>
+                <RouterLink class="dropdown-item" to="/room/front/deluxe">Deluxe</RouterLink>
+                <RouterLink class="dropdown-item" to="/room/front/executive">Executive</RouterLink>
+                <RouterLink class="dropdown-item" to="/room/front/standard">Standard</RouterLink>
               </li>
             </ul>
           </li>
 
           <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/minibar">Room Server</RouterLink>
+            <RouterLink class="nav-link" to="/room/front/frontIndex">frontIndex</RouterLink>
           </li>
-          <!-- <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-              aria-expanded="false">Dropdown</a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-          </li> -->
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/room/front/booking">booking</RouterLink>
+          </li>
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/room/front/checkAvailability">空房查詢</RouterLink>
+          </li>
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/room/front/minibar">RoomService</RouterLink>
+          </li>
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/room/front/reviews">評論</RouterLink>
+          </li>
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/room/back/backIndex">backIndex</RouterLink>
+          </li>
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/room/back/housingManagement">住房管理</RouterLink>
+          </li>
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/room/back/additionalCharges">附加費</RouterLink>
+          </li>
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/room/back/checkOut">賠償費</RouterLink>
+          </li>
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/room/back/roomAssignment">分配房型</RouterLink>
+          </li>
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/room/back/roomInfo">編輯房型</RouterLink>
+          </li>
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/room/back/roomManagement">客房管理</RouterLink>
+          </li>
+
+
+
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">Shopping</a>
@@ -71,9 +84,7 @@
               <li><a class="dropdown-item" href="#">link3</a></li>
             </ul>
           </li>
-          <!-- <li class="nav-item">
-            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-          </li> -->
+
           <li class="nav-item" v-if="user==null">
             <RouterLink class="nav-link" to="/member/login">登入/註冊{{ user }}</RouterLink>
           </li>
@@ -307,6 +318,7 @@ function doclickShow(){
 
 <style scoped>
 @import '../assets/style/all.scss';
+
 .hotel{
     font-family: "Dancing Script", cursive;
     font-optical-sizing: auto;

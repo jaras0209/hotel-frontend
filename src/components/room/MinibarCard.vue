@@ -1,42 +1,47 @@
 <template>
-        <div class = "col-lg-3 col-md-6">
-<div class="card">
-    <img class="card-img-top" :src="`${path}${item.id}`" :alt="item.name">
-    <div class="card-body">
-                <h5 class="card-title">{{ item.item }}</h5>
-                <div class="card-text text-danger text-end">NT$ {{item.price}}</div>
-                <div class="row">
-                    <div class="col text-start">
-                        <a href="#" class="btn btn-primary" @click="doclick1(item.id)">開啟修改</a>
-                    </div>
-                    <div class="col text-end">
-                        <a href="#" class="btn btn-primary" @click="doclick2(item.id)">刪除</a>
-                    </div>
-                <!-- <div>
-                    <RouterLink class=" card-link" :to="{
-                        name: 'productphoto-link'
-                        , params: { productid: product.id }
-                    }">修改圖片
-                    </RouterLink>
-                </div> -->
-                </div>
-            </div>
+  <div class="minibar-card-container">
+    <div class="card">
+      <img class="card-img-top" :src="`data:image/jpeg;base64,${item.photo}`" :alt="item.item">
+      <div class="card-body">
+        <h5 class="card-title">{{ item.item }}</h5>
+        <div class="card-text text-danger text-end">NT$ {{ item.price }}</div>
+        <div class="row">
+          <div class="col text-start">
+            <a href="#" class="btn btn-primary" @click="openMinibarModal(item.id)">詳細資訊</a>
+          </div>
+          <div class="col text-end">
+            <a href="#" class="btn btn-primary" @click="doclick2(item.id)">點餐</a>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </template>
-    
+
 <script setup>
-    const path = import.meta.env.VITE_BACKEND_URL+"/hotel/minibar/";
-    const props = defineProps(["item"]);
-    const emits = defineEmits(["openUpdate", "delete"]);
-    function doclick1(id) {
-        emits("openUpdate", "update", id);
-    }
-    function doclick2(id) {
-        emits("delete", id);
-    }
+
+const props = defineProps(["item"]);
+const emits = defineEmits(["detail", "order"]);
+
+function openMinibarModal(id) {
+  emits("detail", id);
+}
+
+function doclick2(id) {
+  emits("order", id);
+}
 </script>
-    
-<style>
-    
+
+<style scoped>
+.minibar-card-container {
+  max-width: 300px;
+  margin: auto;
+  margin-bottom: 20px;
+}
+
+.card-img-top {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}
 </style>

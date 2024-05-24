@@ -1,14 +1,17 @@
 <template>
-  <div class="modal" v-if="item">
+  <div class="modal" v-if="isVisible">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">{{ item.name }}</h5>
+          <h5 class="modal-title">{{ room.number }}</h5>
         </div>
         <div class="modal-body">
-          <p>價格: NT$ {{ item.price }}</p>
-          <p>保存期限: {{ item.make }}</p>
-          <p>剩下: {{ item.expire }}</p>
+          <p class="card-text">房間狀態: {{ room.id }}</p>
+          <p class="card-text">房間狀態: {{ room.roomState.state }}</p>
+          <p class="card-text">報修狀態: {{ room.repairStatus }}</p>
+          <!-- <p>房間型號: {{ room.roomInformation.id }}</p>
+          <p>房間型號: {{ room.roomInformation.bedType }}</p>
+          <p>房間型號: {{ room.roomInformation.maxOccupancy }}</p> -->
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" @click="closeModal">Close</button>
@@ -21,17 +24,17 @@
 <script setup>
 import { ref } from 'vue';
 
-const props = defineProps(["item"]);
+const props = defineProps(["room"]);
 const emits = defineEmits(["close"]);
 const isVisible = ref(false);
+
+function showModal() {
+  isVisible.value = true;
+}
 
 function closeModal() {
   isVisible.value = false;
   emits("close");
-}
-
-function showModal() {
-  isVisible.value = true;
 }
 
 defineExpose({ showModal });
