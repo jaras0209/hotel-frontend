@@ -32,11 +32,15 @@
                     </div>
                 </div>
                 <br>
-                目前擁有<span>{{ bonus }}</span>紅利，這次使用<input type="number" style="width: 75px;" min="0" :max="bonus"
-                    v-model="usebonus">
+                <div style="text-align: center;">
+                    <div>總金額為: {{ getTotalPrice() }}</div>
+                    擁有<span>{{ bonus }}</span>紅利，使用<input type="number" style="width: 75px;" min="0" :max="bonus"
+                        v-model="usebonus">紅利，需支付<span>{{ total - usebonus }}</span>
+                </div>
                 <br><br>
                 <div class="parent1">
-                    <div class="child11" style="font-size: 26px; writing-mode: vertical-lr; text-align: center;">付款資訊
+                    <div class="child11" style="font-size: 26px; writing-mode: vertical-lr; text-align: center;">
+                        付款資訊
                     </div>
                     <div class="child21">
                         <div class="mb-3">
@@ -74,8 +78,7 @@
                 </div>
                 <br><br>
                 <div class="parent">
-                    <div class="child1 form-label"
-                        style="font-size: 26px; writing-mode: vertical-lr; text-align: center;">收貨人
+                    <div class="child1" style="font-size: 26px; writing-mode: vertical-lr; text-align: center;">收貨人
                     </div>
                     <div class="child2">
                         <div class="mb-3">
@@ -149,12 +152,23 @@ const payerphone = ref(null)
 const payeraddress = ref(null)
 //寄件人END
 const bonus = ref(0)
+const usebonus = ref(0)
 const userId = ref(null)
 onMounted(function () {
     userId.value = sessionStorage.getItem("userId")
     cart()
     people()
 })
+const total = ref(0)
+//算總價
+function getTotalPrice() {
+    let totalPrice = 0;
+    for (let i = 0; i < this.result.length; i++) {
+        totalPrice += this.result[i].productprice * this.result[i].quantity;
+    }
+    total.value = totalPrice
+    return totalPrice;
+}
 function cart() {
     let send = {
         "memberId": userId.value,
@@ -220,11 +234,17 @@ function dopay() {
                 "address": city.value + districts.value + addressback.value,
                 "payername": payername.value,
                 "payerphone": payerphone.value,
-                "payeradress": payercity.value + payerdistricts.value + payeraddressback.value
+                "payeradress": payercity.value + payerdistricts.value + payeraddressback.value,
+                "usebonus": usebonus.value
             }
             xxx.post(`/hotel/carts/order`, data).then(function (response) {
-                Swal.fire({ title: "謝謝您的購買!", })
-                router.push({ path: '/shopping/shoppinglist' });
+                Swal.fire({ title: "謝謝您的購買!", }).then(
+                    function (result) {
+                        if (result.isConfirmed) {
+                            router.push({ path: '/shopping/shoppinglist' })
+                        }
+                    }
+                )
             })
         }
     })

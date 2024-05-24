@@ -13,10 +13,12 @@
                             <th scope="col">訂單狀態</th>
                             <th scope="col">抵達日期</th>
                             <th scope="col">總價</th>
+                            <th scope="col">使用紅利</th>
+                            <th scope="col">增加紅利</th>
                         </tr>
                         <MyorderComponents v-for="result in result" :total="result.total" :AddedTime="result.AddedTime"
                             :Orderstatus="result.Orderstatus" :orderid="result.orderid"
-                            :arriveddTime="result.arriveddTime">
+                            :arriveddTime="result.arriveddTime" :usebonus="result.usebonus" :addbonus="result.addbonus">
                         </MyorderComponents>
                     </thead>
                 </table>

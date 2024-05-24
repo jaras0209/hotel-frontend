@@ -24,17 +24,13 @@ const emits = defineEmits(["cliick", "cliick2", "move", "method-result", "method
 function cliick3(productid) {
     emits("move", productid)
 }
-//這個方法成立是不能按
 function abc() {
-    console.log("abc 方法被執行了");
     const result = true;
-    emits("method-result", result); // 發射自定義事件，將方法返回的值傳遞給父元件
+    emits("method-result", result);
 }
-//這個方法成立才能下單
 function def() {
-    console.log("def 方法被執行了");
     const result = false;
-    emits("method-resultt", result); // 發射自定義事件，將方法返回的值傳遞給父元件
+    emits("method-resultt", result);
 }
 </script>
 <style></style>

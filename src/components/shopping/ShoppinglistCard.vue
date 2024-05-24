@@ -1,8 +1,8 @@
 <template>
-    <div class="card " style="width: 15rem;" :style="{ backgroundColor: '#c3f9fc', margin: '10px' }">
+    <div class="card"
+        style="background: linear-gradient(to right, #3EF55C, #12F390, #12F3A8); color: black;width: 20em; margin: 20px;">
         <img :src="`http://localhost:8080/hotel/photos/${item.id}`" class="card-img-top" alt="...">
         <div class="card-body">
-            <h5 class="card-title">商品介紹</h5>
             <p class="card-text">{{ item.productDescription }}</p>
         </div>
         <ul class="list-group list-group-flush">

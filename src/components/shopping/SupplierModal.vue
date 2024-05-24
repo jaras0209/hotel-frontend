@@ -10,6 +10,12 @@
                 <div class="modal-body">
                     <table>
                         <tr>
+                            <td>supplierId : </td>
+                            <td><input type="text" name="id" :value="id" v-show="!isShowButtonInsert"
+                                    @input="emits('update:id', $event.target.value)" disabled="disabled">
+                            </td>
+                        </tr>
+                        <tr>
                             <td>Name : </td>
                             <td><input type="text" name="name" :value="name"
                                     @input="emits('update:name', $event.target.value)"></td>
@@ -40,7 +46,7 @@
                     <button type="button" class="btn btn-primary" v-show="isShowButtonInsert"
                         @click="emits('insert')">新增</button>
                     <button type="button" class="btn btn-primary" v-show="!isShowButtonInsert"
-                        @click="emits('update')">修改</button>
+                        @click="emits('update', id)">修改</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -49,7 +55,7 @@
 </template>
 <script setup>
 // 
-const props = defineProps(["name", "phone", "cname", "address", "email", "isShowButtonInsert"]);
+const props = defineProps(["id", "name", "phone", "cname", "address", "email", "isShowButtonInsert"]);
 const emits = defineEmits(["update:name", "update:phone",
     "update:cname", "update:address", "update:email", "insert", "update"]);
 import { ref, onMounted } from "vue";

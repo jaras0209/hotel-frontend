@@ -5,6 +5,8 @@
         <td>{{ Orderstatus }}</td>
         <td>{{ arriveddTime }}</td>
         <td>{{ total }}</td>
+        <td>-{{ usebonus }}</td>
+        <td>+{{ addbonus }}</td>
     </tr>
     <div>
         <p>
@@ -24,8 +26,8 @@
                         </tr>
                         <tr v-for="newresult in newresult">
                             <td>{{ newresult.ProductName }}</td>
-                            <td>{{ newresult.price }}</td>
                             <td>{{ newresult.Quantity }}</td>
+                            <td>{{ newresult.price }}</td>
                         </tr>
                     </thead>
                 </table>
@@ -34,7 +36,7 @@
     </div>
 </template>
 <script setup>
-const props = defineProps(["total", "AddedTime", "Orderstatus", "orderid", "arriveddTime"]);
+const props = defineProps(["total", "AddedTime", "Orderstatus", "orderid", "arriveddTime", "usebonus", "addbonus"]);
 import xxx from "@/plugins/axios.js"
 import { ref } from "vue";
 const newresult = ref(null)
