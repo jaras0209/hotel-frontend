@@ -1,33 +1,30 @@
 <template>
-    <h1>supplier</h1>
-    <button type="button" @click="callFind">click</button>
+    <div class="col-4">
+        <button type="button" class="btn btn-primary" @click="openModal('insert')">
+            新增廠商
+        </button>
+    </div>
     <div class="row">
         <SupplierCard v-for="oneofsuppliers in suppliers" :key="oneofsuppliers.id" :itemone="oneofsuppliers"
             @open-update="openModal" @delete="callRemove">
         </SupplierCard>
     </div>
     <br>
-    <div class="col-4"><!-- 新增廠商 -->
-        <button type="button" class="btn btn-primary" @click="openModal('insert')">
-            新增廠商
-        </button>
-    </div>
     <SupplierModal ref="SupplierModalRef" :is-show-button-insert="isShowButtonInsert" v-model:cname="supplier.cname"
         v-model:name="supplier.name" v-model:phone="supplier.phone" v-model:address="supplier.address"
-        v-model:email="supplier.email" @insert="callCreate">
-    </SupplierModal><!-- 背 -->
+        v-model:email="supplier.email" @insert="callCreate" @update="callModify" v-model:id="supplier.id">
+    </SupplierModal>
 </template>
-
 <script setup>
-import { useRouter } from "vue-router"//路由
-const router = useRouter();//路由
+import { useRouter } from "vue-router"
+const router = useRouter();
 import SupplierCard from "@/components/shopping/SupplierCard.vue";
 import Swal from "sweetalert2"
 import xxx from "@/plugins/axios.js"
-import { ref, onMounted } from "vue";//onMounted就執行某某
+import { ref, onMounted } from "vue";
 import SupplierModal from "@/components/shopping/SupplierModal.vue";
-const SupplierModalRef = ref(null)//==背
-const suppliers = ref({});        //一開始當然空的
+const SupplierModalRef = ref(null)
+const suppliers = ref({});
 const supplier = ref({});
 const isShowButtonInsert = ref(true);
 onMounted(function () {
@@ -41,9 +38,9 @@ function callFind() {
         allowOutsideClick: false,
     });
     xxx.post("/hotel/suppliers/findall").then(function (response) {
-        console.log("response", response); //執行結果藏在這裡
-        console.log("response", response.data.list);//抓到要的資料
-        suppliers.value = response.data.list;//塞資料
+        console.log("response", response);
+        console.log("response", response.data.list);
+        suppliers.value = response.data.list;
         setTimeout(function () {
             Swal.close();
         }, 500);
@@ -58,7 +55,7 @@ function callFind() {
     });
 }
 function openModal(action, id) {
-    supplier.value = {};//清空
+    supplier.value = {};
     if (action === 'insert') {
         isShowButtonInsert.value = true;
     } else {
@@ -170,6 +167,38 @@ function callCreate() {
         }
     }).catch(function (error) {
         console.log("callCreate error", error);
+        Swal.fire({
+            text: '失敗：' + error.message,
+            icon: 'error',
+            allowOutsideClick: false,
+            confirmButtonText: '確認',
+        });
+    });
+}
+function callModify(id) {
+    let data = supplier.value;
+    xxx.put(`/hotel/suppliers/${id}`, data).then(function (response) {
+        if (response.data.success) {
+            Swal.fire({
+                text: response.data.message,
+                icon: 'success',
+                allowOutsideClick: false,
+                confirmButtonText: '確認',
+            }).then(function () {
+                console.log("update success");
+                SupplierModalRef.value.hideModal();
+                callFind();
+            });
+        } else {
+            Swal.fire({
+                text: response.data.message,
+                icon: 'warning',
+                allowOutsideClick: false,
+                confirmButtonText: '確認',
+            });
+        }
+    }).catch(function (error) {
+        console.log("callModify error", error);
         Swal.fire({
             text: '失敗：' + error.message,
             icon: 'error',

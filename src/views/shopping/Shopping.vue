@@ -32,9 +32,9 @@ import { ref, onMounted } from "vue";
 const id = route.params.id;
 import xxx from "@/plugins/axios.js"
 const find = ref({});
-const pic = ref(1)
-const pict = ref(1)
-const pictu = ref(1)
+const pic = ref(0)
+const pict = ref(0)
+const pictu = ref(0)
 const productName = ref(null)
 const commentmessage = ref(null)
 const people = ref(null)
@@ -188,6 +188,10 @@ function comment() {
             allowOutsideClick: false,
             timer: 2000
         });
+        setTimeout(function () {
+            Swal.close();
+            router.go(0);
+        }, 2000);
     }).catch(function (error) {
         console.log("callFind error", error);
         Swal.fire({

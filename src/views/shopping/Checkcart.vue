@@ -237,8 +237,13 @@ function dopay() {
                 "usebonus": usebonus.value
             }
             xxx.post(`/hotel/carts/order`, data).then(function (response) {
-                Swal.fire({ title: "謝謝您的購買!", })
-                router.push({ path: '/shopping/shoppinglist' });
+                Swal.fire({ title: "謝謝您的購買!", }).then(
+                    function (result) {
+                        if (result.isConfirmed) {
+                            router.push({ path: '/shopping/shoppinglist' })
+                        }
+                    }
+                )
             })
         }
     })
