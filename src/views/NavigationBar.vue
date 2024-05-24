@@ -104,6 +104,8 @@
       v-model:area="addressArea"
       v-model:roadName="addressRoadname"
       v-model:areaList="areaList"
+      v-model:id="userId"
+      @upload="catchPicture"
       @selected="selected"
       @modify="callModify"
     ></MemberModal>
@@ -113,7 +115,7 @@
 <script setup>
 import axiosapi from '@/plugins/axios.js';
 import { useRouter } from 'vue-router';
-import { ref, onMounted, warn } from 'vue';
+import { ref, onMounted } from 'vue';
 import MemberModal from '@/components/member/MemberModal.vue';
 
 import json from '@/CityCountyData.json';// 可能可以改進
@@ -128,6 +130,8 @@ const addressCounty = ref("");
 const addressArea = ref("");
 const addressRoadname = ref("")
 const areaList = ref(null);
+const photoFile = ref(null);
+// const putData = FormData();
 //--------------------------------------------------
     // 使用 Proxy 處理數據
     const handler = {
@@ -192,6 +196,11 @@ function doclickShow(){
       })
     }
 
+    function catchPicture(){
+      photoFile.value = event.target.files[0];
+      console.log("photoFile.value",photoFile.value)
+    }
+
     function callModify(){
       Swal.fire({
         text: "Loading...",
@@ -223,7 +232,22 @@ function doclickShow(){
       if (userData.value.nationality===""){
         userData.value.nationality=null;
       }
-      let data={
+      // let data={
+      //   "name":userData.value.memberName,
+      //   "gender":userData.value.gender,
+      //   "birth":userData.value.birth,
+      //   "national_id":userData.value.nationId,
+      //   "email":userData.value.email,
+      //   "phone_number":userData.value.phoneNumber,
+      //   "credit_card":userData.value.creditCard,
+      //   "contact_address":addressCounty.value+addressArea.value+addressRoadname.value,
+      //   "password":userData.value.password,
+      //   "nationality":userData.value.nationality
+      // }
+
+      const formData = new FormData();
+      formData.append("multipartFile",photoFile.value);
+      formData.append("json",JSON.stringify({
         "name":userData.value.memberName,
         "gender":userData.value.gender,
         "birth":userData.value.birth,
@@ -234,10 +258,16 @@ function doclickShow(){
         "contact_address":addressCounty.value+addressArea.value+addressRoadname.value,
         "password":userData.value.password,
         "nationality":userData.value.nationality
-      }
+      }))
+
+
       console.log("修改function裡");
-      console.log("data",data)
-      axiosapi.put(`/hotel/member/alert/${userId}`, data).then(function (response){
+      console.log(formData)
+      axiosapi.put(`/hotel/member/alert2/${userId}`,formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    }).then(function (response){
         if (response.data.success){
           Swal.fire({
             text: response.data.message,
@@ -246,6 +276,7 @@ function doclickShow(){
             confirmButtonText: '確認',
           }).then(function (){
             memberRef.value.hideModal();
+            router.go(0);
           })
         } else {
           Swal.fire({

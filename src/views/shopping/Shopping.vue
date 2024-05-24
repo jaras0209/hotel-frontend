@@ -1,4 +1,5 @@
 <template>
+    <NavigationBar></NavigationBar>
     <ShoppingCard v-for="product in find" :key="product.id" :product="product" :pic="pic" :pict="pict" :pictu="pictu"
         @cart="cart" :options="options" v-model="data">
     </ShoppingCard>
@@ -7,6 +8,7 @@
     <input type="text" v-model="commentmessage" placeholder="詳細說明您的想法" width="50%">
 </template>
 <script setup>
+import NavigationBar from '../NavigationBar.vue';
 const options = ref([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20])
 const data = ref(1)
 import { useRouter } from "vue-router"

@@ -8,7 +8,13 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <img src="/a-double-wing.png" class="card-img-top" alt="...">
+                <div>
+                    <img :src="PATH+props.id" class="card-img-top" alt="..." style="border-radius: 50%;">
+                    <label for="file-upload" class="custom-file-upload">
+                        <i class="fa fa-cloud-upload"></i>修改大頭照
+                    </label>
+                    <input class="form-control" id="file-upload" name="photoFile" type="file" accept="image/gif, image/jpeg, image/png" @change="emits('upload', $event)">
+                </div>
 
                 <div class="row">
                     <div class="col-md-6">
@@ -109,6 +115,7 @@
 </template>
     
 <script setup>
+
     import bootstrap from 'bootstrap/dist/js/bootstrap.bundle.min.js'
     import { ref, onMounted } from 'vue';
 
@@ -117,9 +124,9 @@
     import json from '@/CityCountyData.json';
     import countries from '@/Country.json';
     const taiwan = ref(json);
-
-    const props = defineProps(["name", "nationId", "sexual", "birth", "email", "phone", "creditCard", "nationality", "countSelect", "area", "roadName","areaList"]);
-    const emits = defineEmits(["update:name", "update:nationId", "update:sexual", "update:birth", "update:email", "update:phone", "update:creditCard", "update:nationality", "update:countSelect", "update:area", "update:roadName", "update:areaList", "selected", "modify"]);
+    const PATH = import.meta.env.VITE_MEMBER_PICTURE;
+    const props = defineProps(["name", "nationId", "sexual", "birth", "email", "phone", "creditCard", "nationality", "countSelect", "area", "roadName","areaList","id"]);
+    const emits = defineEmits(["update:name", "update:nationId", "update:sexual", "update:birth", "update:email", "update:phone", "update:creditCard", "update:nationality", "update:countSelect", "update:area", "update:roadName", "update:areaList", "selected", "modify","upload"]);
     const modalRef = ref(null);
     const modalObj = ref(null);
 
@@ -140,6 +147,20 @@
 
 </script>
     
-<style>
-    
+<style scoped>
+    .star{
+        color: red;
+    }
+    input[type="file"]{
+        position: fixed;
+        right: 100%;
+    }
+    .custom-file-upload {
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        display: inline-block;
+        padding: 6px 12px;
+        cursor: pointer;
+        background-color: aquamarine;
+    }
 </style>

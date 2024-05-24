@@ -1,10 +1,12 @@
 <template>
+    <NavigationBar></NavigationBar>
     <ProductPhotoupload :productid="productid" @upload="picture" @submit-form="picture1"></ProductPhotoupload>
     <br><br><br><br><br><br>
     <h1 v-if="find !== null">可刪除的圖片</h1>
     <ProductPhotodelete v-for="find in find" :find="find" @decesion="decesion"></ProductPhotodelete>
 </template>
 <script setup>
+import NavigationBar from '../NavigationBar.vue';
 import { useRouter } from "vue-router"
 const router = useRouter();
 import ProductPhotoupload from '@/components/shopping/ProductPhotoupload.vue';
@@ -23,7 +25,7 @@ function picture(event) {
     console.log(productid)
     console.log(event);
     photoFile.value = event.target.files[0];
-    console.log(photoFile.value)
+    console.log("photoFile.value",photoFile.value)
 }
 //上傳檔案觸發
 function picture1() {

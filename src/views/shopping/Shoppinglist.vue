@@ -1,4 +1,5 @@
 <template>
+    <NavigationBar></NavigationBar>
     <h1>商城首頁</h1>
     <div class="row">
         <div class="col-4">
@@ -15,10 +16,11 @@
 </template>
 
 <script setup>
+import NavigationBar from '../NavigationBar.vue';
 import ShoppinglistCard from '@/components/shopping/ShoppinglistCard.vue';
 import { ref, onMounted } from "vue";
 import Swal from "sweetalert2"
-import xxx from "@/plugins/axios.js"
+import axiosapi from "@/plugins/axios.js"
 import Paginate from 'vuejs-paginate-next';
 import ProductRows from "@/components/shopping/ProductRows.vue";
 const all = ref({});
@@ -47,7 +49,8 @@ function callFind(page) {
         "rows": rows.value,
         "productName": findname.value,
     }
-    xxx.post(`/hotel/products/find`, data).then(function (response) {
+    console.log(axiosapi.defaults.headers.authorization);
+    axiosapi.post(`/hotel/products/find`, data).then(function (response) {
         console.log("count", response.data.count);
         console.log("response", response.data.list);
         all.value = response.data.list;

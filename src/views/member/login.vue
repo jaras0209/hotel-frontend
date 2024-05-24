@@ -1,5 +1,5 @@
 <template>
-
+    <NavigationBar></NavigationBar>
     <div class="row justify-content-md-center">
         <div class="col-6">
             <h1>登入頁面</h1>
@@ -33,6 +33,7 @@
 </template>
 
 <script setup>
+import NavigationBar from '../NavigationBar.vue';
 import Swal from 'sweetalert2';
 import axiosapi from '@/plugins/axios.js';
 import { ref } from 'vue';
@@ -65,7 +66,7 @@ function login() {
         showConfirmButton: false,
         allowOutsideClick: false,
     });
-
+    
     axiosapi.defaults.headers.authorization = '';
     sessionStorage.removeItem("user");
 
@@ -92,10 +93,11 @@ function login() {
             }).then(function (result) {
                 if (result.isConfirmed) {
                     axiosapi.defaults.headers.authorization = "Bearer " + response.data.token;
+                    console.log("axiosapi.defaults.headers.authorization",axiosapi.defaults.headers.authorization)
                     sessionStorage.setItem("user", response.data.user);
                     sessionStorage.setItem("userId", response.data.userId);
-                    window.location.href = '/';
-                    // router.push({name:"home-link"})
+                    // window.location.href = '/';
+                    router.push({name:"home-link"})
                 }
             });
         } else {

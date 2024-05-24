@@ -1,4 +1,5 @@
 <template>
+    <NavigationBar></NavigationBar>
     <h1>supplier</h1>
     <button type="button" @click="callFind">click</button>
     <div class="row">
@@ -19,6 +20,7 @@
 </template>
 
 <script setup>
+import NavigationBar from '../NavigationBar.vue';
 import { useRouter } from "vue-router"//路由
 const router = useRouter();//路由
 import SupplierCard from "@/components/shopping/SupplierCard.vue";

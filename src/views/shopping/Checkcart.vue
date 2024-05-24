@@ -1,5 +1,5 @@
 <template>
-
+    <NavigationBar></NavigationBar>
     <body>
         <div class="main">
             <aside class="left">
@@ -121,6 +121,7 @@
     </footer>
 </template>
 <script setup>
+import NavigationBar from '../NavigationBar.vue';
 import CheckCartComponents from '@/components/shopping/CheckCartComponents.vue'
 import { useRouter } from "vue-router"
 const router = useRouter();

@@ -1,4 +1,5 @@
 <template>
+    <NavigationBar></NavigationBar>
     <h1>{{ $route.params.name }}</h1>
     <div class="col-4">
         <button type="button" class="btn btn-primary" @click="openModal('insert')">
@@ -17,6 +18,7 @@
     </div>
 </template>
 <script setup>
+import NavigationBar from '../NavigationBar.vue';
 import { useRoute } from 'vue-router';
 import Swal from "sweetalert2"
 import xxx from "@/plugins/axios.js"

@@ -1,10 +1,10 @@
 <template>
-  <NavigationBar></NavigationBar>
+  <!-- <NavigationBar></NavigationBar> -->
   <RouterView></RouterView>
 </template>
 
 <script setup>
-  import NavigationBar from './views/NavigationBar.vue';
+  // import NavigationBar from './views/NavigationBar.vue';
   import 'bootstrap/dist/css/bootstrap.min.css';
   import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 </script>

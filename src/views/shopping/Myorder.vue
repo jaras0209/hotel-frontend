@@ -1,5 +1,5 @@
 <template>
-
+    <NavigationBar></NavigationBar>
     <body>
         <div class="main">
             <aside class="left">
@@ -30,6 +30,7 @@
 </template>
 
 <script setup>
+import NavigationBar from '../NavigationBar.vue';
 import MyorderComponents from '@/components/shopping/MyorderComponents.vue';
 import { ref, onMounted } from "vue";
 import xxx from "@/plugins/axios.js"

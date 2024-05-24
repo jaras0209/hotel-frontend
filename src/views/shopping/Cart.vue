@@ -1,4 +1,5 @@
 <template>
+    <NavigationBar></NavigationBar>
     <table class="table">
         <thead>
             <tr>
@@ -25,6 +26,7 @@
     </RouterLink>
 </template>
 <script setup>
+import NavigationBar from '../NavigationBar.vue';
 import Cartlist from '@/components/shopping/Cartlist.vue'
 import { useRouter } from "vue-router"
 const router = useRouter();

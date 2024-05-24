@@ -1,5 +1,5 @@
 <template>
-
+<NavigationBar></NavigationBar>
     <body>
         <!-- 不用了 -->
         <!-- <header>
@@ -96,7 +96,7 @@
                         <div class="single-footer-widget">
                             <h6 class="footer_title"><font-awesome-icon :icon="['fas', 'user']" />&nbsp;員工專區</h6>
                             <ul class="list_style">
-                                <li><RouterLink class="nav-link" to="/">員工登入</RouterLink></li>
+                                <li><RouterLink class="nav-link" to="/backend/login">員工登入</RouterLink></li>
                             </ul>	
                             <div id="mc_embed_signup">
                             </div>
@@ -108,9 +108,13 @@
     </footer>
 </template>
 <script setup>
+import NavigationBar from './NavigationBar.vue';
+import axiosapi from '@/plugins/axios.js';
+console.log("axiosapi.defaults.headers.authorization",axiosapi.defaults.headers.authorization)
 
 </script>
 <style scoped>
+
 @import '../assets/style/all.scss';
 * {
     margin: 1px;
