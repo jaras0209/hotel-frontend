@@ -22,6 +22,12 @@
                 <li class="nav-item">
                     <RouterLink class="nav-link active" to="/backend/roomService">Room Service</RouterLink>
                 </li>
+                <li class="nav-item">
+                    <RouterLink class="nav-link active" to="/backend/memberManage">Member Manage</RouterLink>
+                </li>
+                <li class="nav-item">
+                    <RouterLink class="nav-link active" to="/backend/shoppingManage">Shopping Manage</RouterLink>
+                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="offcanvasNavbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" v-if="employee!=null">
                     歡迎 {{employee}}
