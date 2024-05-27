@@ -1,4 +1,5 @@
     <template>
+    <FrontNavBar></FrontNavBar>
     <swiper :style="{
         '--swiper-navigation-color': '#fff',
         '--swiper-pagination-color': '#fff',
@@ -46,31 +47,26 @@
             </div>
         </swiper-slide>
     </swiper>
+
+    <Footer></Footer>
     </template>
-    <script>
-    // Import Swiper Vue.js components
-    import { Swiper, SwiperSlide } from 'swiper/vue';
 
-    // Import Swiper styles
-    import 'swiper/css';
+<script setup>
+// Import Swiper Vue.js components
+import FrontNavBar from '../../FrontNavBar.vue';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import Footer from '@/components/room/Footer.vue';
 
-    import 'swiper/css/pagination';
-    import 'swiper/css/navigation';
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
-    import './style.css';
+import './style.css';
 
-    // import required modules
-    import { Parallax, Pagination, Navigation } from 'swiper/modules';
+// Import required modules
+import { Parallax, Pagination, Navigation } from 'swiper/modules';
 
-    export default {
-    components: {
-        Swiper,
-        SwiperSlide,
-    },
-    setup() {
-        return {
-            modules: [Parallax, Pagination, Navigation],
-        };
-    },
-    };
+const modules = [Parallax, Pagination, Navigation];
+
     </script>

@@ -1,4 +1,5 @@
 <template>
+    <FrontNavBar></FrontNavBar>
   <div>
     <button @click="openBookingDialog">預約房間</button>
     <BookingDialog
@@ -10,11 +11,16 @@
       :holidayPrice="holidayPrice"
     />
   </div>
+  <div>
+    <Footer></Footer>
+  </div>
 </template>
 
 <script setup>
+import FrontNavBar from '../../FrontNavBar.vue';
 import { ref } from 'vue';
 import BookingDialog from '@/components/room/BookingDialog.vue';
+import Footer from '@/components/room/Footer.vue';
 
 // 預約房間的數據
 const isBookingDialogVisible = ref(false);

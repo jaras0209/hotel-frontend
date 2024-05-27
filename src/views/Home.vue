@@ -63,16 +63,29 @@
                             <div class="row">
                                 <div class="col-4">
                                     <ul class="list_style">
-                                        <li><a href="#"><font-awesome-icon :icon="['fas', 'bed']" />&nbsp;標準</a></li>
-                                        <li><a href="#"><font-awesome-icon :icon="['fas', 'business-time']"/>&nbsp;商務</a></li>
-                                        
-                                    </ul>
+                                        <li>
+          <RouterLink class="nav-link" to="/room/front/standard">
+            <font-awesome-icon :icon="['fas', 'bed']" /> 標準
+          </RouterLink>
+        </li>
+        <li>
+          <RouterLink class="nav-link" to="/room/front/executive">
+            <font-awesome-icon :icon="['fas', 'business-time']"/> 商務
+          </RouterLink>
+        </li>
+        <li>
+          <RouterLink class="nav-link" to="/room/front/deluxe">
+            <font-awesome-icon :icon="['fas', 'bed']"/> 尊榮
+          </RouterLink>
+        </li>
+                                        </ul>
                                 </div>
-                                <div class="col-4">
+                                <!-- <div class="col-4">
                                     <ul class="list_style">
                                         <li><a href="#"><font-awesome-icon :icon="['fas', 'bed']" />&nbsp;尊榮</a></li>
                                     </ul>
-                                </div>	<font-awesome-icon :icon="['fas', 'landmark']"/>									
+                                </div>	 -->
+                                <font-awesome-icon :icon="['fas', 'landmark']"/>									
                             </div>							
                         </div>
                     </div>							

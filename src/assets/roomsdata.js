@@ -8,8 +8,8 @@ export const roomsData = [
         "cover": "http://bosscode.monoame.com/20170323_vue_comp/img/room%20(1).jpg",
         "discount": 0.9,
         "equipment": {
-            "wifi": false,
-            "bathtub": true,
+            "wifi": true,
+            "bathtub": false,
             "breakfast": true
         }
     },
@@ -73,9 +73,9 @@ export const roomsData = [
         "cover": "https://www.grand-hilai.com/room-detail/upload/room_b/twL_room_23B24_piuj5kh9pi.jpg",
         "discount": 0.85,
         "equipment": {
-            "wifi": false,
+            "wifi": true,
             "bathtub": true,
-            "breakfast": true
+            "breakfast": false
         }
     },
     {

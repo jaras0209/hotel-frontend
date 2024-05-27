@@ -6,23 +6,30 @@
       <img :src="roomData.cover" alt="Room Cover Image">
     </div>
     <div class="info">
-      <h5>{{ roomData.eng }}</h5>
-      <!-- <div class="icons">
-        <span v-if="roomData.equipment.breakfast"><i class="fa fa-coffee"></i></span>
-        <span v-if="roomData.equipment.bathtub"><i class="fa fa-bath"></i></span>
-        <span v-if="roomData.equipment.wifi"><i class="fa fa-wifi"></i></span>
-      </div> -->
+      <div class="info-header">
+        <h5>{{ roomData.eng }}</h5>
+        <div class="icons">
+          <span v-if="roomData.equipment.breakfast"><font-awesome-icon :icon="['fas', 'mug-saucer']" /></span>
+          <span v-if="roomData.equipment.bathtub"><font-awesome-icon :icon="['fas', 'bath']" /></span>
+          <span v-if="roomData.equipment.wifi"><font-awesome-icon :icon="['fas', 'wifi']" /></span>
+        </div>
+      </div>
       <h5>{{ roomData.discount }} * {{ hotelDiscount }} = {{ finalDiscountShow }} 折</h5>
       <h4>TWD{{ roomData.price }}起</h4>
       <p>(須另加10%服務費及5%營業稅)</p>
       <div class="final_price">{{ finalPrice }}</div>
-      <button class="btn btn-secondary room_edit" @click="addRoom">立即下訂</button>
+      <button class="btn btn-secondary room_edit custom_button" @click="addRoom">立即下訂</button>
     </div>
   </div>
 </template>
 
 <script setup>
 import { computed } from 'vue';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faMugSaucer, faBath, faWifi } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faMugSaucer, faBath, faWifi);
 
 const props = defineProps({
   roomData: {
@@ -103,8 +110,15 @@ const handleDelete = () => {
   .info {
     padding: 10px;
 
+    .info-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
     h5 {
       font-size: 12px;
+      margin: 0;
     }
 
     .final_price {
@@ -117,9 +131,10 @@ const handleDelete = () => {
     }
 
     .icons {
-      span {
-        margin-right: 10px;
+      display: flex;
+      gap: 10px;
 
+      span {
         i {
           font-size: 20px;
         }
@@ -131,5 +146,17 @@ const handleDelete = () => {
       font-size: 10px;
     }
   }
+  .custom_button {
+  background-color: #514644;
+  border-color: #514644;
+  color: white;
+}
+
+.custom_button:hover {
+  background-color: #3c3630;
+  border-color: #3c3630;
+  color: white;
+}
+
 }
 </style>

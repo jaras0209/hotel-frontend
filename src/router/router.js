@@ -53,4 +53,18 @@ router.beforeEach((to, from) => {
     }
   })
 
+//   // 在 routerRoom 中添加 beforeEnter 守衛
+// routerRoom.forEach(route => {
+//   if (route.path === '/room') {
+//       route.beforeEnter = (to, from, next) => {
+//           const roomId = sessionStorage.getItem('roomId');
+//           if (!roomId) {
+//               next({ name: 'home-link' });
+//           } else {
+//               next();
+//           }
+//       };
+//   }
+// });
+
 export default router;

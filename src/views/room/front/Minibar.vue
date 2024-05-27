@@ -1,4 +1,5 @@
 <template>
+  <FrontNavBar></FrontNavBar>
   <div class="container">
     <h1 class="row mb-6 justify-content-center">Minibar</h1>
     <div class="row mb-3 justify-content-center align-items-center">
@@ -37,9 +38,13 @@
       </Paginate>
     </div>
   </div>
+  <div>
+    <Footer></Footer>
+  </div>
 </template>
 
 <script setup>
+import FrontNavBar from '../../FrontNavBar.vue';
 import MinibarCard from '@/components/room/MinibarCard.vue';
 import MinibarModal from '@/components/room/MinibarModal.vue';
 import MinibarRows from '@/components/room/MinibarRows.vue';
@@ -48,6 +53,7 @@ import Swal from 'sweetalert2';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import Paginate from 'vuejs-paginate-next';
+import Footer from '@/components/room/Footer.vue';
 
 const total = ref(0);
 const current = ref(1);
@@ -126,11 +132,19 @@ function callFind(page) {
   });
 }
 
-function openModal(roomId) {
-  axiosapi.get(`/hotel/minibar/${roomId}`).then(response => {
-    // console.log("openModal", response);
-    selectedProduct.value = response.data;
-    minibarModalRef.value.showModal();
+// 后端返回的 JSON 数据嵌套在 list 数组中的作法
+function openModal(itemId) {
+  axiosapi.get(`/hotel/minibar/${itemId}`).then(response => {
+    if (response.data.list && response.data.list.length > 0) {
+      selectedProduct.value = response.data.list[0]; // 取第一个元素
+      minibarModalRef.value.showModal();
+    } else {
+      Swal.fire({
+        text: '找不到該商品。',
+        icon: 'warning',
+        confirmButtonText: '確認'
+      });
+    }
   }).catch(error => {
     Swal.fire({
       text: '查詢失敗：' + error.message,
@@ -144,6 +158,7 @@ function openModal(roomId) {
     });
   });
 }
+
 
 function closeModal() {
   selectedProduct.value = null;

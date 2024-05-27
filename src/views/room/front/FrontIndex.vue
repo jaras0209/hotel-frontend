@@ -1,4 +1,5 @@
     <template>
+        <FrontNavBar></FrontNavBar>
         <div  class="row">
         <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2500">
         <div class="carousel-inner">
@@ -75,10 +76,14 @@
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
-        </div>
+    </div>
+    <Footer></Footer>
     </template>
     
     <script setup>
+    import FrontNavBar from '../../FrontNavBar.vue';
+    import Footer from '@/components/room/Footer.vue';
+
     </script>
     
     <style scoped>
