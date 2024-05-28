@@ -17,7 +17,7 @@ import Reviews from "./front/Reviews.vue";
 
 import Room from "./Room.vue";
 import RoomView from "./front/RoomView.vue";
-import Calendar from "./Calendar.vue";
+import Calendar from "./result.vue";
 
 
 

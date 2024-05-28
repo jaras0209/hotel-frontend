@@ -11,15 +11,18 @@
 
         <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
 
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/room/front/frontIndex">frontIndex</RouterLink>
+          </li>   
+
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="/room/roomInfo" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">客房介紹</a>
             <ul class="dropdown-menu">
               <li>
-                <RouterLink class="dropdown-item" to="/room/front/booking">Room Information</RouterLink>
-                <RouterLink class="dropdown-item" to="/room/front/deluxe">Deluxe</RouterLink>
-                <RouterLink class="dropdown-item" to="/room/front/executive">Executive</RouterLink>
-                <RouterLink class="dropdown-item" to="/room/front/standard">Standard</RouterLink>
+                <RouterLink class="dropdown-item" to="/room/front/standard">標準客房</RouterLink>
+                <RouterLink class="dropdown-item" to="/room/front/executive">商務客房</RouterLink>
+                <RouterLink class="dropdown-item" to="/room/front/deluxe">尊榮套房</RouterLink>
               </li>
             </ul>
           </li>
@@ -40,10 +43,7 @@
             </ul>
           </li>
           
-
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/front/frontIndex">frontIndex</RouterLink>
-          </li>      
+   
           <li class="nav-item">
             <RouterLink class="nav-link" to="/room/back/backIndex">backIndex</RouterLink>
           </li>

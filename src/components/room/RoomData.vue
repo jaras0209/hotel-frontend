@@ -11,7 +11,7 @@
         <div class="icons">
           <span v-if="roomData.equipment.breakfast"><font-awesome-icon :icon="['fas', 'mug-saucer']" /></span>
           <span v-if="roomData.equipment.bathtub"><font-awesome-icon :icon="['fas', 'bath']" /></span>
-          <span v-if="roomData.equipment.wifi"><font-awesome-icon :icon="['fas', 'wifi']" /></span>
+          <span v-if="roomData.equipment.wifi"><font-awesome-icon :icon="['fas', 'wifi']" /></span>        
         </div>
       </div>
       <h5>{{ roomData.discount }} * {{ hotelDiscount }} = {{ finalDiscountShow }} 折</h5>

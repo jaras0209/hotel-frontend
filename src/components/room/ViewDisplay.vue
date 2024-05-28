@@ -14,7 +14,7 @@
           is-range
         ></v-date-picker>
       </div>
-      <div class="dateCheck-reset" @click="$emit('resetRange')">重新選取</div>
+      <div type="button" class="btn btn-secondary"  @click="$emit('resetRange')">重新選取</div>
     </div>
   </div>
 </template>

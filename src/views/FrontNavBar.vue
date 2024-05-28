@@ -17,11 +17,9 @@
               aria-expanded="false">客房介紹</a>
             <ul class="dropdown-menu">
               <li>
-                <RouterLink class="dropdown-item" to="/room/front/booking">Room Information</RouterLink>
                 <RouterLink class="dropdown-item" to="/room/front/standard">標準客房</RouterLink>
                 <RouterLink class="dropdown-item" to="/room/front/executive">商務客房</RouterLink>
                 <RouterLink class="dropdown-item" to="/room/front/deluxe">尊榮套房</RouterLink>
-                <RouterLink class="dropdown-item" to="/room/front/standard">住客評語</RouterLink>
               </li>
             </ul>
           </li>
@@ -30,18 +28,19 @@
             <RouterLink class="nav-link" to="/room/front/roomView">roomView</RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/front/booking">立即訂房</RouterLink>
+            <RouterLink class="nav-link" to="/room/front/minibar">RoomService</RouterLink>
           </li>
+          
           <li class="nav-item">
             <RouterLink class="nav-link" to="/room/front/checkAvailability">空房查詢</RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/front/minibar">RoomService</RouterLink>
+            <RouterLink class="nav-link" to="/room/front/reviews">住客評語</RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/front/reviews">評論</RouterLink>
+            <RouterLink class="nav-link" to="/room/front/booking">線上訂房</RouterLink>
           </li>
-
+          
           <li class="nav-item" v-if="!user">
             <RouterLink class="nav-link" to="/member/login">登入/註冊</RouterLink>
           </li>
