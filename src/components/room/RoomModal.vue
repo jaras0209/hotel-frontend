@@ -38,6 +38,7 @@ function closeModal() {
 }
 
 defineExpose({ showModal });
+
 </script>
 
 <style scoped>

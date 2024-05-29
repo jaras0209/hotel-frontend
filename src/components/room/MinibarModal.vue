@@ -3,12 +3,13 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">{{ item.name }}</h5>
+          <h5 class="modal-title">{{ item.item }}</h5>
         </div>
         <div class="modal-body">
+          <p>商品編號: {{ item.id }}</p>
           <p>價格: NT$ {{ item.price }}</p>
           <p>保存期限: {{ item.make }}</p>
-          <p>剩下: {{ item.expire }}</p>
+          <p>商品庫存: {{ item.expire }}</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" @click="closeModal">Close</button>
@@ -25,16 +26,17 @@ const props = defineProps(["item"]);
 const emits = defineEmits(["close"]);
 const isVisible = ref(false);
 
+function showModal() {
+  isVisible.value = true;
+}
+
 function closeModal() {
   isVisible.value = false;
   emits("close");
 }
 
-function showModal() {
-  isVisible.value = true;
-}
-
 defineExpose({ showModal });
+
 </script>
 
 <style scoped>

@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <RouterLink class="navbar-brand hotel" to="/"><img src="/logo.png" alt="Logo" style="width:40px; border-radius: 40px;">&nbsp;&nbsp;FreeRelx HOTEL</RouterLink>
+      <RouterLink class="navbar-brand hotel" to="/"><img src="/Logo.png" alt="Logo" style="width:40px; border-radius: 40px;">&nbsp;&nbsp;FreeRelx HOTEL</RouterLink>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
         data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
         aria-label="Toggle navigation">
@@ -11,57 +11,44 @@
 
         <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
 
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/room/front/frontIndex">frontIndex</RouterLink>
+          </li>   
+
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="/room/roomInfo" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">客房介紹</a>
             <ul class="dropdown-menu">
               <li>
-                <RouterLink class="dropdown-item" to="/room/front/booking">Room Information</RouterLink>
-                <RouterLink class="dropdown-item" to="/room/front/deluxe">Deluxe</RouterLink>
-                <RouterLink class="dropdown-item" to="/room/front/executive">Executive</RouterLink>
-                <RouterLink class="dropdown-item" to="/room/front/standard">Standard</RouterLink>
+                <RouterLink class="dropdown-item" to="/room/front/standard">標準客房</RouterLink>
+                <RouterLink class="dropdown-item" to="/room/front/executive">商務客房</RouterLink>
+                <RouterLink class="dropdown-item" to="/room/front/deluxe">尊榮套房</RouterLink>
               </li>
             </ul>
           </li>
 
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/front/frontIndex">frontIndex</RouterLink>
+          
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="/room/roomInfo" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">房務管理</a>
+            <ul class="dropdown-menu">
+              <li>
+                <RouterLink class="dropdown-item" to="/room/back/roomManagement">客房管理</RouterLink>
+                <RouterLink class="dropdown-item" to="/room/back/roomAssignment">分配房型</RouterLink>
+                <RouterLink class="dropdown-item" to="/room/back/housingManagement">住房管理</RouterLink>
+                <RouterLink class="dropdown-item" to="/room/back/additionalCharges">附加費用</RouterLink>
+                <RouterLink class="dropdown-item" to="/room/back/checkOut">賠償費用</RouterLink>
+                <RouterLink class="dropdown-item" to="/room/back/roomInfo">編輯房型</RouterLink>
+              </li>
+            </ul>
           </li>
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/front/booking">booking</RouterLink>
-          </li>
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/front/checkAvailability">空房查詢</RouterLink>
-          </li>
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/front/minibar">RoomService</RouterLink>
-          </li>
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/front/reviews">評論</RouterLink>
-          </li>
+            
           <li class="nav-item">
             <RouterLink class="nav-link" to="/room/back/backIndex">backIndex</RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/back/housingManagement">住房管理</RouterLink>
+            <RouterLink class="nav-link" to="/room/calendar">123</RouterLink>
           </li>
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/back/additionalCharges">附加費</RouterLink>
-          </li>
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/back/checkOut">賠償費</RouterLink>
-          </li>
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/back/roomAssignment">分配房型</RouterLink>
-          </li>
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/back/roomInfo">編輯房型</RouterLink>
-          </li>
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/back/roomManagement">客房管理</RouterLink>
-          </li>
-
-
 
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"

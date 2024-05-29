@@ -1,4 +1,5 @@
 <template>
+    <FrontNavBar></FrontNavBar>
   <div id="app" class="container">
     <div>
       <h1>房間搜尋</h1>
@@ -61,12 +62,15 @@
       </div>
     </div>
   </div>
+  <Footer></Footer>
 </template>
 
 <script setup>
+import FrontNavBar from '../../FrontNavBar.vue';
 import axiosapi from '@/plugins/axios.js';
 import { roomsData } from '@/assets/roomsdata.js';
 import { reactive, ref } from 'vue';
+import Footer from '@/components/room/Footer.vue';
 
 // 狀態和資料定義
 const rooms = reactive([...roomsData]);
@@ -243,5 +247,9 @@ hr {
 
 .text-right {
   text-align: right;
+}
+Footer{
+  position: fixed;
+  bottom: 0;
 }
 </style>
