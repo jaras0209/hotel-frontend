@@ -1,4 +1,5 @@
 <template>
+    <NavigationBar></NavigationBar>
     <form class="row g-3">
 
         <div class="col-md-3">
@@ -112,6 +113,7 @@
 </template>
     
 <script setup>
+    import NavigationBar from '../NavigationBar.vue';
     import { ref, onMounted } from 'vue';
     import { useRouter } from 'vue-router';
     import Swal from 'sweetalert2';

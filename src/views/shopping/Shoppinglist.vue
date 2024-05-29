@@ -23,6 +23,7 @@ import Swal from "sweetalert2"
 import axiosapi from "@/plugins/axios.js"
 import Paginate from 'vuejs-paginate-next';
 import ProductRows from "@/components/shopping/ProductRows.vue";
+import router from '@/router/router';
 const all = ref({});
 const pages = ref(100);
 const current = ref(50);
@@ -68,7 +69,13 @@ function callFind(page) {
             icon: 'error',
             allowOutsideClick: false,
             confirmButtonText: '確認',
-        });
+        }).then(function (){
+            if (error.response.status==403){
+                router.push({name:"login-link"})
+            }
+        })
+
+
     });
 }
 

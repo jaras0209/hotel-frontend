@@ -6,6 +6,7 @@ import unauthorized from "./backendUnauthorized.vue";
 import roomService from "./backendRoomService.vue";
 import backendMember from './backendMember.vue';
 import backendShopping from './backendShopping.vue';
+import employee from './employees.vue';
 
 //設定路由網址
 export default [
@@ -15,6 +16,7 @@ export default [
     { name: "backend-roomService-link", path: "/backend/roomService", component: roomService ,meta: { requiresAuth: true , roles:['RoomService', 'GeneralManger']} },
     { name: "backend-memberManage-link", path: "/backend/memberManage", component: backendMember ,meta: { requiresAuth: true , roles:['MemberManager', 'GeneralManger']} },
     { name: "backend-mallManage-link", path: "/backend/shoppingManage", component: backendShopping ,meta: { requiresAuth: true , roles:['Purchaser', 'GeneralManger']} },
+    { name: "backend-employeeManage-link", path: "/backend/employeeManage", component: employee ,meta: { requiresAuth: true , roles:['GeneralManger']} },
     { name: "backend-unauthorized-link", path: "/backend/unauthorized", component: unauthorized },
 
 ];

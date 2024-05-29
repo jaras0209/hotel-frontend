@@ -94,7 +94,9 @@
             </a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="#" @click="doclickShow" >資料修改</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><RouterLink class="dropdown-item" to="/member/orderHistory">訂房紀錄</RouterLink></li>
+              <li><RouterLink class="dropdown-item" to="/member/orderHome">訂房</RouterLink></li>
+
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="#" @click="logout">登出</a></li>
             </ul>
@@ -147,12 +149,12 @@ const photoFile = ref(null);
     // 使用 Proxy 處理數據
     const handler = {
       set(target, property, value) {
-        console.log(`Setting ${property} to ${value}`);
+        // console.log(`Setting ${property} to ${value}`);
         target[property] = value;
         return true;
       },
       get(target, property) {
-        console.log(`Getting ${property}`);
+        // console.log(`Getting ${property}`);
         return target[property];
       }
     };
@@ -170,14 +172,14 @@ const photoFile = ref(null);
                 // console.log(areaList.value);
             }
         }
-        console.log(json.length)
+        // console.log(json.length)
     }
 
 function logout() {
   sessionStorage.removeItem('user');
   axiosapi.defaults.headers.authorization = '';
   axiosapi.put(`hotel/member/logout/${userId}`).then(function(response){}).catch(function(error){})
-  console.log("logout", userId)
+  // console.log("logout", userId)
   sessionStorage.removeItem("userId")
   router.go(0);
 }
@@ -200,7 +202,7 @@ function doclickShow(){
         console.log("userData.value", typeof(userData.value.contactAddress))
         addressCounty.value = userData.value.contactAddress.substr(0,3);
         addressArea.value = userData.value.contactAddress.substr(3,3);
-        console.log(addressArea.value)
+        // console.log(addressArea.value)
         addressRoadname.value = userData.value.contactAddress.substr(6);
       }).catch(function (error){
         console.log("error", error);
