@@ -37,7 +37,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="offcanvasNavbarDropdown">
                     <li><a class="dropdown-item" href="#" @click="revisePassword">修改密碼</a></li>
-                    <li><a class="dropdown-item" href="#" @click="revisePassword">個人修改</a></li>
+                    <!-- <li><a class="dropdown-item" href="#" @click="revisePassword">個人修改</a></li> -->
                     <li>
                         <hr class="dropdown-divider">
                     </li>

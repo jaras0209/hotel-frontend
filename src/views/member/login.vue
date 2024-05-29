@@ -103,9 +103,15 @@ function login() {
         } else {
             console.log("error")
             message.value = response.data.message;
-            setTimeout(function () {
-                Swal.close();
-            }, 500);
+            Swal.fire({
+                text:'失敗：'+response.data.message,
+                icon: 'error',
+                allowOutsideClick: false,
+                confirmButtonText: '確認',
+            });
+            // setTimeout(function () {
+            //     Swal.close();
+            // }, 500);
         }
 
     }).catch((error) => {
