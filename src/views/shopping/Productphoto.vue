@@ -1,9 +1,24 @@
 <template>
     <NavigationBar></NavigationBar>
-    <ProductPhotoupload :productid="productid" @upload="picture" @submit-form="picture1"></ProductPhotoupload>
-    <br><br><br><br><br><br>
-    <h1 v-if="find !== null">可刪除的圖片</h1>
-    <ProductPhotodelete v-for="find in find" :find="find" @decesion="decesion"></ProductPhotodelete>
+    <!-- 0529 -->
+
+    <body>
+        <div class="main">
+            <aside class="left">
+            </aside>
+            <main>
+                <ProductPhotoupload :productid="productid" @upload="picture" @submit-form="picture1">
+                </ProductPhotoupload>
+                <br><br><br><br><br>
+                <h1 v-if="find !== null">可刪除的圖片</h1>
+                <ProductPhotodelete v-for="find in find" :find="find" @decesion="decesion"></ProductPhotodelete>
+            </main>
+            <aside class="right">
+            </aside>
+        </div>
+    </body>
+    <footer>
+    </footer>
 </template>
 <script setup>
 import NavigationBar from '../NavigationBar.vue';
@@ -13,7 +28,7 @@ import ProductPhotoupload from '@/components/shopping/ProductPhotoupload.vue';
 import ProductPhotodelete from '@/components/shopping/ProductPhotodelete.vue';
 import { useRoute } from 'vue-router';
 import { ref, onMounted } from "vue";
-import xxx from "@/plugins/axios.js"
+import axiosapi from "@/plugins/axios.js"
 import Swal from "sweetalert2"
 const route = useRoute();
 const productid = route.params.productid;
@@ -25,7 +40,7 @@ function picture(event) {
     console.log(productid)
     console.log(event);
     photoFile.value = event.target.files[0];
-    console.log("photoFile.value",photoFile.value)
+    console.log("photoFile.value", photoFile.value)
 }
 //上傳檔案觸發
 function picture1() {
@@ -33,7 +48,7 @@ function picture1() {
     formData.append('productid', productid);
     formData.append('photoFile', photoFile.value);
     console.log("hahaah");
-    xxx.post('/hotel/photos/upload', formData, {
+    axiosapi.post('/hotel/photos/upload', formData, {
         headers: {
             'Content-Type': 'multipart/form-data'
         }
@@ -54,7 +69,7 @@ function picture1() {
 }
 //顯示出已有照片
 onMounted(function () {
-    xxx.get(`/hotel/photosALL/${productidpath.value}`).then(function (response) {
+    axiosapi.get(`/hotel/photosALL/${productidpath.value}`).then(function (response) {
         console.log("count", response);//個數
         find.value = response.data.list;//塞資料
         console.log(find.value);//個數
@@ -84,7 +99,7 @@ function decesion(id) {
                 showConfirmButton: false,
                 allowOutsideClick: false,
             });
-            xxx.delete(`/hotel/photos/${id}`).then(function (response) {
+            axiosapi.delete(`/hotel/photos/${id}`).then(function (response) {
                 if (response.data.success) {
                     Swal.fire({
                         text: response.data.message,
@@ -117,4 +132,62 @@ function decesion(id) {
 }
 </script>
 
-<style></style>
+<style scoped>
+* {
+    margin: 1px;
+    box-sizing: border-box;
+}
+
+body {
+    height: 95vh;
+    background: #34e7e4;
+    font-family: sans-serif;
+    text-align: start;
+    color: black;
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background: yellow;
+    padding: 2em 0 2em 0;
+}
+
+.left {
+    background: gainsboro;
+    padding: 3em 0 3em 0;
+    flex: 1 1 100px
+}
+
+main {
+    background: white;
+    padding: 3em 0 3em 0;
+    flex: 10 10 150px
+}
+
+.main {
+    display: flex;
+    flex: 1
+}
+
+.right {
+    background: gainsboro;
+    padding: 3em 0 3em 0;
+    flex: 1 1 100px
+}
+
+footer {
+    background: burlywood;
+}
+
+@media all and (max-width: 550px) {
+    .main {
+        flex-direction: column;
+    }
+
+    main {
+        padding: 5em 0 5em 0;
+    }
+}
+</style>

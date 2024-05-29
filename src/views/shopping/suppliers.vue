@@ -1,5 +1,6 @@
 <template>
     <NavigationBar></NavigationBar>
+    <!-- 0529 -->
     <div class="col-4">
         <button type="button" class="btn btn-primary" @click="openModal('insert')">
             新增廠商
@@ -22,7 +23,7 @@ import { useRouter } from "vue-router"//路由
 const router = useRouter();//路由
 import SupplierCard from "@/components/shopping/SupplierCard.vue";
 import Swal from "sweetalert2"
-import xxx from "@/plugins/axios.js"
+import axiosapi from "@/plugins/axios.js"
 import { ref, onMounted } from "vue";
 import SupplierModal from "@/components/shopping/SupplierModal.vue";
 const SupplierModalRef = ref(null)
@@ -39,7 +40,7 @@ function callFind() {
         showConfirmButton: false,
         allowOutsideClick: false,
     });
-    xxx.post("/hotel/suppliers/findall").then(function (response) {
+    axiosapi.post("/hotel/suppliers/findall").then(function (response) {
         console.log("response", response);
         console.log("response", response.data.list);
         suppliers.value = response.data.list;
@@ -82,7 +83,7 @@ function callRemove(id) {
                 showConfirmButton: false,
                 allowOutsideClick: false,
             });
-            xxx.delete(`/hotel/suppliers/${id}`).then(function (response) {
+            axiosapi.delete(`/hotel/suppliers/${id}`).then(function (response) {
                 if (response.data.success) {
                     Swal.fire({
                         text: response.data.message,
@@ -119,7 +120,7 @@ function callFindById(id) {
         showConfirmButton: false,
         allowOutsideClick: false,
     });
-    xxx.get(`/hotel/suppliers/${id}`).then(function (response) {
+    axiosapi.get(`/hotel/suppliers/${id}`).then(function (response) {
         console.log("response", response.data.list[0]);
         if (response.data.list[0] != 0) {
             supplier.value = response.data.list[0];
@@ -146,7 +147,7 @@ function callCreate() {
     });
     let data = supplier.value
     console.log(data);
-    xxx.post("/hotel/suppliers", data).then(function (response) {
+    axiosapi.post("/hotel/suppliers", data).then(function (response) {
         console.log(data);
         if (response.data.success) {
             Swal.fire({
@@ -179,7 +180,7 @@ function callCreate() {
 }
 function callModify(id) {
     let data = supplier.value;
-    xxx.put(`/hotel/suppliers/${id}`, data).then(function (response) {
+    axiosapi.put(`/hotel/suppliers/${id}`, data).then(function (response) {
         if (response.data.success) {
             Swal.fire({
                 text: response.data.message,

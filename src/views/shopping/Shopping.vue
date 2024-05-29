@@ -1,5 +1,7 @@
 <template>
     <NavigationBar></NavigationBar>
+    <!-- 0529 -->
+
     <body>
         <div class="main">
             <main>
@@ -31,7 +33,7 @@ import Swal from "sweetalert2"
 const route = useRoute();
 import { ref, onMounted } from "vue";
 const id = route.params.id;
-import xxx from "@/plugins/axios.js"
+import axiosapi from "@/plugins/axios.js"
 const find = ref({});
 const pic = ref(0)
 const pict = ref(0)
@@ -57,7 +59,7 @@ onMounted(function () {
     userId.value = sessionStorage.getItem("userId")
     callFindid(id)
     callFindProduct(id)
-    xxx.get(`/hotel/carts/mes/${userId.value}`).then(function (response) {
+    axiosapi.get(`/hotel/carts/mes/${userId.value}`).then(function (response) {
         people.value = response.data.listt[0]
         console.log(people.value)
         memberid.value = people.value.memberid
@@ -82,7 +84,7 @@ function callFindid(id) {
         showConfirmButton: false,
         allowOutsideClick: false,
     });
-    xxx.get(`/hotel/products/${id}`).then(function (response) {
+    axiosapi.get(`/hotel/products/${id}`).then(function (response) {
         if (response.data.list[0] != 0) {
             find.value = response.data.list;
             console.log(find.value)
@@ -103,7 +105,7 @@ function callFindid(id) {
     });
 }
 function callFindProduct(id) {
-    xxx.get(`/hotel/photosALL/${id}`).then(function (response) {
+    axiosapi.get(`/hotel/photosALL/${id}`).then(function (response) {
         console.log("count", response.data.list.length);
         console.log("list", response.data.list);
         if (response.data.list[0]) {
@@ -135,7 +137,7 @@ function cart(id) {
         "productId": id,
         "quality": data.value,
     }
-    xxx.post(`/hotel/carts/post`, send).then(function (response) {
+    axiosapi.post(`/hotel/carts/post`, send).then(function (response) {
         Swal.fire({
             position: "top-end",
             icon: "success",
@@ -180,7 +182,7 @@ function comment() {
             "login_status": loginstatus.value
         }
     }
-    xxx.post(`/hotel/comments`, send).then(function (response) {
+    axiosapi.post(`/hotel/comments`, send).then(function (response) {
         Swal.fire({
             position: "top-end",
             icon: "success",
@@ -205,7 +207,7 @@ function comment() {
 }
 function callcoment() {
     console.log(productName.value)
-    xxx.get(`/hotel/comments/instances/${productName.value}`).then(function (response) {
+    axiosapi.get(`/hotel/comments/instances/${productName.value}`).then(function (response) {
         instancecomment.value = response.data
         console.log(instancecomment.value)
     }).catch(function (error) {

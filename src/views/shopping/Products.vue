@@ -1,5 +1,6 @@
 <template>
     <NavigationBar></NavigationBar>
+    <!-- 0529 -->
     <h1>{{ $route.params.name }}</h1>
     <div class="col-4">
         <button type="button" class="btn btn-primary" @click="openModal('insert')">
@@ -21,7 +22,7 @@
 import NavigationBar from '../NavigationBar.vue';
 import { useRoute } from 'vue-router';
 import Swal from "sweetalert2"
-import xxx from "@/plugins/axios.js"
+import axiosapi from "@/plugins/axios.js"
 import ProductCard from '@/components/shopping/ProductCard.vue';
 import { ref, onMounted } from "vue";
 import ProductModal from '@/components/shopping/ProductModal.vue';
@@ -31,6 +32,8 @@ const productss = ref({});
 const practice2 = ref(null)
 const oneproduct = ref({})
 const isShowButtonInsert = ref(true);
+const oldprice = ref(null)
+const newprice = ref(null)
 onMounted(function () {
     callFind()
 })
@@ -48,7 +51,7 @@ function callFind() {
     console.log(demoValue)
     console.log("callFind");
     console.log();
-    xxx.get(`/hotel/products/owner/${demoValue}`).then(function (response) {
+    axiosapi.get(`/hotel/products/owner/${demoValue}`).then(function (response) {
         console.log("count", response.data.count);
         console.log("response", response.data.list);
         productss.value = response.data.list;
@@ -71,8 +74,10 @@ function callFindById(id) {
         showConfirmButton: false,
         allowOutsideClick: false,
     });
-    xxx.get(`/hotel/products/${id}`).then(function (response) {
+    axiosapi.get(`/hotel/products/${id}`).then(function (response) {
         console.log("response", response.data.list[0]);
+        oldprice.value = response.data.list[0].productPrice;
+        console.log(oldprice.value)
         if (response.data.list[0] != 0) {
             oneproduct.value = response.data.list[0];
         }
@@ -97,7 +102,7 @@ function callCreate() {
     });
     let data = oneproduct.value;
     console.log(data);
-    xxx.post("/hotel/products", data).then(function (response) {
+    axiosapi.post("/hotel/products", data).then(function (response) {
         if (response.data.success) {
             Swal.fire({
                 text: response.data.message,
@@ -143,7 +148,7 @@ function callRemove(id) {
                 showConfirmButton: false,
                 allowOutsideClick: false,
             });
-            xxx.delete(`/hotel/products/${id}`).then(function (response) {
+            axiosapi.delete(`/hotel/products/${id}`).then(function (response) {
                 if (response.data.success) {
                     Swal.fire({
                         text: response.data.message,
@@ -184,7 +189,20 @@ function callModify(id) {
         allowOutsideClick: false,
     });
     let data = oneproduct.value;
-    xxx.put("/hotel/products/modify", data).then(function (response) {
+    console.log(oneproduct.value.productPrice)
+    //異動訊息
+    if (oneproduct.value.productPrice !== oldprice.value) {
+        let alert = {
+            "productId": id
+        }
+        axiosapi.post("/hotel/alerts/post", alert).then(function (response) {
+            console.log(response)
+        }).catch(function (error) {
+            console.log(error)
+        })
+    }
+    //異動訊息
+    axiosapi.put("/hotel/products/modify", data).then(function (response) {
         if (response.data.success) {
             Swal.fire({
                 text: response.data.message,
