@@ -1,5 +1,5 @@
     <template>
-        <FrontNavBar></FrontNavBar>
+  <FrontNavBar class="sticky-top"></FrontNavBar>
         <div  class="row">
         <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2500">
         <div class="carousel-inner">

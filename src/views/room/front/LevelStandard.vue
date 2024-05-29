@@ -1,5 +1,5 @@
 <template>
-    <FrontNavBar></FrontNavBar>
+  <FrontNavBar class="sticky-top"></FrontNavBar>
     <swiper :style="{
         '--swiper-navigation-color': '#fff',
         '--swiper-pagination-color': '#fff',
@@ -12,7 +12,7 @@
       }" data-swiper-parallax="-23%"></div>
       <swiper-slide>
         <div class="title" data-swiper-parallax="-300">標準樓層</div>
-        <div class="subtitle" data-swiper-parallax="-200">Subtitle</div>
+        <div class="subtitle" data-swiper-parallax="-200">介紹</div>
         <div class="text" data-swiper-parallax="-100">
           <p>
             在舒適的空間設計及完善的週邊配備之下，
@@ -22,7 +22,7 @@
         </div>
       </swiper-slide><swiper-slide>
         <div class="title" data-swiper-parallax="-300">標準樓層</div>
-        <div class="subtitle" data-swiper-parallax="-200">介紹</div>
+        <div class="subtitle" data-swiper-parallax="-200">設備</div>
         <div class="text" data-swiper-parallax="-100">
           <p>
             電腦自動門鎖

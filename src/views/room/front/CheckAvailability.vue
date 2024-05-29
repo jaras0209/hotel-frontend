@@ -1,5 +1,5 @@
 <template>
-  <FrontNavBar></FrontNavBar>
+  <FrontNavBar class="sticky-top"></FrontNavBar>
   
   <div class="main-container">
     <RoomCalendar v-for="(room, index) in roomsData" :key="index" :room="room" />

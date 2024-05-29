@@ -1,5 +1,5 @@
 <template>
-    <FrontNavBar></FrontNavBar>
+  <FrontNavBar class="sticky-top"></FrontNavBar>
     <swiper :style="{
         '--swiper-navigation-color': '#fff',
         '--swiper-pagination-color': '#fff',

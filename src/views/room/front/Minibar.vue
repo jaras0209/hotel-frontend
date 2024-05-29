@@ -1,5 +1,5 @@
 <template>
-  <FrontNavBar></FrontNavBar>
+  <FrontNavBar class="sticky-top"></FrontNavBar>
   <div class="container">
     <h1 class="row mb-6 justify-content-center">Minibar</h1>
     <div class="row mb-3 justify-content-center align-items-center">
@@ -194,5 +194,7 @@ function closeModal() {
 </script>
 
 <style scoped>
-/* 你的樣式 */
+/* .sticky-bottom{
+  margin-top:autp;
+} */
 </style>

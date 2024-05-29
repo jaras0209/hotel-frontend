@@ -1,5 +1,5 @@
 <template>
-  <FrontNavBar></FrontNavBar>
+  <FrontNavBar class="sticky-top"></FrontNavBar>
     <swiper
       :loop="true"
       :navigation="true"
@@ -13,24 +13,19 @@
       <swiper-slide v-for="(room, index) in rooms" :key="index">
         <img :src="room.cover" alt="Room Image" />
       </swiper-slide>
-    </swiper>   
-    <br />
+    </swiper>
 
-    <ViewDisplay :range="dateRange" @update:range="updateDateRange" />
+    <!-- <ViewDisplay :range="dateRange" @update:range="updateDateRange" /> -->
     <div id="app" class="container">
-    <div>
-      <h1>房間搜尋</h1>
-      <div>
+    <div class="row">
+      <div class="col-sm-12">
+        <br />
+        <h1 class="title">房間列表</h1>
+        <div class="text-right">
         <label for="budgetPrice">預算價格</label>
         <input type="number" v-model="budgetPrice" id="budgetPrice" placeholder="請輸入預算價格">
         <button @click="searchRooms">搜尋</button>
       </div>
-    </div>
-
-    <div class="row">
-      <div class="col-sm-12">
-        <br />
-        <h1>房間列表</h1>
         <hr />
         <div class="row">
           <div class="col-sm-4 col-room" v-for="(room, id) in filteredRoomsForList" :key="id">
@@ -46,13 +41,12 @@
       </div>
     </div>
   </div>
-  <Footer></Footer>
-  <div>1212</div>
+  <!-- <Footer class="sticky-bottom"></Footer> -->
 </template>
 <script setup>
 import FrontNavBar from '../../FrontNavBar.vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
-import ViewDisplay from '@/components/room/ViewDisplay.vue';
+// import ViewDisplay from '@/components/room/ViewDisplay.vue';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -60,7 +54,7 @@ import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import RoomData from '@/components/room/RoomData.vue';
 import { roomsData } from '@/assets/roomsdata.js';
 import { reactive, ref, computed } from 'vue';
-import Footer from '@/components/room/Footer.vue';
+// import Footer from '@/components/room/Footer.vue';
 
 const rooms = reactive([...roomsData]);
 const hotelDiscount = ref(0.9);
@@ -195,8 +189,22 @@ body {
 hr {
   border-top: 1px solid #ccc;
 }
-Footer{
-  position: fixed;
-  bottom: 0;
+
+.text-right {
+  text-align: right;
 }
+
+.title {
+  text-align: center;
+  color: #343a40;
+}
+
+// .sticky-footer{
+//   display: flex;
+//   flex-direction: column;
+//   min-height: 100vh;
+// }
+// .sticky-bottom{
+//   margin-top:autp;
+// }
 </style>

@@ -31,6 +31,5 @@
   </script>
   
   <style scoped>
-  /* 样式代码保持不变 */
   </style>
   

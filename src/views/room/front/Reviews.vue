@@ -1,5 +1,6 @@
 <template>
-    <FrontNavBar></FrontNavBar><picture>
+  <FrontNavBar class="sticky-top"></FrontNavBar>
+    <picture>
       <source media="(min-width: )" srcset="">
       <img src="" alt="">
     </picture>

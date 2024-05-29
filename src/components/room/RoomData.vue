@@ -53,6 +53,9 @@ const props = defineProps({
     required: true
   }
 });
+const addRoom = () => {
+window.location.href = "/room/front/roomView";
+};
 
 const bgCss = computed(() => {
   return {
