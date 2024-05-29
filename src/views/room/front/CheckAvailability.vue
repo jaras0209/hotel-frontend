@@ -1,7 +1,8 @@
 <template>
   <FrontNavBar></FrontNavBar>
+  
   <div class="main-container">
-    <RoomCalendar v-for="roomId in roomIds" :key="roomId" :room-id="roomId" />
+    <RoomCalendar v-for="(room, index) in roomsData" :key="index" :room="room" />
   </div>
   <Footer></Footer>
 </template>
@@ -10,9 +11,7 @@
 import FrontNavBar from '@/views/FrontNavBar.vue';
 import RoomCalendar from '@/components/room/RoomCalendar.vue';
 import Footer from '@/components/room/Footer.vue';
-
-
-const roomIds = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+import { roomsData } from '@/assets/roomsdata.js';
 </script>
 
 <style scoped>

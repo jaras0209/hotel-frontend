@@ -2,7 +2,7 @@
   <nav class="navbar navbar-expand-lg custom-navbar">
     <div class="container-fluid">
       <RouterLink class="navbar-brand hotel" to="/room/front/frontIndex">
-        <img src="/logo.png" alt="Logo" class="brand-logo">&nbsp;&nbsp;FreeRelx HOTEL
+        <img src="/Logo.png" alt="Logo" class="brand-logo">&nbsp;&nbsp;FreeRelx HOTEL
       </RouterLink>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
         data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"

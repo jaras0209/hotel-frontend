@@ -1,6 +1,8 @@
 // JavaScript
 export const roomsData = [
     {
+        "id":1,
+        "type":1,
         "name": "標準客房",
         "eng": "Economy Room",
         "price": 7000,
@@ -14,6 +16,8 @@ export const roomsData = [
         }
     },
     {
+        "id":2,
+        "type":1,
         "name": "精緻客房",
         "eng": "Exquisite room",
         "price": 7800,
@@ -26,7 +30,9 @@ export const roomsData = [
             "breakfast": true
         }
     },
-    {
+    {   
+        "id":3,
+        "type":1,
         "name": "豪華客房",
         "eng": "Luxury room",
         "price": 8600,
@@ -40,6 +46,8 @@ export const roomsData = [
         }
     },
     {
+        "id":4,
+        "type":1,
         "name": "豪華家庭房",
         "eng": "Deluxe family room",
         "price": 8200,
@@ -53,6 +61,8 @@ export const roomsData = [
         }
     },
     {
+        "id":5,
+        "type":2,
         "name": "標準商務房",
         "eng": "Standard business room",
         "price": 8200,
@@ -66,6 +76,8 @@ export const roomsData = [
         }
     },
     {
+        "id":6,
+        "type":2,
         "name": "尊榮商務房",
         "eng": "Premier business room",
         "price": 9600,
@@ -79,6 +91,8 @@ export const roomsData = [
         }
     },
     {
+        "id":7,
+        "type":3,
         "name": "大使套房",
         "eng": "Ambassador Suite",
         "price": 12800,
@@ -92,6 +106,8 @@ export const roomsData = [
         }
     },
     {
+        "id":8,
+        "type":3,
         "name": "皇家套房",
         "eng": "Royal Suite",
         "price": 22800,
@@ -105,6 +121,8 @@ export const roomsData = [
         }
     },
     {
+        "id":9,
+        "type":3,
         "name": "總統套房",
         "eng": "Presidential Suite",
         "price": 30000,

@@ -54,7 +54,7 @@
                     <div class="col-lg-3  col-md-6 col-sm-6">
                         <div class="single-footer-widget">
                             <h6 class="footer_title"></h6>
-                            <img src="/logo.png" alt="Logo" style="width:75%; border-radius: 40px;">
+                            <img src="/Logo.png" alt="Logo" style="width:75%; border-radius: 40px;">
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 col-sm-6">

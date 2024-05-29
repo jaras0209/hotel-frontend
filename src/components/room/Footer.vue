@@ -6,7 +6,7 @@
             <div class="single-footer-widget">
               <h6 class="footer_title"></h6>
               <RouterLink class="navbar-brand hotel" to="/room/front/frontIndex">
-                <img src="/logo.png" alt="Logo" class="brand-logo">
+                <img src="/Logo.png" alt="Logo" class="brand-logo">
                 <div class="hotel-text">&nbsp;&nbsp;FreeRelx HOTEL</div>
               </RouterLink>
             </div>

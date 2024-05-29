@@ -46,7 +46,8 @@
       </div>
     </div>
   </div>
-  <!-- <Footer></Footer> -->
+  <Footer></Footer>
+  <div>1212</div>
 </template>
 <script setup>
 import FrontNavBar from '../../FrontNavBar.vue';
@@ -59,6 +60,7 @@ import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import RoomData from '@/components/room/RoomData.vue';
 import { roomsData } from '@/assets/roomsdata.js';
 import { reactive, ref, computed } from 'vue';
+import Footer from '@/components/room/Footer.vue';
 
 const rooms = reactive([...roomsData]);
 const hotelDiscount = ref(0.9);
@@ -192,5 +194,9 @@ body {
 
 hr {
   border-top: 1px solid #ccc;
+}
+Footer{
+  position: fixed;
+  bottom: 0;
 }
 </style>

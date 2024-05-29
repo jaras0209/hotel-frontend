@@ -1,8 +1,10 @@
 <template>
-    <FrontNavBar></FrontNavBar>
-    <div>
+    <FrontNavBar></FrontNavBar><picture>
+      <source media="(min-width: )" srcset="">
+      <img src="" alt="">
+    </picture>
     <Footer></Footer>
-  </div>
+
 </template>
     
 <script setup>

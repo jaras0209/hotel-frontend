@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <RouterLink class="navbar-brand hotel" to="/"><img src="/logo.png" alt="Logo" style="width:40px; border-radius: 40px;">&nbsp;&nbsp;FreeRelx HOTEL</RouterLink>
+      <RouterLink class="navbar-brand hotel" to="/"><img src="/Logo.png" alt="Logo" style="width:40px; border-radius: 40px;">&nbsp;&nbsp;FreeRelx HOTEL</RouterLink>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
         data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
         aria-label="Toggle navigation">
@@ -42,8 +42,7 @@
               </li>
             </ul>
           </li>
-          
-   
+            
           <li class="nav-item">
             <RouterLink class="nav-link" to="/room/back/backIndex">backIndex</RouterLink>
           </li>

@@ -87,7 +87,7 @@
     </script>
     
     <style scoped>
-    /* General Styles */
+    
     body {
         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
         background-color: #fff;
