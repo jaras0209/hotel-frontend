@@ -9,12 +9,24 @@
                     :pictu="pictu" @cart="cart" :options="options" v-model="data">
                 </ShoppingCard>
                 <br><br><br><br><br><br>
-                <button type="button" @click="comment" style="background-color: aquamarine;">評論送出</button>
-                <input type="text" v-model="commentmessage" placeholder="詳細說明您的想法" width="50%">
+                <div id="commemtblock">
+                    <div>
+                        <h2 v-show="disabled">評論區</h2>
+                    </div>
+                    <div>
+                        <textarea type="text" v-model="commentmessage" placeholder="詳細說明您的想法" width="50%"
+                            v-show="disabled" rows="4" cols="70"></textarea>
+                    </div>
+                    <div>
+                        <button type="button" @click="comment" style="background-color: aquamarine;"
+                            v-show="disabled">評論送出</button>
+                    </div>
+                </div>
             </main>
         </div>
         <CommentCard v-for="comment in instancecomment" :memberName="comment.member.memberName"
-            :commentText="comment.commentText" :commentmemberId="comment.member.memberId" :userId="userId">
+            :commentText="comment.commentText" :commentmemberId="comment.member.memberId" :userId="userId"
+            :commentId="comment.commentId" @delet="dodelet" @method-result="handleMethodResult">
         </CommentCard>
     </body>
     <footer>
@@ -55,6 +67,7 @@ const logintime = ref(null)
 const loginstatus = ref(null)
 const userId = ref(null)
 const instancecomment = ref({})
+const disabled = ref(true)
 onMounted(function () {
     userId.value = sessionStorage.getItem("userId")
     callFindid(id)
@@ -79,11 +92,6 @@ onMounted(function () {
     });
 })
 function callFindid(id) {
-    Swal.fire({
-        text: "Loading......",
-        showConfirmButton: false,
-        allowOutsideClick: false,
-    });
     axiosapi.get(`/hotel/products/${id}`).then(function (response) {
         if (response.data.list[0] != 0) {
             find.value = response.data.list;
@@ -214,6 +222,28 @@ function callcoment() {
         console.log("callFindById error", error);
     });
 }
+function handleMethodResult(result) {
+    console.log("父元件收到方法的返回值：", result);
+    disabled.value = result
+}
+function dodelet(x) {
+    axiosapi.delete(`/hotel/comments/instances/${x}`).then(function (response) {
+        Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "刪除成功",
+            showConfirmButton: false,
+            allowOutsideClick: false,
+            timer: 1300
+        });
+        setTimeout(function () {
+            Swal.close();
+            router.go(0);
+        }, 1000);
+    }).catch(function (error) {
+        console.log(error)
+    })
+}
 </script>
 <style scoped>
 * {
@@ -277,5 +307,9 @@ footer {
 .card {
     background: white;
     margin-bottom: 10px
+}
+
+textarea {
+    resize: none;
 }
 </style>
