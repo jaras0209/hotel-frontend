@@ -1,4 +1,5 @@
 <template>
+    <!-- 0529 -->
     <NavigationBar></NavigationBar>
     <table class="table">
         <thead>
@@ -32,7 +33,7 @@ import { useRouter } from "vue-router"
 const router = useRouter();
 const options = ref([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20])
 import { ref, onMounted } from "vue";
-import xxx from "@/plugins/axios.js"
+import axiosapi from "@/plugins/axios.js"
 const result = ref({})
 const disabled = ref(false) // red
 const disabledd = ref(true) // green
@@ -56,9 +57,8 @@ function cliick(quantity, productid) {
         "productId": productid,
         "memberId": userId.value
     }
-    xxx.put("/hotel/carts/modify", data).then(function (response) {
+    axiosapi.put("/hotel/carts/modify", data).then(function (response) {
         console.log(response);
-        router.go(0)
     }).catch(function (error) {
         console.log(error);
     });
@@ -67,7 +67,7 @@ function cart() {
     let send = {
         "memberId": userId.value,
     }
-    xxx.post(`/hotel/carts/find`, send).then(function (response) {
+    axiosapi.post(`/hotel/carts/find`, send).then(function (response) {
         console.log(response.data.list);
         result.value = response.data.list
     }).catch(function (error) {
@@ -86,7 +86,7 @@ function cliick2(productid) {
         "productId": productid,
         "memberId": userId.value
     }
-    xxx.put("/hotel/carts/checkoutchange", data).then(function (response) {
+    axiosapi.put("/hotel/carts/checkoutchange", data).then(function (response) {
         console.log(response);
         cart();//但我覺得這個寫法不好////////////////////////////////////////////////////////////////////////////////////
         router.go(0)
@@ -100,7 +100,7 @@ function move(productid) {
         "productId": productid,
         "memberId": userId.value
     }
-    xxx.put("/hotel/carts/delete", data).then(function (response) {
+    axiosapi.put("/hotel/carts/delete", data).then(function (response) {
         console.log(response);
         cart();//但我覺得這個寫法不好////////////////////////////////////////////////////////////////////////////////////
     }).catch(function (error) {
@@ -112,7 +112,7 @@ function all() {
     let send = {
         "memberId": userId.value,
     }
-    xxx.post(`/hotel/carts/selectall`, send).then(function (response) {
+    axiosapi.post(`/hotel/carts/selectall`, send).then(function (response) {
         console.log(response);
         cart();//但我覺得這個寫法不好////////////////////////////////////////////////////////////////////////////////////
     }).catch(function (error) {

@@ -1,5 +1,7 @@
 <template>
     <NavigationBar></NavigationBar>
+    <!-- 0529 -->
+
     <body>
         <div class="main">
             <main>
@@ -7,12 +9,24 @@
                     :pictu="pictu" @cart="cart" :options="options" v-model="data">
                 </ShoppingCard>
                 <br><br><br><br><br><br>
-                <button type="button" @click="comment" style="background-color: aquamarine;">評論送出</button>
-                <input type="text" v-model="commentmessage" placeholder="詳細說明您的想法" width="50%">
+                <div id="commemtblock">
+                    <div>
+                        <h2 v-show="disabled">評論區</h2>
+                    </div>
+                    <div>
+                        <textarea type="text" v-model="commentmessage" placeholder="詳細說明您的想法" width="50%"
+                            v-show="disabled" rows="4" cols="70"></textarea>
+                    </div>
+                    <div>
+                        <button type="button" @click="comment" style="background-color: aquamarine;"
+                            v-show="disabled">評論送出</button>
+                    </div>
+                </div>
             </main>
         </div>
         <CommentCard v-for="comment in instancecomment" :memberName="comment.member.memberName"
-            :commentText="comment.commentText" :commentmemberId="comment.member.memberId" :userId="userId">
+            :commentText="comment.commentText" :commentmemberId="comment.member.memberId" :userId="userId"
+            :commentId="comment.commentId" @delet="dodelet" @method-result="handleMethodResult">
         </CommentCard>
     </body>
     <footer>
@@ -31,7 +45,7 @@ import Swal from "sweetalert2"
 const route = useRoute();
 import { ref, onMounted } from "vue";
 const id = route.params.id;
-import xxx from "@/plugins/axios.js"
+import axiosapi from "@/plugins/axios.js"
 const find = ref({});
 const pic = ref(0)
 const pict = ref(0)
@@ -53,11 +67,12 @@ const logintime = ref(null)
 const loginstatus = ref(null)
 const userId = ref(null)
 const instancecomment = ref({})
+const disabled = ref(true)
 onMounted(function () {
     userId.value = sessionStorage.getItem("userId")
     callFindid(id)
     callFindProduct(id)
-    xxx.get(`/hotel/carts/mes/${userId.value}`).then(function (response) {
+    axiosapi.get(`/hotel/carts/mes/${userId.value}`).then(function (response) {
         people.value = response.data.listt[0]
         console.log(people.value)
         memberid.value = people.value.memberid
@@ -77,12 +92,7 @@ onMounted(function () {
     });
 })
 function callFindid(id) {
-    Swal.fire({
-        text: "Loading......",
-        showConfirmButton: false,
-        allowOutsideClick: false,
-    });
-    xxx.get(`/hotel/products/${id}`).then(function (response) {
+    axiosapi.get(`/hotel/products/${id}`).then(function (response) {
         if (response.data.list[0] != 0) {
             find.value = response.data.list;
             console.log(find.value)
@@ -103,7 +113,7 @@ function callFindid(id) {
     });
 }
 function callFindProduct(id) {
-    xxx.get(`/hotel/photosALL/${id}`).then(function (response) {
+    axiosapi.get(`/hotel/photosALL/${id}`).then(function (response) {
         console.log("count", response.data.list.length);
         console.log("list", response.data.list);
         if (response.data.list[0]) {
@@ -135,7 +145,7 @@ function cart(id) {
         "productId": id,
         "quality": data.value,
     }
-    xxx.post(`/hotel/carts/post`, send).then(function (response) {
+    axiosapi.post(`/hotel/carts/post`, send).then(function (response) {
         Swal.fire({
             position: "top-end",
             icon: "success",
@@ -180,7 +190,7 @@ function comment() {
             "login_status": loginstatus.value
         }
     }
-    xxx.post(`/hotel/comments`, send).then(function (response) {
+    axiosapi.post(`/hotel/comments`, send).then(function (response) {
         Swal.fire({
             position: "top-end",
             icon: "success",
@@ -205,12 +215,34 @@ function comment() {
 }
 function callcoment() {
     console.log(productName.value)
-    xxx.get(`/hotel/comments/instances/${productName.value}`).then(function (response) {
+    axiosapi.get(`/hotel/comments/instances/${productName.value}`).then(function (response) {
         instancecomment.value = response.data
         console.log(instancecomment.value)
     }).catch(function (error) {
         console.log("callFindById error", error);
     });
+}
+function handleMethodResult(result) {
+    console.log("父元件收到方法的返回值：", result);
+    disabled.value = result
+}
+function dodelet(x) {
+    axiosapi.delete(`/hotel/comments/instances/${x}`).then(function (response) {
+        Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "刪除成功",
+            showConfirmButton: false,
+            allowOutsideClick: false,
+            timer: 1300
+        });
+        setTimeout(function () {
+            Swal.close();
+            router.go(0);
+        }, 1000);
+    }).catch(function (error) {
+        console.log(error)
+    })
 }
 </script>
 <style scoped>
@@ -275,5 +307,9 @@ footer {
 .card {
     background: white;
     margin-bottom: 10px
+}
+
+textarea {
+    resize: none;
 }
 </style>

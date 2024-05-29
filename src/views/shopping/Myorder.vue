@@ -1,5 +1,7 @@
 <template>
     <NavigationBar></NavigationBar>
+    <!-- 0529 -->
+
     <body>
         <div class="main">
             <aside class="left">
@@ -35,7 +37,7 @@
 import NavigationBar from '../NavigationBar.vue';
 import MyorderComponents from '@/components/shopping/MyorderComponents.vue';
 import { ref, onMounted } from "vue";
-import xxx from "@/plugins/axios.js"
+import axiosapi from "@/plugins/axios.js"
 const result = ref({})
 const userId = ref(null)
 onMounted(function () {
@@ -43,7 +45,7 @@ onMounted(function () {
     myorder()
 })
 function myorder() {
-    xxx.get(`/hotel/orders/mes/${userId.value}`).then(function (response) {
+    axiosapi.get(`/hotel/orders/mes/${userId.value}`).then(function (response) {
         console.log(response);
         result.value = response.data.list
         console.log(result.value)
