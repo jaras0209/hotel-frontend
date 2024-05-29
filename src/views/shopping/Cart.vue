@@ -69,6 +69,7 @@ function cart() {
     }
     axiosapi.post(`/hotel/carts/find`, send).then(function (response) {
         console.log(response.data.list);
+        console.log(response.data.list.length)
         result.value = response.data.list
     }).catch(function (error) {
         console.log("callFind error", error);

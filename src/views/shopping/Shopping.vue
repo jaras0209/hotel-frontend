@@ -1,6 +1,6 @@
 <template>
     <NavigationBar></NavigationBar>
-    <!-- 0529 -->
+    <!-- 0530 -->
 
     <body>
         <div class="main">
@@ -15,18 +15,29 @@
                     </div>
                     <div>
                         <textarea type="text" v-model="commentmessage" placeholder="詳細說明您的想法" width="50%"
-                            v-show="disabled" rows="4" cols="70"></textarea>
+                            v-if="disabled" rows="4" cols="70"></textarea>
+                        <img src="@/assets/images/blackstar1.jpg" alt="..." width="70px" @click="changecolor1" id="img1"
+                            v-if="disabled">
+                        <img src="@/assets/images/blackstar2.jpg" alt="..." width="70px" @click="changecolor2" id="img2"
+                            v-if="disabled">
+                        <img src="@/assets/images/blackstar3.jpg" alt="..." width="70px" @click="changecolor3" id="img3"
+                            v-if="disabled">
+                        <img src="@/assets/images/blackstar4.jpg" alt="..." width="70px" @click="changecolor4" id="img4"
+                            v-if="disabled">
+                        <img src="@/assets/images/blackstar5.jpg" alt="..." width="70px" @click="changecolor5" id="img5"
+                            v-if="disabled">
                     </div>
                     <div>
                         <button type="button" @click="comment" style="background-color: aquamarine;"
-                            v-show="disabled">評論送出</button>
+                            v-if="disabled">評論送出</button>
                     </div>
                 </div>
             </main>
         </div>
         <CommentCard v-for="comment in instancecomment" :memberName="comment.member.memberName"
             :commentText="comment.commentText" :commentmemberId="comment.member.memberId" :userId="userId"
-            :commentId="comment.commentId" @delet="dodelet" @method-result="handleMethodResult">
+            :commentId="comment.commentId" @delet="dodelet" @method-result="handleMethodResult" :score="comment.score"
+            :create="comment.createDate">
         </CommentCard>
     </body>
     <footer>
@@ -68,6 +79,7 @@ const loginstatus = ref(null)
 const userId = ref(null)
 const instancecomment = ref({})
 const disabled = ref(true)
+const score = ref(1)
 onMounted(function () {
     userId.value = sessionStorage.getItem("userId")
     callFindid(id)
@@ -174,7 +186,7 @@ function comment() {
         "commentText": commentmessage.value,
         "situationType": "商品品質",
         "typeInstance": productName.value,
-        "score": 5,
+        "score": score.value,
         "member": {
             "memberId": userId.value,
             "name": name.value,
@@ -243,6 +255,46 @@ function dodelet(x) {
     }).catch(function (error) {
         console.log(error)
     })
+}
+function changecolor1() {
+    score.value = 1
+    document.getElementById("img1").src = "/src/assets/images/star1.jpg"
+    document.getElementById("img2").src = "/src/assets/images/blackstar2.jpg"
+    document.getElementById("img3").src = "/src/assets/images/blackstar3.jpg"
+    document.getElementById("img4").src = "/src/assets/images/blackstar4.jpg"
+    document.getElementById("img5").src = "/src/assets/images/blackstar5.jpg"
+}
+function changecolor2() {
+    score.value = 2
+    document.getElementById("img1").src = "/src/assets/images/star1.jpg"
+    document.getElementById("img2").src = "/src/assets/images/star2.jpg"
+    document.getElementById("img3").src = "/src/assets/images/blackstar3.jpg"
+    document.getElementById("img4").src = "/src/assets/images/blackstar4.jpg"
+    document.getElementById("img5").src = "/src/assets/images/blackstar5.jpg"
+}
+function changecolor3() {
+    score.value = 3
+    document.getElementById("img1").src = "/src/assets/images/star1.jpg"
+    document.getElementById("img2").src = "/src/assets/images/star2.jpg"
+    document.getElementById("img3").src = "/src/assets/images/star3.jpg"
+    document.getElementById("img4").src = "/src/assets/images/blackstar4.jpg"
+    document.getElementById("img5").src = "/src/assets/images/blackstar5.jpg"
+}
+function changecolor4() {
+    score.value = 4
+    document.getElementById("img1").src = "/src/assets/images/star1.jpg"
+    document.getElementById("img2").src = "/src/assets/images/star2.jpg"
+    document.getElementById("img3").src = "/src/assets/images/star3.jpg"
+    document.getElementById("img4").src = "/src/assets/images/star4.jpg"
+    document.getElementById("img5").src = "/src/assets/images/blackstar5.jpg"
+}
+function changecolor5() {
+    score.value = 5
+    document.getElementById("img1").src = "/src/assets/images/star1.jpg"
+    document.getElementById("img2").src = "/src/assets/images/star2.jpg"
+    document.getElementById("img3").src = "/src/assets/images/star3.jpg"
+    document.getElementById("img4").src = "/src/assets/images/star4.jpg"
+    document.getElementById("img5").src = "/src/assets/images/star5.jpg"
 }
 </script>
 <style scoped>
