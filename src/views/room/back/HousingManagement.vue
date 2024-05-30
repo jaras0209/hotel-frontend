@@ -1,5 +1,7 @@
 <template>
-    <div>
+      <BackendNavbar></BackendNavbar>
+      <div class="box">
+        <h1 class="title">住房管理</h1>
       <!-- <button @click="createAddition" class="btn btn-primary mb-3">新增</button> -->
       <AssignmentTable
         :assigns="assigns"
@@ -26,6 +28,7 @@
   </template>
   
   <script setup>
+  import BackendNavbar from '@/views/BackendNavbar.vue';
   import { ref, onMounted } from 'vue';
   import { useRouter } from 'vue-router';
   import axiosapi from '@/plugins/axios.js';
@@ -84,6 +87,10 @@
   </script>
   
   <style scoped>
+      .box{
+      margin-top: 100px;
+      text-align: center;
+  }
   .button-container {
     text-align: left;
     margin-bottom: 20px;

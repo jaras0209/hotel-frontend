@@ -6,7 +6,7 @@
 </template>
     
 <script setup>
-    import backendNavbar from '../backendNavbar.vue';
+    import backendNavbar from '../BackendNavbar.vue';
 </script>
     
 <style scoped>

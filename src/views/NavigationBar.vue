@@ -81,7 +81,10 @@
             </a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="#" @click="doclickShow" >資料修改</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><RouterLink class="dropdown-item" to="/member/orderHistory">訂房紀錄</RouterLink></li>
+              <li><RouterLink class="dropdown-item" to="/member/orderHome">訂房</RouterLink></li>
+              <li><a class="dropdown-item" href="#" @click="revisePassword">修改密碼</a></li>
+
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="#" @click="logout">登出</a></li>
             </ul>
@@ -107,6 +110,16 @@
       @selected="selected"
       @modify="callModify"
     ></MemberModal>
+
+    <MemberPassword
+      ref="memberPasswordRef"
+      :errorMess="errorMessg"
+      v-model:original="inputPass"
+      v-model:updatePassword="newPass"
+      v-model:againUpdatePassword="newPassAg"
+      @modify="modifyPassword"
+    >
+    </MemberPassword>
   </nav>
 </template>
 
@@ -115,7 +128,7 @@ import axiosapi from '@/plugins/axios.js';
 import { useRouter } from 'vue-router';
 import { ref, onMounted } from 'vue';
 import MemberModal from '@/components/member/MemberModal.vue';
-
+import MemberPassword from '@/components/member/memberPassword.vue';
 import json from '@/CityCountyData.json';// 可能可以改進
 import Swal from 'sweetalert2';
 
@@ -124,22 +137,30 @@ const user = sessionStorage.getItem('user');
 const userId = sessionStorage.getItem('userId');
 const userData = ref({});
 const memberRef = ref(null);
+const memberPasswordRef = ref(null);
 const addressCounty = ref("");
 const addressArea = ref("");
 const addressRoadname = ref("")
 const areaList = ref(null);
 const photoFile = ref(null);
+
+    //--------修改密碼
+    const inputPass = ref("");
+    const newPass = ref("");
+    const newPassAg = ref("");
+    const errorMessg = ref("");
+
 // const putData = FormData();
 //--------------------------------------------------
     // 使用 Proxy 處理數據
     const handler = {
       set(target, property, value) {
-        console.log(`Setting ${property} to ${value}`);
+        // console.log(`Setting ${property} to ${value}`);
         target[property] = value;
         return true;
       },
       get(target, property) {
-        console.log(`Getting ${property}`);
+        // console.log(`Getting ${property}`);
         return target[property];
       }
     };
@@ -157,14 +178,14 @@ const photoFile = ref(null);
                 // console.log(areaList.value);
             }
         }
-        console.log(json.length)
+        // console.log(json.length)
     }
 
 function logout() {
   sessionStorage.removeItem('user');
   axiosapi.defaults.headers.authorization = '';
   axiosapi.put(`hotel/member/logout/${userId}`).then(function(response){}).catch(function(error){})
-  console.log("logout", userId)
+  // console.log("logout", userId)
   sessionStorage.removeItem("userId")
   router.go(0);
 }
@@ -187,7 +208,7 @@ function doclickShow(){
         console.log("userData.value", typeof(userData.value.contactAddress))
         addressCounty.value = userData.value.contactAddress.substr(0,3);
         addressArea.value = userData.value.contactAddress.substr(3,3);
-        console.log(addressArea.value)
+        // console.log(addressArea.value)
         addressRoadname.value = userData.value.contactAddress.substr(6);
       }).catch(function (error){
         console.log("error", error);
@@ -293,6 +314,78 @@ function doclickShow(){
           confirmButtonText: '確認',
         });
       });
+    }
+
+    // 修改密碼
+    function revisePassword(){
+        errorMessg.value="";
+        inputPass.value="";
+        newPass.value="";
+        newPassAg.value=""
+        memberPasswordRef.value.showModal();
+    }   
+    function modifyPassword(){
+        Swal.fire({
+            text: "Loading...",
+            showConfirmButton: false,
+            allowOutsideClick: false,
+        });
+
+        if (inputPass.value === ""){
+            inputPass.value = null;
+        }
+        if (newPass.value === ""){
+            newPass.value = null;
+        }
+        if (newPassAg.value === ""){
+            newPassAg.value = null;
+        }
+
+        if (newPass.value != newPassAg.value){
+            errorMessg.value="兩次密碼輸入不一致";
+            setTimeout(function () {
+                    Swal.close();
+                }, 500);
+        }else{
+            errorMessg.value=""
+            let data = {
+                "memberId":userId,
+                "originPassword":inputPass.value,
+                "newPassword":newPass.value
+            }
+            console.log("data",data)
+            axiosapi.put(`/hotel/members/password/${userId}`, data).then(function (response){
+                console.log("response", response);
+                if (response.status==200){
+                    Swal.fire({
+                        text: '修改成功',
+                        icon: 'success',
+                        allowOutsideClick: false,
+                        confirmButtonText: '確認',
+                    }).then(function (){
+                        memberPasswordRef.value.hideModal();
+                    })
+                }
+            }).catch(function (error){
+                console.log("error", error.response.status);
+                if (error.response.status== 404){
+                    Swal.fire({
+                        text: "原始密碼錯誤，請重新輸入",
+                        icon: 'error',
+                        allowOutsideClick: false,
+                        confirmButtonText: '確認',
+                    });
+                }else{
+                    Swal.fire({
+                        text:'失敗：'+error.message,
+                        icon: 'error',
+                        allowOutsideClick: false,
+                        confirmButtonText: '確認',
+                    });
+                }
+            
+            })
+        }
     }
 
     onMounted(function (){

@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <BackendNavbar></BackendNavbar>
+
+  <div class="box">
+    <h1 class="title">附加費用</h1>
     <!-- <button @click="createAddition" class="btn btn-primary mb-3">新增</button> -->
     <AssignmentTable
       :assigns="assigns"
@@ -25,13 +28,14 @@
   </div>
 </template>
 
-<script setup>
-import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+    <script setup>
+import BackendNavbar from '@/views/BackendNavbar.vue';
+import AssignmentTable from '@/components/room/AdditionTable.vue';
 import axiosapi from '@/plugins/axios.js';
 import Swal from 'sweetalert2';
-import AssignmentTable from '@/components/room/AdditionTable.vue';
-import Paginate from 'vuejs-paginate-next'; // Uncomment if you need pagination
+import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
+// import Paginate from 'vuejs-paginate-next'; // Uncomment if you need pagination
 
 const assigns = ref([]);
 const currentPage = ref(1);
@@ -120,6 +124,10 @@ onMounted(() => {
 </script>
 
 <style scoped>
+  .box{
+      margin-top: 100px;
+      text-align: center;
+  }
 .button-container {
   text-align: left;
   margin-bottom: 20px;

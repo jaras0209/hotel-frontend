@@ -22,13 +22,13 @@ import Calendar from "./result.vue";
 
 
 export default [
-    {name: "additionalCharges-link", path: "/room/back/additionalCharges", component: AdditionalCharges},
+    {name: "additionalCharges-link", path: "/room/back/additionalCharges", component: AdditionalCharges,meta: { requiresAuth: true , roles:['Housekeeping', 'GeneralManger']} },
     {name: "backIndex-link", path: "/room/back/backIndex", component: BackIndex},
-    {name: "checkOut-link", path: "/room/back/checkOut", component: CheckOut},
-    {name: "housingManagement-link", path: "/room/back/housingManagement", component: HousingManagement},
-    {name: "roomAssignment-link", path: "/room/back/roomAssignment", component: RoomAssignment},
-    {name: "roomInfo-link", path: "/room/back/roomInfo", component: RoomInfo},
-    {name: "roomManagement-link", path: "/room/back/roomManagement", component: RoomManagement},
+    {name: "checkOut-link", path: "/room/back/checkOut", component: CheckOut,meta: { requiresAuth: true , roles:['Housekeeping', 'GeneralManger']} },
+    {name: "housingManagement-link", path: "/room/back/housingManagement", component: HousingManagement,meta: { requiresAuth: true , roles:['Housekeeping', 'GeneralManger']} },
+    {name: "roomAssignment-link", path: "/room/back/roomAssignment", component: RoomAssignment,meta: { requiresAuth: true , roles:['Housekeeping', 'GeneralManger']} },
+    {name: "roomInfo-link", path: "/room/back/roomInfo", component: RoomInfo,meta: { requiresAuth: true , roles:['GeneralManger']} },
+    {name: "roomManagement-link", path: "/room/back/roomManagement", component: RoomManagement,meta: { requiresAuth: true , roles:['Housekeeping', 'GeneralManger']} },
 
     {name: "booking-link", path: "/room/front/booking", component:Booking},
     {name: "checkAvailability-link", path: "/room/front/checkAvailability", component:CheckAvailability},

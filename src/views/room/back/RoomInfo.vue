@@ -1,4 +1,6 @@
 <template>
+    <BackendNavbar></BackendNavbar>
+    <br><br><br><br>
     <div id="app" class="container">
       <swiper :loop="true" :navigation="true" :modules="modules" :pagination="{ clickable: true }" :slides-per-view="1"
           :space-between="30" @slideChange="onSlideChange" class="mySwiper">
@@ -62,6 +64,7 @@
   <script setup>
   // Import Swiper Vue.js components
   import { Swiper, SwiperSlide } from "swiper/vue";
+  import BackendNavbar from '@/views/BackendNavbar.vue';
   
   // Import Swiper styles
   import "swiper/css";

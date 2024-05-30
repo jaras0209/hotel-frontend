@@ -12,7 +12,8 @@
           <th scope="col">附加費用</th>
           <th scope="col">退房檢查</th>
           <th scope="col">備註</th>
-          <th scope="col">控制</th>
+          <th scope="col">revise</th>
+          <th scope="col">delete</th>
         </tr>
       </thead>
       <tbody>
@@ -26,12 +27,9 @@
           <td>{{ assign.totalAdditional }}</td>
           <td>{{ assign.totalCompensation }}</td>
           <td>{{ assign.remarks }}</td>
-          <td>
-            <div>
-              <a href="#" @click.prevent="doclick1(assign.id)" class="btn btn btn-sm">增加</a>
-              <a href="#" @click.prevent="doclick2(assign.id)" class="btn btn btn-sm">減少</a>
-            </div>
-          </td>
+          <td><a href="#" @click.prevent="doclick1(assign.id)" class="btn btn-success">編輯</a></td>
+          <td><a href="#" @click.prevent="doclick2(assign.id)" class="btn btn-danger">刪除</a></td>
+
         </tr>
       </tbody>
     </table>

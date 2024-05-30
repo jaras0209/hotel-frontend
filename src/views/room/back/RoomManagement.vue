@@ -1,4 +1,6 @@
 <template>
+  <BackendNavbar></BackendNavbar>
+  <div class="box">
   <div class="container">
     <h1 class="title">客房管理</h1>
     <div class="pagination-controls">
@@ -21,9 +23,11 @@
       @close="closeModal">
     </RoomModal>
   </div>
+</div>
 </template>
 
 <script setup>
+import BackendNavbar from '@/views/BackendNavbar.vue';
 import { ref, onMounted } from 'vue';
 import RoomCard from '@/components/room/RoomCard.vue';
 import RoomModal from '@/components/room/RoomModal.vue';
@@ -95,6 +99,10 @@ function callFind(){
 </script>
 
 <style scoped>
+  .box{
+      margin-top: 100px;
+      text-align: center;
+  }
 .container {
   padding: 20px;
   background-color: #f8f9fa;

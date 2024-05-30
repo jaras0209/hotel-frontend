@@ -1,5 +1,7 @@
 <template>
     <NavigationBar></NavigationBar>
+    <!-- 0529 -->
+
     <body>
         <div class="main">
             <aside class="left">
@@ -36,6 +38,14 @@
                     <div>總金額為: {{ getTotalPrice() }}</div>
                     擁有<span>{{ bonus }}</span>紅利，使用<input type="number" style="width: 75px;" min="0" :max="bonus"
                         v-model="usebonus">紅利，需支付<span>{{ total - usebonus }}</span>
+                </div>
+                <div id="myid">
+                    <div class="container">
+                        <font-awesome-icon :icon="['fas', 'phone']" id="apple" />
+                        <font-awesome-icon :icon="['fas', 'bullhorn']" id="banana" />
+                        <font-awesome-icon :icon="['fas', 'message']" id="orange" />
+                        <font-awesome-icon :icon="['fas', 'circle-exclamation']" id="cookie" />
+                    </div>
                 </div>
                 <br><br>
                 <div class="parent1">
@@ -83,7 +93,7 @@
                     <div class="child2">
                         <div class="mb-3">
                             <label for="formGroupExampleInput2" class="form-label"
-                                style="width: 120px; font-size: 18px; height: 28px; border-radius: 5px;">姓名</label>
+                                style="width: 95%; font-size: 18px; height: 28px; border-radius: 5px;">姓名</label>
                             <input type="text" id="formGroupExampleInput" v-model="name">
                         </div>
                         <div class="mb-3">
@@ -129,7 +139,7 @@ import CheckCartComponents from '@/components/shopping/CheckCartComponents.vue'
 import { useRouter } from "vue-router"
 const router = useRouter();
 import { ref, onMounted } from "vue";
-import xxx from "@/plugins/axios.js"
+import axiosapi from "@/plugins/axios.js"
 import Swal from "sweetalert2"
 //收件人START
 const result = ref({})
@@ -173,7 +183,7 @@ function cart() {
     let send = {
         "memberId": userId.value,
     }
-    xxx.post(`/hotel/carts/check`, send).then(function (response) {
+    axiosapi.post(`/hotel/carts/check`, send).then(function (response) {
         console.log(response.data.list);
         result.value = response.data.list
     }).catch(function (error) {
@@ -187,7 +197,7 @@ function cart() {
     });
 }
 function people() {
-    xxx.get(`/hotel/carts/mes/${userId.value}`).then(function (response) {
+    axiosapi.get(`/hotel/carts/mes/${userId.value}`).then(function (response) {
         message.value = response.data.listt[0];
         console.log(message.value)
         bonus.value = Math.ceil(response.data.listt[0].bonus)
@@ -237,7 +247,7 @@ function dopay() {
                 "payeradress": payercity.value + payerdistricts.value + payeraddressback.value,
                 "usebonus": usebonus.value
             }
-            xxx.post(`/hotel/carts/order`, data).then(function (response) {
+            axiosapi.post(`/hotel/carts/order`, data).then(function (response) {
                 Swal.fire({ title: "謝謝您的購買!", }).then(
                     function (result) {
                         if (result.isConfirmed) {
@@ -2063,5 +2073,57 @@ footer {
     height: 150px;
     border-radius: 3px;
     border: 1px solid #ace7ef;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20vh;
+}
+
+#apple,
+#banana,
+#cookie,
+#orange {
+    font-size: 2em;
+    background-color: rgb(100, 221, 128);
+    color: #fff;
+    box-shadow: 2px 2px #00000080, 10px 1px 3px #00000080, 2px 2px 3px #00000080, 2px 2px 3px #00000080,
+        inset 2px 2px 3px #00000080, inset 2px 2px 3px #00000080, inset 2px 2px 3px #00000080, inset 2px 2px 3px #00000080;
+    border-radius: 9px;
+    padding: 11px 19px;
+    margin: 0 40px;
+    animation: animate 4s linear infinite;
+    cursor: pointer;
+}
+
+#banana {
+    animation-delay: 1s;
+}
+
+#cookie {
+    animation-delay: 2s;
+}
+
+#orange {
+    animation-delay: 3s;
+}
+
+@keyframes animate {
+    from {
+        filter: hue-rotate(0deg);
+    }
+
+    to {
+        filter: hue-rotate(360deg)
+    }
 }
 </style>

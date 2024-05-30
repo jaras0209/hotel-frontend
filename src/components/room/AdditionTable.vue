@@ -8,7 +8,8 @@
           <th scope="col">商品編號</th>
           <th scope="col">數量</th>
           <th scope="col">價格</th>
-          <th scope="col">控制</th>
+          <th scope="col">revise</th>
+          <th scope="col">delete</th>
         </tr>
       </thead>
       <tbody>
@@ -18,12 +19,9 @@
           <td>{{ assign.additionalChargesId.minibarId }}</td>
           <td>{{ assign.quantity }}</td>
           <td>{{ assign.amount }}</td>
-          <td>
-            <div>
-              <a href="#" @click.prevent="doclick1(assign.id)" class="btn btn-sm">增加</a>
-              <a href="#" @click.prevent="doclick2(assign.id)" class="btn btn-sm">減少</a>
-            </div>
-          </td>
+          <td><a href="#" @click.prevent="doclick1(assign.id)" class="btn btn-success">編輯</a></td>
+          <td><a href="#" @click.prevent="doclick2(assign.id)" class="btn btn-danger">刪除</a></td>
+
         </tr>
       </tbody>
     </table>

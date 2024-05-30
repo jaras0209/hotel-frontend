@@ -8,7 +8,8 @@
           <th scope="col">總共間數</th>
           <th scope="col">剩餘間數</th>
           <th scope="col">日期</th>
-          <th scope="col">控制</th>
+          <th scope="col">增加</th>
+          <th scope="col">減少</th>
         </tr>
       </thead>
       <tbody>
@@ -18,12 +19,8 @@
           <td>{{ assign.roomInformation.total }}</td>
           <td>{{ assign.left }}</td>
           <td>{{ assign.date }}</td>
-          <td>
-            <div>
-              <a href="#" @click.prevent="doclick1(assign.id)" class="btn btn btn-sm">增加</a>
-              <a href="#" @click.prevent="doclick2(assign.id)" class="btn btn btn-sm">減少</a>
-            </div>
-          </td>
+          <td><a href="#" @click.prevent="doclick1(assign.id)" class="btn btn btn-sm">增加</a></td>
+          <td><a href="#" @click.prevent="doclick2(assign.id)" class="btn btn btn-sm">減少</a></td>
         </tr>
       </tbody>
     </table>

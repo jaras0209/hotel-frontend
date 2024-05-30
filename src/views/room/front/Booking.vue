@@ -132,6 +132,7 @@ import FrontNavBar from '../../FrontNavBar.vue';
 import axiosapi from '@/plugins/axios.js';
 import { roomsData } from '@/assets/roomsdata.js';
 import { reactive, ref, onMounted } from 'vue';
+import Swal from 'sweetalert2';
 
 // 取得當天日期並格式化為 YYYY-MM-DD
 const getTodayDate = () => {
@@ -173,6 +174,12 @@ const clearAll = () => {
 
 // 搜尋房間
 const searchRooms = async () => {
+  Swal.fire({
+    text: "Loading......",
+    showConfirmButton: false,
+    allowOutsideClick: false,
+  });
+
   let availableRooms = [];
   if (checkInDate.value) {
     try {
@@ -215,6 +222,7 @@ const searchRooms = async () => {
   );
 
   sortRooms();
+  Swal.close();
 };
 
 // 房間排序
