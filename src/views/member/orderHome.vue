@@ -19,22 +19,33 @@
             <h2>1. 選擇房型</h2>
             <form @submit.prevent="nextStep(2)">
             <label for="checkin-date">入住日期:</label>
-            <input type="date" v-model="formData.checkinDate" required><br>
+            <FlatPickr class="form-select" v-model="checkInDate" id="checkin-date" @change="findCheckStartChange"/><br>
+            <!-- <input type="date" v-model="checkInDate" required @change=""><br> -->
     
             <label for="checkout-date">退房日期:</label>
-            <input type="date" v-model="formData.checkoutDate" required><br>
+            <FlatPickr class="form-select" v-model="checkOutDate" id="checkout-date" @change="findCheckEndChange"/><br>
+            <!-- <input type="date" v-model="formData.checkoutDate" required><br> -->
     
             <label for="room-type">房型:</label>
-            <select v-model="formData.roomType" required>
+            <input type="text" v-model="roomType" required class="form-control" disabled><br>
+            <!-- <select v-model="formData.roomType" required>
                 <option value="standard">標準房</option>
                 <option value="deluxe">豪華房</option>
                 <option value="suite">套房</option>
-            </select><br>
-    
-            <label for="guests">入住人數:</label>
-            <input type="number" v-model="formData.guests" min="1" max="10" required><br>
+            </select><br> -->
             <div class="d-flex justify-content-evenly">
-                <button type="submit" class="btn btn-outline-success">下一步</button>
+
+            <div class="col-md-5">
+            <label for="guests">入住大人人數:</label>
+                <input type="number" v-model="formData.adults" min="1" max="10" required class="form-control"><br>
+            </div>
+            <div class="col-md-5">
+            <label for="guests">入住小孩人數:</label>
+                <input type="number" v-model="formData.children" min="0" max="10" required class="form-control"><br>
+            </div>
+        </div>
+            <div class="d-flex justify-content-evenly">
+                <button type="submit" class="btn btn-outline-success" @click="checkFormData">下一步</button>
             </div>
             </form>
         </div>
@@ -153,7 +164,10 @@
                     <p>房型: {{ formData.roomType }}</p>
                     <p>入住日期: {{ formData.checkinDate }}</p>
                     <p>退房日期: {{ formData.checkoutDate }}</p>
-                    <p>入住人數: {{ formData.guests }}</p>
+                    <p>入住大人人數: {{ formData.adults }}</p>
+                    <p>入住小孩人數: {{ formData.children }}</p>
+                    <p>價格: {{ basePrice }}</p>
+                    
                 </div>
                 <div>
                     <h3>訂房個人資料</h3>
@@ -228,7 +242,7 @@
             </div>
             <div class="d-flex justify-content-evenly">
                 <button  @click="previousStep(2)" class="btn btn-outline-success">上一步</button>
-                <button @click="nextStep(4)" class="btn btn-outline-success">確認並繼續</button>                
+                <button @click="nextStep(4);buildOrder()" class="btn btn-outline-success">確認並繼續</button>                
             </div>
         </div>
     
@@ -264,15 +278,30 @@
     import NavigationBar from '../NavigationBar.vue';
     import FlatPickr from 'vue-flatpickr-component';
     import countries from '@/Country.json';
-    import { ref } from 'vue';
+    import axiosapi from '@/plugins/axios.js';
+    import { ref, onMounted } from 'vue';
+    import { useRoute } from 'vue-router';
+    import Swal from 'sweetalert2';
+    
+
+    const route = useRoute();
     const currentStep = ref(1);
+
+    const checkInDate = ref('');
+    const checkOutDate = ref('');
+    const basePrice = ref('');
+    const roomInfoId = ref('');
+    const roomType = ref('');
+
     const steps = ref(["選擇房型", "填寫資料", "確認畫面", "付款"]);
     const isNotSamePerson = ref(false)
     const formData = ref({
+        userId: '',
         checkinDate: '',
         checkoutDate: '',
-        roomType: 'standard',
-        guests: 1,
+        roomType: '',
+        adults: 1,
+        children:0,
         name: '',
         phone: '',
         email: '',
@@ -312,8 +341,140 @@
         // Handle payment submission logic here
         alert('付款成功');
     };
-    
 
+    // 在第一次填完資料時就塞入會員資料
+    function checkFormData(){
+        formData.value.roomType = roomType.value;
+        if (sessionStorage.getItem("userId")){
+            formData.value.userId = sessionStorage.getItem("userId")
+            formData.value.name = sessionStorage.getItem("name");
+            formData.value.sexual = sessionStorage.getItem("gender");
+            formData.value.birth = sessionStorage.getItem("birth");
+            formData.value.nationId = sessionStorage.getItem("national_id");
+            formData.value.email = sessionStorage.getItem("email");
+            formData.value.phone = sessionStorage.getItem("phone_number");
+            formData.value.transPassword = sessionStorage.getItem("password");
+            formData.value.nationality = sessionStorage.getItem("nationality");
+        }
+
+        console.log(formData)
+    }
+
+    function findCheckStartChange(date) {
+        checkInDate.value = date.target.value;
+        if (checkOutDate.value != null && checkInDate.value > checkOutDate.value) {
+            checkOutDate.value = checkInDate.value;
+        }
+        formData.value.checkinDate = checkInDate.value;
+    }
+
+    function findCheckEndChange(date) {
+        checkOutDate.value = date.target.value;
+        if (checkInDate.value != null && checkInDate.value > checkOutDate.value) {
+            checkInDate.value = checkOutDate.value;
+        }
+        formData.value.checkoutDate = checkOutDate.value;
+    }
+
+    // 訂單成立
+    function buildOrder(){
+        if (formData.value.spname===''){
+            formData.value.spname = null;
+        }
+        if (formData.value.spphone===''){
+            formData.value.spphone = null;
+        }
+        if (formData.value.spnationId===''){
+            formData.value.spnationId = null;
+        }
+        if (formData.value.spemail===''){
+            formData.value.spemail = null;
+        }
+        if (formData.value.spbirth===''){
+            formData.value.spbirth = null;
+        }
+        if (formData.value.spsexual===''){
+            formData.value.spsexual = null;
+        }
+        if (formData.value.requests===''){
+            formData.value.requests = null;
+        }
+        if (formData.value.userId===''){
+            formData.value.userId = null;
+        }
+
+        let data ={
+            "order_person_name": formData.value.name,
+            "gender": formData.value.sexual,
+            "birth": formData.value.birth,
+            "national_id": formData.value.nationId,
+            "email": formData.value.email,
+            "phone_number": formData.value.phone,
+            "credit_card": null,
+            "adult_pax": 2,
+            "child_pax": 1,
+            "room_type_amount": 1,
+            "arrival_date": formData.value.checkinDate +" "+formData.value.checkinTime+":00.0",
+            "checkout_date": formData.value.checkoutDate + " 00:00:00.0",
+            "transaction_password": formData.value.transPassword,
+            "base_price":  basePrice.value,
+            "remark":formData.value.requests,
+            "member_id": formData.value.userId
+        }
+
+
+        console.log(data);
+        axiosapi.post('hotel/orderRoom/add', data).then(function (response){
+            console.log("response",response);
+            if (response.data.success){
+                axiosapi.get(`hotel/orderRoom/latest/${formData.value.name}`).then(function (response){
+                    console.log("response from findLatest order", response);
+                    if (response.data.success){
+                        let detailData = {
+                            "roomAmount": 1,
+                            "price": basePrice.value,
+                            "id": {
+                                "orderId": response.data.orderId,
+                                "roomInformationId": roomInfoId.value
+                            }
+                        }
+
+                        axiosapi.post('hotel/orderRooms/detail', detailData).then(function (response){
+                            console.log("respose in create orderDetail", response);
+                            if (response.status==201){
+                                Swal.fire({
+                                    text: "下單成功",
+                                    icon: 'success',
+                                    allowOutsideClick: false,
+                                    confirmButtonText: '確認',
+                                })
+                            }
+                        }).catch(function (error){
+                            console.log("error in create orderDetail", error)
+                        })
+                    }
+                    
+                    
+                }).catch(function (error){
+                    console.log("error from findLatest order", error);
+                })
+            }
+        }).catch(function (error){
+            console.log("error", error)
+        })
+    }
+
+    
+    onMounted(function (){
+        const queryString = route.query;
+        checkInDate.value = queryString.checkInDate || '';
+        basePrice.value = queryString.price || '';
+        roomInfoId.value = queryString.id || '';
+        roomType.value = queryString.typeName || '';
+
+
+        console.log("userData.value",sessionStorage.getItem("userData"))
+    })
 </script>
 
 <style scoped>

@@ -227,10 +227,11 @@ const goOrder = () => {
   const payload = {
     checkInDate: checkInDate.value,
     price: selectedRoom.value.price,
-    id: selectedRoom.value.id
+    id: selectedRoom.value.id,
+    typeName:selectedRoom.value.name,
   };
   const queryString = new URLSearchParams(payload).toString();
-  window.location.href = `/room?${queryString}`;
+  window.location.href = `/member/orderHome?${queryString}`;    // `/room?${queryString}`;
 };
 
 onMounted(() => {
