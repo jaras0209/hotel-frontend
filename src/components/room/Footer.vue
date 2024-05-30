@@ -5,7 +5,7 @@
           <div class="col-lg-3 col-md-6 col-sm-6">
             <div class="single-footer-widget">
               <h6 class="footer_title"></h6>
-              <RouterLink class="navbar-brand hotel" to="/room/front/frontIndex">
+              <RouterLink class="navbar-brand hotel" to="/">
                 <img src="/Logo.png" alt="Logo" class="brand-logo">
                 <div class="hotel-text">&nbsp;&nbsp;FreeRelx HOTEL</div>
               </RouterLink>
