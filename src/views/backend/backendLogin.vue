@@ -104,6 +104,7 @@
                         // window.location.href = '/backend/home';
                         store.commit('setAuthentication', true);
                         store.commit('setUserRole', response.data.position);
+                        console.log('setUserRole', response.data.position);
                         router.push({name:"backend-home-link"});
                     }
                 });

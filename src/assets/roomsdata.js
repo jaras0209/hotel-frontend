@@ -127,7 +127,7 @@ export const roomsData = [
         "eng": "Presidential Suite",
         "price": 30000,
         "amount": 0,
-        "cover": "https://www.grand-hilai.com/room/upload/room_list_pic/twL_room_23A31_vkmebrt3ks.jpg",
+        "cover": "https://s.yimg.com/ny/api/res/1.2/pk2B1_Nn2Opf2CgIuBO6Ag--/YXBwaWQ9aGlnaGxhbmRlcjt3PTk2MDtoPTU0MDtjZj13ZWJw/https://media.zenfs.com/en/nownews.com/2c734ac1f9d0bdfc0d27e98bfda65e51",
         "discount": 1.0,
         "equipment": {
             "wifi": true,

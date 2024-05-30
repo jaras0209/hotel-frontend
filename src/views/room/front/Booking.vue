@@ -2,28 +2,52 @@
   <FrontNavBar class="sticky-top"></FrontNavBar>
   <div id="app" class="container">
     <div>
-      <h1>快速訂房</h1>
-
-      <!-- 開啟進階篩選 Modal 的按鈕 -->
-      <button @click="showModal = true">進階篩選</button>
-
-      <!-- 新的篩選條件：入住日期 -->
-      <label for="checkInDate">入住日期</label>
-      <input type="date" v-model="checkInDate" id="checkInDate" />
-
-      <!-- 搜尋按鈕 -->
-      <button @click="searchRooms">搜尋</button>
-
-      <!-- 排序按鈕 -->
-      <div class="sorting-buttons">
-        <button :class="{ active: sortType === 'recommend' }" @click="sortRooms('recommend')">最佳推薦</button>
-        <button :class="{ active: sortType === 'lowToHigh' }" @click="sortRooms('lowToHigh')">金額由低到高</button>
-        <button :class="{ active: sortType === 'highToLow' }" @click="sortRooms('highToLow')">金額由高到低</button>
+      <br>
+      <div class="text-center">
+        <h1>快速訂房</h1>
+        <br>
+        <table class="center-table">
+          <tr>
+            <td>
+              <!-- 篩選條件：入住日期 -->
+              <label for="checkInDate">入住日期</label>
+              <input type="date" v-model="checkInDate" id="checkInDate" />
+            </td>
+            <td>
+              <!-- 新增夜數選擇 -->
+              <label for="nights">夜數</label>
+              <select v-model="nights" id="nights">
+                <option v-for="n in 7" :key="n" :value="n">{{ n }}</option>
+              </select>
+            </td>
+            <td>
+              <!-- 開啟進階篩選 Modal 的按鈕 -->
+              <button @click="showModal = true">進階篩選</button>
+            </td>
+            <td>
+              <!-- 顯示已套用的篩選條件 -->
+              <div v-if="selectedRoomNames.length || checkInDate">
+                <p v-if="selectedRoomNames.length">篩選條件: {{ selectedRoomNames.join(', ') }}</p>
+              </div>
+            </td>
+            <td>
+              <!-- 搜尋按鈕 -->
+              <button @click="searchRooms">搜尋</button>
+            </td>
+          </tr>
+        </table>
       </div>
     </div>
+    <br>
+    <!-- 排序按鈕 -->
+    <div class="sorting-buttons">
+      <button :class="{ active: sortType === 'recommend' }" @click="sortRooms('recommend')">最佳推薦</button>
+      <button :class="{ active: sortType === 'lowToHigh' }" @click="sortRooms('lowToHigh')">金額由低到高</button>
+      <button :class="{ active: sortType === 'highToLow' }" @click="sortRooms('highToLow')">金額由高到低</button>
+    </div>
+    <hr />
     <div class="row">
       <div class="col-sm-12">
-        <hr />
         <div v-for="room in filteredRooms" :key="room.name" class="room">
           <div class="row align-items-center">
             <div class="col-sm-4">
@@ -40,6 +64,8 @@
             </div>
             <div class="col-sm-4 text-right">
               <p>價格: {{ room.price }}</p>
+              <!-- 顯示剩餘房間數量 -->
+              <p v-if="roomInfo[room.id]">剩餘{{ roomInfo[room.id].left }}間房</p>
               <button class="btn btn-secondary" @click="showBookingModal(room)">立即下訂</button>
             </div>
           </div>
@@ -50,7 +76,7 @@
     <!-- 詳細內容 Modal -->
     <div v-if="showDetail" class="modal">
       <div class="modal-content">
-        <h2>客房詳細內容</h2>
+        <h2>詳細內容</h2>
         <div v-if="detailPage === 1">
           <p>客房設備:</p>
           <p>個人衛浴清潔用品, 梳子, 刮鬍刀, 網際網路, 淋浴間, 浴缸, 浴巾, 毛巾, 吹風機, 免治馬桶, 電視, 付費電視, 中英日電視節目, 冰箱, 電話, 電子保險箱, 鬧鐘, 熱水壺, 室內拖鞋, 免費礦泉水, 免費咖啡及茶包, 飯店介紹手冊, WIFI, 客房餐飲服務, 付費洗衣服務, 付費乾洗服務</p>
@@ -60,7 +86,7 @@
           <p>◆注意事項：</p>
           <p>1. 本優惠不得與其他優惠專案合併使用</p>
           <p>2. 飯店保有調整專案內容之權利</p>
-          <p>◆取消規定:</p>
+          <p>◆退房規定:</p>
           <p>1. 住宿日14日前取消訂房，退還已付費用100%。</p>
           <p>2. 住宿日10~13日前取消訂房，退還已付費用70%。</p>
           <p>3. 住宿日7~9日前取消訂房，退還已付費用50%。</p>
@@ -99,15 +125,22 @@
       </div>
     </div>
   </div>
-  <!-- <Footer></Footer> -->
 </template>
 
 <script setup>
 import FrontNavBar from '../../FrontNavBar.vue';
 import axiosapi from '@/plugins/axios.js';
 import { roomsData } from '@/assets/roomsdata.js';
-import { reactive, ref } from 'vue';
-// import Footer from '@/components/room/Footer.vue';
+import { reactive, ref, onMounted } from 'vue';
+
+// 取得當天日期並格式化為 YYYY-MM-DD
+const getTodayDate = () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
 
 // 狀態和資料定義
 const rooms = reactive([...roomsData]);
@@ -116,24 +149,26 @@ const filteredRooms = ref([...rooms]);
 const selectedRoomNames = ref([]);
 const showModal = ref(false);
 const tempSelectedRoomNames = ref([]);
-const checkInDate = ref('');
+const checkInDate = ref(getTodayDate()); // 初始化為當天日期
+const nights = ref(1); // 初始化為1夜
 const showDetail = ref(false);
 const detailPage = ref(1);
 const showBooking = ref(false);
 const selectedRoom = ref(null);
+const roomInfo = ref({});
 
 // 套用篩選條件
 const applyFilter = () => {
   selectedRoomNames.value = [...tempSelectedRoomNames.value];
   showModal.value = false;
-  filterRooms();
+  searchRooms();
 };
 
 // 清除所有篩選條件
 const clearAll = () => {
   tempSelectedRoomNames.value = [];
   selectedRoomNames.value = [];
-  filterRooms();
+  searchRooms();
 };
 
 // 搜尋房間
@@ -145,25 +180,44 @@ const searchRooms = async () => {
         params: { date: checkInDate.value }
       });
 
+      // 收集每個房間的資訊
+      roomInfo.value = response.data.reduce((acc, room) => {
+        acc[room.roomInformation.id] = room;
+        return acc;
+      }, {});
+
       availableRooms = rooms.filter(room => {
-        const roomInfo = response.data.find(data => data.roomInformation.id === room.id);
-        return roomInfo && roomInfo.left > 0;
+        const info = roomInfo.value[room.id];
+        if (info) {
+          let isAvailable = true;
+          for (let i = 0; i < nights.value; i++) {
+            const date = new Date(checkInDate.value);
+            date.setDate(date.getDate() + i);
+            const dateString = date.toISOString().split('T')[0];
+            if (info[dateString] && info[dateString].left <= 0) {
+              isAvailable = false;
+              break;
+            }
+          }
+          return isAvailable;
+        }
+        return false;
       });
     } catch (error) {
-      console.error("Error fetching room data:", error);
+      console.error('Failed to fetch room assignment:', error);
     }
   } else {
     availableRooms = [...rooms];
   }
 
-  filteredRooms.value = availableRooms.filter(room =>
-    selectedRoomNames.value.length === 0 || selectedRoomNames.value.includes(room.name)
+  filteredRooms.value = availableRooms.filter(
+    room => selectedRoomNames.value.length === 0 || selectedRoomNames.value.includes(room.name)
   );
 
   sortRooms();
 };
 
-// 排序房間
+// 房間排序
 const sortRooms = (type = sortType.value) => {
   sortType.value = type;
 
@@ -176,7 +230,7 @@ const sortRooms = (type = sortType.value) => {
   }
 };
 
-// 顯示詳細內容 Modal
+// 詳細內容 Modal
 const showDetailModal = (room) => {
   selectedRoom.value = room;
   detailPage.value = 1;
@@ -189,26 +243,21 @@ const showBookingModal = (room) => {
   showBooking.value = true;
 };
 
-// // 前往訂房
-// const goOrder = async () => {
-//   const orderData = {
-//     id: selectedRoom.value.id,
-//     checkInDate: checkInDate.value
-//   };
-  
-//   try {
-//     await axiosapi.post('/hotel/booking', orderData);
-//     console.log('slide change', orderData);
-//     window.location.href = "/room";
-//   } catch (error) {
-//     console.error("Error booking room:", error);
-//   }
-// };
-//包成JSON前端傳遞
+// 包成JSON前端傳遞
 const goOrder = () => {
-  window.location.href = "/room";
+  const payload = {
+    checkInDate: checkInDate.value,
+    price: selectedRoom.value.price,
+    id: selectedRoom.value.id,
+    name: selectedRoom.value.name
+  };
+  const queryString = new URLSearchParams(payload).toString();
+  window.location.href = `/room?${queryString}`;
 };
 
+onMounted(() => {
+  searchRooms();
+});
 </script>
 
 <style scoped lang="scss">
@@ -266,11 +315,12 @@ hr {
 .sorting-buttons {
   margin: 10px 0;
   display: flex;
+  justify-content: flex-end;
   gap: 10px;
 }
 
 .sorting-buttons button {
-  padding: 10px 20px;
+  padding: 5px 10px;
   border: none;
   cursor: pointer;
   background-color: #eee;
@@ -336,5 +386,12 @@ hr {
   border: none;
   padding: 10px 20px;
   cursor: pointer;
+}
+
+.center-table {
+  margin: auto;
+  border: 1px solid #A5B7C1;
+  background-color: #fff;
+  padding: 20px;
 }
 </style>

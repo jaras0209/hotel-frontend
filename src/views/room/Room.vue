@@ -4,6 +4,7 @@
     <p>Check-in Date: {{ checkInDate }}</p>
     <p>Price: {{ price }}</p>
     <p>Room ID: {{ id }}</p>
+    <p>Name: {{ name }}</p>
   </div>
 </template>
 
@@ -16,6 +17,7 @@ const route = useRoute();
 const checkInDate = ref('');
 const price = ref('');
 const id = ref('');
+const name = ref('');
 
 onMounted(() => {
   const queryString = route.query;
@@ -24,9 +26,9 @@ onMounted(() => {
   checkInDate.value = queryString.checkInDate || '';
   price.value = queryString.price || '';
   id.value = queryString.id || '';
+  name.value = queryString.name || '';
 });
 </script>
 
 <style scoped>
-/* Your CSS here */
 </style>
