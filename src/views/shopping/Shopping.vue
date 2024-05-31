@@ -1,31 +1,40 @@
 <template>
-    <NavigationBar></NavigationBar>
-    <!-- 0530 -->
 
     <body>
+        <header>
+            <nav>
+                <NavigationBar></NavigationBar>
+                <a href="#product">商品</a>
+                <a href="#commemtblock">評論</a>
+                <a href="#mustknow">關於退貨</a>
+            </nav>
+        </header>
+        <span id="product"></span>
+        <br>
+        <br>
         <div class="main">
             <main>
                 <ShoppingCard v-for="product in find" :key="product.id" :product="product" :pic="pic" :pict="pict"
                     :pictu="pictu" @cart="cart" :options="options" v-model="data">
                 </ShoppingCard>
                 <br><br><br><br><br><br>
-                <div id="commemtblock">
+                <div>
                     <div>
-                        <h2 v-show="disabled">評論區</h2>
+                        <h2 id="commemtblock">商品評價</h2>
                     </div>
                     <div>
                         <textarea type="text" v-model="commentmessage" placeholder="詳細說明您的想法" width="50%"
                             v-if="disabled" rows="4" cols="70"></textarea>
-                        <img src="@/assets/images/blackstar1.jpg" alt="..." width="70px" @click="changecolor1" id="img1"
-                            v-if="disabled">
-                        <img src="@/assets/images/blackstar2.jpg" alt="..." width="70px" @click="changecolor2" id="img2"
-                            v-if="disabled">
-                        <img src="@/assets/images/blackstar3.jpg" alt="..." width="70px" @click="changecolor3" id="img3"
-                            v-if="disabled">
-                        <img src="@/assets/images/blackstar4.jpg" alt="..." width="70px" @click="changecolor4" id="img4"
-                            v-if="disabled">
-                        <img src="@/assets/images/blackstar5.jpg" alt="..." width="70px" @click="changecolor5" id="img5"
-                            v-if="disabled">
+                        <img src="@/assets/images/blackstar1.jpg" alt="..." width="80px" @click="changecolor1" id="img1"
+                            style="cursor: pointer;" v-if="disabled">
+                        <img src="@/assets/images/blackstar2.jpg" alt="..." width="80px" @click="changecolor2" id="img2"
+                            style="cursor: pointer;" v-if="disabled">
+                        <img src="@/assets/images/blackstar3.jpg" alt="..." width="80px" @click="changecolor3" id="img3"
+                            style="cursor: pointer;" v-if="disabled">
+                        <img src="@/assets/images/blackstar4.jpg" alt="..." width="80px" @click="changecolor4" id="img4"
+                            style="cursor: pointer;" v-if="disabled">
+                        <img src="@/assets/images/blackstar5.jpg" alt="..." width="80px" @click="changecolor5" id="img5"
+                            style="cursor: pointer;" v-if="disabled">
                     </div>
                     <div>
                         <button type="button" @click="comment" style="background-color: aquamarine;"
@@ -34,11 +43,41 @@
                 </div>
             </main>
         </div>
-        <CommentCard v-for="comment in instancecomment" :memberName="comment.member.memberName"
-            :commentText="comment.commentText" :commentmemberId="comment.member.memberId" :userId="userId"
-            :commentId="comment.commentId" @delet="dodelet" @method-result="handleMethodResult" :score="comment.score"
-            :create="comment.createDate">
-        </CommentCard>
+        <div>
+            <CommentCard v-for="comment in instancecomment" :memberName="comment.member.memberName"
+                :commentText="comment.commentText" :commentmemberId="comment.member.memberId" :userId="userId"
+                :commentId="comment.commentId" @delet="dodelet" @method-result="handleMethodResult"
+                :score="comment.score" :create="comment.createDate">
+            </CommentCard>
+        </div>
+        <div>
+            <h2 id="mustknow">關於退貨</h2>
+            <ul>
+                <li>
+                    歡迎來到,這並非商業用途,參考地方來源於,無商業用途,若有冒犯抱歉,依照消費者保護法的規定，享有商品貨到次日起七天猶豫期的權益。(請留意猶豫期非試用期!!)您所退回的商品必須回復原狀（復原至商品到貨時的原始狀態並且保持完整包裝，包括商品本體、配件、贈品、保證書、原廠包裝及所有附隨文件或資料的完整性）。商品一經拆封/啟用歡迎來到,這並非商業用途,參考地方來源於,保固，將使商品價值減損，您理解本公司將依法收取回復原狀必要之費用(若無法復原，費用將以商品價值損失計算)，請先確認商品正確、外觀可接受再行使用，以免影響您的權利，祝您購物順心。
+                </li>
+                <li>
+                    如果您所購買商品是下列特殊商品，請留意下述退貨注意事項：
+                    <ol>
+                        <li>
+                            易於腐敗之商品、保存期限較短之商品、客製化商品、報紙、期刊、雜誌，依據消費者保護法之規定，於收受商品後將無法享有七天猶豫期之權益且不得辦理退貨,歡迎來到,這並非商業用途,參考地方來源於,無商業用途,若有冒犯抱歉歡迎來到,這並非商業用途,參考地方來源於。
+                        </li>
+                        <li>
+                            非以有形媒介提供之數位內容或一經提供即為完成之線上服務，一經您事先同意後始提供者，依消費者保護法之規定，您將無法享有七天猶豫期之權益且不得辦理退貨歡迎來到,這並非商業用途,參考地方來源於。
+                        </li>
+                        <li>
+                            若因您要求退貨或換貨、或因本公司無法接受您全部或部分之訂單、或因契約解除或失其效力，而需為您辦理退款事宜時，您同意本公司得代您處理發票或折讓單等相關法令所要求之單據，以利本公司為您辦理退款,歡迎來到,這並非商業用途,參考地方來源於,無商業用途,若有冒犯抱歉歡迎來到,這並非商業用途,參考地方來源於。
+                        </li>
+                        <li>
+                            歡迎來到,這並非商業用途,參考地方來源於,無商業用途,若有冒犯抱歉,依照消費者保護法的規定，享有商品貨到次日起七天猶豫期的權益。(請留意猶豫期非試用期!!)您所退回的商品必須回復原狀歡迎來到,這並非商業用途,參考地方來源於。
+                        </li>
+                    </ol>
+                </li>
+                <li>
+                    歡迎來到,這並非商業用途,參考地方來源於,無商業用途,若有冒犯抱歉,依照消費者保護法的規定，享有商品貨到次日起七天猶豫期的權益。(請留意猶豫期非試用期!!)您所退回的商品必須回復原狀（復原至商品到貨時的原始狀態並且保持完整包裝，包括商品本體、配件、贈品、保證書、原廠包裝及所有附隨文件或資料的完整性）。商品一經拆封/啟用保固，將使商品價值減損，您理解本公司將依法收取回復原狀必要之費用(若無法復原，費用將以商品價值損失計算)，請先確認商品正確、外觀可接受再行使用，歡迎來到,這並非商業用途,參考地方來源於,無商業用途,若有冒犯抱歉,依以免影響您的權利，祝您購物順心,歡迎來到,這並非商業用途,參考地方來源批溪轟。
+                </li>
+            </ul>
+        </div>
     </body>
     <footer>
     </footer>
@@ -305,7 +344,7 @@ function changecolor5() {
 
 body {
     height: 95vh;
-    background: #34e7e4;
+    background: white;
     font-family: sans-serif;
     text-align: start;
     color: black;
@@ -315,12 +354,14 @@ body {
 }
 
 header {
-    background: yellow;
-    padding: 2em 0 2em 0;
+    background: white;
+    padding: 0em 0 0em 0;
+    position: fixed;
+    z-index: 9999
 }
 
 .left {
-    background: gainsboro;
+    background: white;
     padding: 3em 0 3em 0;
     flex: 1 1 100px
 }
@@ -337,7 +378,7 @@ main {
 }
 
 .right {
-    background: gainsboro;
+    background: white;
     padding: 3em 0 3em 0;
     flex: 1 1 100px
 }
@@ -363,5 +404,14 @@ footer {
 
 textarea {
     resize: none;
+}
+
+header nav a {
+    padding: 10px 25px;
+    font-size: 25px;
+}
+
+header nav a:hover {
+    background: yellow;
 }
 </style>
