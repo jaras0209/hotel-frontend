@@ -35,13 +35,17 @@
             </select><br> -->
             <div class="d-flex justify-content-evenly">
 
-            <div class="col-md-5">
+            <div class="col-md-3">
             <label for="guests">入住大人人數:</label>
                 <input type="number" v-model="formData.adults" min="1" max="10" required class="form-control"><br>
             </div>
-            <div class="col-md-5">
-            <label for="guests">入住小孩人數:</label>
+            <div class="col-md-3">
+                <label for="guests">入住小孩人數:</label>
                 <input type="number" v-model="formData.children" min="0" max="10" required class="form-control"><br>
+            </div>
+            <div class="col-md-3">
+                <label for="guests">預訂房間數:</label>
+                <input type="number" v-model="formData.roomAmount" min="1" :max="leftRoomNumer" required class="form-control"><br>
             </div>
         </div>
             <div class="d-flex justify-content-evenly">
@@ -166,7 +170,8 @@
                     <p>退房日期: {{ formData.checkoutDate }}</p>
                     <p>入住大人人數: {{ formData.adults }}</p>
                     <p>入住小孩人數: {{ formData.children }}</p>
-                    <p>價格: {{ basePrice }}</p>
+                    <p>房間數量: {{ formData.roomAmount }}</p>
+                    <p>價格: {{ basePrice*formData.roomAmount }}</p>
                     
                 </div>
                 <div>
@@ -256,7 +261,7 @@
                 <option value="wechat">微信支付</option>
             </select><br>
     
-            <div v-if="formData.paymentMethod === 'credit-card'" id="credit-card-info">
+            <!-- <div v-if="formData.paymentMethod === 'credit-card'" id="credit-card-info">
                 <label for="card-number">信用卡號碼:</label>
                 <input type="text" v-model="formData.cardNumber" required><br>
     
@@ -265,9 +270,9 @@
     
                 <label for="cvv">CVV碼:</label>
                 <input type="text" v-model="formData.cvv" required><br>
-            </div>
+            </div> -->
             <div class="d-flex justify-content-evenly">
-                <button type="submit">確認付款</button>
+                <button type="button" @click="callLinePay">確認付款</button>
             </div>
             </form>
         </div>
@@ -292,6 +297,9 @@
     const basePrice = ref('');
     const roomInfoId = ref('');
     const roomType = ref('');
+    const leftRoomNumer = ref(null);
+    const roomImg = ref(null);
+    const orderId = ref(null);
 
     const steps = ref(["選擇房型", "填寫資料", "確認畫面", "付款"]);
     const isNotSamePerson = ref(false)
@@ -302,6 +310,7 @@
         roomType: '',
         adults: 1,
         children:0,
+        roomAmount:1,
         name: '',
         phone: '',
         email: '',
@@ -411,13 +420,13 @@
             "email": formData.value.email,
             "phone_number": formData.value.phone,
             "credit_card": null,
-            "adult_pax": 2,
-            "child_pax": 1,
-            "room_type_amount": 1,
+            "adult_pax": formData.value.adults,
+            "child_pax": formData.value.children,
+            "room_type_amount": formData.value.roomAmount,
             "arrival_date": formData.value.checkinDate +" "+formData.value.checkinTime+":00.0",
             "checkout_date": formData.value.checkoutDate + " 00:00:00.0",
             "transaction_password": formData.value.transPassword,
-            "base_price":  basePrice.value,
+            "base_price":  basePrice.value*formData.value.roomAmount,  // 需要再修的bug 猜測呼叫
             "remark":formData.value.requests,
             "member_id": formData.value.userId
         }
@@ -429,31 +438,38 @@
             if (response.data.success){
                 axiosapi.get(`hotel/orderRoom/latest/${formData.value.name}`).then(function (response){
                     console.log("response from findLatest order", response);
+                    //
                     if (response.data.success){
+                        orderId.value = response.data.orderId;
                         let detailData = {
-                            "roomAmount": 1,
-                            "price": basePrice.value,
+                            "roomAmount": formData.value.roomAmount,
+                            "price": basePrice.value*formData.value.roomAmount,
                             "id": {
                                 "orderId": response.data.orderId,
                                 "roomInformationId": roomInfoId.value
                             }
                         }
 
-                        axiosapi.post('hotel/orderRooms/detail', detailData).then(function (response){
+                        axiosapi.post('hotel/orderRooms/detailBuild', detailData).then(function (response){
                             console.log("respose in create orderDetail", response);
-                            if (response.status==201){
+                            if (response.data.success){
                                 Swal.fire({
                                     text: "下單成功",
                                     icon: 'success',
                                     allowOutsideClick: false,
                                     confirmButtonText: '確認',
+                                }).then(function (result){
+                                    if (result.isConfirmed){
+                                        // 數量
+                                        console.log("orderId.value",orderId.value)
+                                    }
                                 })
                             }
                         }).catch(function (error){
                             console.log("error in create orderDetail", error)
                         })
                     }
-                    
+                    //
                     
                 }).catch(function (error){
                     console.log("error from findLatest order", error);
@@ -464,6 +480,36 @@
         })
     }
 
+    function callLinePay(){
+        let data = {
+            "orderTotalAmount": basePrice.value*formData.value.roomAmount, // 目前只做一個房型的訂購
+            "orderId" : orderId.value,
+            "totalPrice" : basePrice.value*formData.value.roomAmount,
+            "productId" : roomInfoId.value,
+            "productName" : roomType.value,
+            "productPicture" : roomImg.value,
+            "productQuality": formData.value.roomAmount,
+            "singlePrice" : basePrice.value
+        }
+        console.log(data)
+        axiosapi.post('hotel/orderRoom/transactions/line-pay', data).then(function (response){
+            console.log("response", response.data);
+            if (response.data.returnMessage=="Success."){
+                // window.location.href = response.data.info.paymentUrl.web;
+                
+                sessionStorage.removeItem("transactionId");
+                sessionStorage.removeItem("orderTotalAmount");
+                sessionStorage.setItem("transactionId", response.data.info.transactionId);
+                sessionStorage.setItem("orderTotalAmount", basePrice.value*formData.value.roomAmount);
+                console.log("transactionId",sessionStorage.getItem("transactionId"));
+                console.log("orderTotalAmount",sessionStorage.getItem("orderTotalAmount"));
+                window.open(response.data.info.paymentUrl.web);
+            }
+        }).catch(function (error){
+            console.log("error", error);
+        })
+    }
+
     
     onMounted(function (){
         const queryString = route.query;
@@ -471,9 +517,10 @@
         basePrice.value = queryString.price || '';
         roomInfoId.value = queryString.id || '';
         roomType.value = queryString.typeName || '';
+        leftRoomNumer.value = queryString.leftRoomNumer || '';
+        roomImg.value = queryString.picture || '';
 
-
-        console.log("userData.value",sessionStorage.getItem("userData"))
+        console.log("roomImg.value",roomImg.value);
     })
 </script>
 
