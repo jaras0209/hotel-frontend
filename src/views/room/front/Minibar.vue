@@ -19,6 +19,19 @@
       </MinibarCard>
     </div>
 
+    <MinibarOrder 
+      ref="minibarOrderRef" 
+      v-if="selectedProduct"
+      :id="selectedProduct.id"
+      :item="selectedProduct.item"
+      :price="selectedProduct.price"
+      :make="selectedProduct.make"
+      :expire="selectedProduct.expire"
+      :isShowButtonInsert="true"
+      @insert="insertOrder">
+    </MinibarOrder>
+
+
     <MinibarModal 
       ref="minibarModalRef" 
       :item="selectedProduct" 
@@ -48,6 +61,7 @@ import FrontNavBar from '../../FrontNavBar.vue';
 import MinibarCard from '@/components/room/MinibarCard.vue';
 import MinibarModal from '@/components/room/MinibarModal.vue';
 import MinibarRows from '@/components/room/MinibarRows.vue';
+import MinibarOrder from '@/components/room/MinibarOrder.vue';
 import axiosapi from '@/plugins/axios.js';
 import Swal from 'sweetalert2';
 import { onMounted, ref } from 'vue';

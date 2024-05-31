@@ -1,8 +1,8 @@
     <template>
     <BackendNavbar></BackendNavbar>
-    <div class="box">
+    <div class="box">   
         <h1 class="title">退房檢查</h1>
-        <!-- <button @click="createAddition" class="btn btn-primary mb-3">新增</button> -->
+        <button type="button" class="btn btn-primary" @click="openModal('insert')">新增</button>
         <AssignmentTable
             :assigns="assigns"
             :currentPage="currentPage"
@@ -10,8 +10,16 @@
             @edit="editCompensation"
             @delete="deleteCompensation"/>
         
-            <!-- :currentPage="currentPage"
-    :rowsPerPage="rowsPerPage" -->
+            <div class="row">
+    <ProductModal ref="productModalRef"
+            :is-show-button-insert="isShowButtonInsert"
+            v-model:id="product.id"
+            v-model:housingManagement.id="product.housingManagement.id"
+            v-model:compensation="product.compensation"
+            v-model:fee="product.fee"
+            @insert="callCreate">
+    </ProductModal>
+</div>  
         <!-- <div class="col-4" v-show="total != 0">
             <Paginate 
             :first-last-button="true" 

@@ -186,7 +186,8 @@ function logout() {
   axiosapi.defaults.headers.authorization = '';
   axiosapi.put(`hotel/member/logout/${userId}`).then(function(response){}).catch(function(error){})
   // console.log("logout", userId)
-  sessionStorage.removeItem("userId")
+  sessionStorage.removeItem("userId");
+  sessionStorage.clear();
   router.go(0);
 }
 
@@ -204,12 +205,21 @@ function doclickShow(){
         // userData.value = response.data;
         Object.assign(proxyData, response.data);
         // console.log("userData.value",response.data.birth);
-        console.log("userData.value",userData.value)
-        console.log("userData.value", typeof(userData.value.contactAddress))
+        // console.log("userData.value",userData.value)
+        // console.log("userData.value", typeof(userData.value.contactAddress))
         addressCounty.value = userData.value.contactAddress.substr(0,3);
         addressArea.value = userData.value.contactAddress.substr(3,3);
         // console.log(addressArea.value)
         addressRoadname.value = userData.value.contactAddress.substr(6);
+
+        sessionStorage.setItem("name", userData.value.memberName);
+        sessionStorage.setItem("gender", userData.value.gender);
+        sessionStorage.setItem("birth",userData.value.birth);
+        sessionStorage.setItem("national_id",userData.value.nationId);
+        sessionStorage.setItem("email", userData.value.email);
+        sessionStorage.setItem("phone_number", userData.value.phoneNumber);
+        sessionStorage.setItem("password",userData.value.password);
+        sessionStorage.setItem("nationality", userData.value.nationality);
       }).catch(function (error){
         console.log("error", error);
       })

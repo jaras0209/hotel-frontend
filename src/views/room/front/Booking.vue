@@ -105,6 +105,16 @@
       <div class="modal-content">
         <h2>{{ selectedRoom.name }}</h2>
         <p>入住日期: {{ checkInDate }}</p>
+
+        <!-- 新增入住大人小孩人數 -->
+            <div class="col-md-5">
+              <label for="guests">入住大人人數:</label>
+                  <input type="number" v-model="formData.adults" min="1" max="10" required class="form-control"><br>
+            </div>
+            <div class="col-md-5">
+              <label for="guests">入住小孩人數:</label>
+                  <input type="number" v-model="formData.children" min="0" max="10" required class="form-control"><br>
+            </div>
         <button class="btn btn-secondary" @click="goOrder">前往訂房</button>
         <button @click="showBooking = false">關閉</button>
       </div>
@@ -157,6 +167,10 @@ const detailPage = ref(1);
 const showBooking = ref(false);
 const selectedRoom = ref(null);
 const roomInfo = ref({});
+const formData = reactive({
+  adults: 1,
+  children: 0
+});
 
 // 套用篩選條件
 const applyFilter = () => {
@@ -252,15 +266,17 @@ const showBookingModal = (room) => {
 };
 
 // 包成JSON前端傳遞
-const goOrder = () => {
+  const goOrder = () => {
   const payload = {
     checkInDate: checkInDate.value,
     price: selectedRoom.value.price,
     id: selectedRoom.value.id,
-    name: selectedRoom.value.name
+    typeName:selectedRoom.value.name,
+    adults: formData.adults,
+    children: formData.children
   };
   const queryString = new URLSearchParams(payload).toString();
-  window.location.href = `/room?${queryString}`;
+  window.location.href = `/member/orderHome?${queryString}`;    // `/room?${queryString}`;
 };
 
 onMounted(() => {

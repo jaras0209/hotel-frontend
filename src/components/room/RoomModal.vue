@@ -6,12 +6,22 @@
           <h5 class="modal-title">{{ room.number }}</h5>
         </div>
         <div class="modal-body">
-          <p class="card-text">房間狀態: {{ room.id }}</p>
-          <p class="card-text">房間狀態: {{ room.roomState.state }}</p>
+          <p class="card-text">房間編號: {{ room.id }}</p>
+          <div v-if="!editingState">
+            <p class="card-text">房間狀態: {{ room.roomState.state }}</p>
+            <button type="button" class="btn btn-secondary" @click="toggleEdit">編輯</button>
+          </div>
+          <div v-else class="form-group">
+            <label for="roomState">房間狀態:</label>
+            <select v-model="selectedRoomState" class="form-control">
+              <option value="1">待入住</option>
+              <option value="2">已入住</option>
+              <option value="3">已退房(未清潔)</option>
+              <option value="4">準備完成(已清潔)</option>
+            </select>
+            <button type="button" class="btn btn-primary" @click="confirmEdit">確定</button>
+          </div>
           <p class="card-text">報修狀態: {{ room.repairStatus }}</p>
-          <!-- <p>房間型號: {{ room.roomInformation.id }}</p>
-          <p>房間型號: {{ room.roomInformation.bedType }}</p>
-          <p>房間型號: {{ room.roomInformation.maxOccupancy }}</p> -->
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" @click="closeModal">Close</button>
@@ -27,6 +37,9 @@ import { ref } from 'vue';
 const props = defineProps(["room"]);
 const emits = defineEmits(["close"]);
 const isVisible = ref(false);
+const selectedRoomState = ref('');
+const editingState = ref(false);
+let previousRoomState = '';
 
 function showModal() {
   isVisible.value = true;
@@ -35,6 +48,21 @@ function showModal() {
 function closeModal() {
   isVisible.value = false;
   emits("close");
+}
+
+function toggleEdit() {
+  editingState.value = !editingState.value;
+  if (!editingState.value) {
+    selectedRoomState.value = previousRoomState;
+  } else {
+    previousRoomState = selectedRoomState.value;
+  }
+}
+
+function confirmEdit() {
+  // 向后端发送更新房间状态的请求，使用 selectedRoomState 的值
+  console.log("更新房间状态为:", selectedRoomState.value);
+  editingState.value = false; // 切换回显示状态
 }
 
 defineExpose({ showModal });

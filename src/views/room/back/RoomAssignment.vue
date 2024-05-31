@@ -1,8 +1,7 @@
 <template>
     <BackendNavbar></BackendNavbar>
   <div class="box">
-    <h1 class="title">客房管理</h1>
-    <!-- <button @click="createAddition" class="btn btn-primary mb-3">新增</button> -->
+    <h1 class="title">房間分配</h1>
     <AssignmentTable
       :assigns="assigns"
       :currentPage="currentPage"
