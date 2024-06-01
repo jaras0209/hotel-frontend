@@ -229,6 +229,8 @@ const goOrder = () => {
     price: selectedRoom.value.price,
     id: selectedRoom.value.id,
     typeName:selectedRoom.value.name,
+    leftRoomNumer:roomInfo.value[selectedRoom.value.id].left,
+    picture:selectedRoom.value.cover
   };
   const queryString = new URLSearchParams(payload).toString();
   window.location.href = `/member/orderHome?${queryString}`;    // `/room?${queryString}`;
