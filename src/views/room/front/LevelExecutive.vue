@@ -11,7 +11,7 @@
               'url(http://www.han-hsien.com.tw/images/urban/room/room_20180807_01290475.jpg)',
       }" data-swiper-parallax="-23%"></div>
       <swiper-slide>
-        <div class="title" data-swiper-parallax="-300">商務樓層</div>
+        <div class="title" data-swiper-parallax="-300">商務樓層<font-awesome-icon :icon="['fas', 'magnifying-glass']" class="icon" @click="goToRoomView(2)" /></div>
         <div class="subtitle" data-swiper-parallax="-200">介紹</div>
         <div class="text" data-swiper-parallax="-100">
           <p>
@@ -23,7 +23,7 @@
         </div>
       </swiper-slide>
       <swiper-slide>
-        <div class="title" data-swiper-parallax="-300">商務樓層</div>
+        <div class="title" data-swiper-parallax="-300">商務樓層<font-awesome-icon :icon="['fas', 'magnifying-glass']" class="icon" @click="goToRoomView(2)" /></div>
         <div class="subtitle" data-swiper-parallax="-200">設備</div>
         <div class="text" data-swiper-parallax="-100">
           <p>
@@ -36,7 +36,7 @@
         </div>
       </swiper-slide>
       <swiper-slide>
-        <div class="title" data-swiper-parallax="-300">商務樓層</div>
+        <div class="title" data-swiper-parallax="-300">商務樓層<font-awesome-icon :icon="['fas', 'magnifying-glass']" class="icon" @click="goToRoomView(2)" /></div>
         <div class="subtitle" data-swiper-parallax="-200">服務</div>
         <div class="text" data-swiper-parallax="-100">
           <p>
@@ -67,6 +67,25 @@
   
   // Import required modules
   import { Parallax, Pagination, Navigation } from 'swiper/modules';
+  import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { library } from '@fortawesome/fontawesome-svg-core';
+
+library.add(fas);
   
   const modules = [Parallax, Pagination, Navigation];
+  const goToRoomView = (type) => {
+  window.location.href = `/room/front/roomView?type=${type}`;
+};
   </script>
+  <style scoped>
+  .icon {
+    margin-left: 10px;
+    cursor: pointer;
+    color: #cfcfcf;
+  }
+  
+  .icon:hover {
+    color: #c4c4c4;
+  }
+  </style>

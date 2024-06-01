@@ -18,7 +18,7 @@
       <h4>TWD{{ roomData.price }}起</h4>
       <p>(須另加10%服務費及5%營業稅)</p>
       <div class="final_price">{{ finalPrice }}</div>
-      <button class="btn btn-secondary room_edit custom_button" @click="addRoom">立即下訂</button>
+      <button class="btn btn-secondary room_edit custom_button" @click="addRoom">線上訂房</button>
     </div>
   </div>
 </template>
@@ -54,7 +54,7 @@ const props = defineProps({
   }
 });
 const addRoom = () => {
-window.location.href = "/room/front/roomView";
+window.location.href = "/room/front/booking";
 };
 
 const bgCss = computed(() => {

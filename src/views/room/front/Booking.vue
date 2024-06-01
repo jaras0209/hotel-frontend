@@ -168,7 +168,7 @@ const showBooking = ref(false);
 const selectedRoom = ref(null);
 const roomInfo = ref({});
 const formData = reactive({
-  adults: 1,
+  adults: 2,
   children: 0
 });
 

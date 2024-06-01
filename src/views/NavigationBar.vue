@@ -12,7 +12,7 @@
         <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
 
           <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/front/frontIndex">frontIndex</RouterLink>
+            <RouterLink class="nav-link" to="/room/front/frontIndex">關於我們</RouterLink>
           </li>   
 
           <li class="nav-item dropdown">
@@ -27,32 +27,14 @@
             </ul>
           </li>
 
-          
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="/room/roomInfo" role="button" data-bs-toggle="dropdown"
-              aria-expanded="false">房務管理</a>
-            <ul class="dropdown-menu">
-              <li>
-                <RouterLink class="dropdown-item" to="/room/back/roomManagement">客房管理</RouterLink>
-                <RouterLink class="dropdown-item" to="/room/back/roomAssignment">分配房型</RouterLink>
-                <RouterLink class="dropdown-item" to="/room/back/housingManagement">住房管理</RouterLink>
-                <RouterLink class="dropdown-item" to="/room/back/additionalCharges">附加費用</RouterLink>
-                <RouterLink class="dropdown-item" to="/room/back/checkOut">賠償費用</RouterLink>
-                <RouterLink class="dropdown-item" to="/room/back/roomInfo">編輯房型</RouterLink>
-              </li>
-            </ul>
-          </li>
             
           <li class="nav-item">
             <RouterLink class="nav-link" to="/room/back/backIndex">backIndex</RouterLink>
           </li>
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/calendar">123</RouterLink>
-          </li>
 
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-              aria-expanded="false">Shopping</a>
+              aria-expanded="false">線上購物</a>
             <ul class="dropdown-menu">
               <li>
                 <RouterLink class="dropdown-item" to="/supplier/allsupplier">合作夥伴(後端)</RouterLink>
@@ -83,6 +65,7 @@
               <li><a class="dropdown-item" href="#" @click="doclickShow" >資料修改</a></li>
               <li><RouterLink class="dropdown-item" to="/member/orderHistory">訂房紀錄</RouterLink></li>
               <li><RouterLink class="dropdown-item" to="/member/orderHome">訂房</RouterLink></li>
+              <li><RouterLink class="dropdown-item" to="/room/front/minibar">RoomService</RouterLink></li>
               <li><a class="dropdown-item" href="#" @click="revisePassword">修改密碼</a></li>
 
               <li><hr class="dropdown-divider"></li>
