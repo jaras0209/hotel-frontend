@@ -47,7 +47,7 @@
             <CommentCard v-for="comment in instancecomment" :memberName="comment.member.memberName"
                 :commentText="comment.commentText" :commentmemberId="comment.member.memberId" :userId="userId"
                 :commentId="comment.commentId" @delet="dodelet" @method-result="handleMethodResult"
-                :score="comment.score" :create="comment.createDate">
+                :score="comment.score" :create="comment.createDate" @update="update">
             </CommentCard>
         </div>
         <div>
@@ -78,6 +78,10 @@
                 </li>
             </ul>
         </div>
+        <CommentModal ref="modal" v-model:commentId="mfind.commentId" v-model:member="mfind.member"
+            v-model:commentText="mfind.commentText" v-model:score="mfind.score"
+            v-model:typeInstance="mfind.typeInstance" @send="send">
+        </CommentModal>
     </body>
     <footer>
     </footer>
@@ -90,6 +94,8 @@ import { useRouter } from "vue-router"
 const router = useRouter();
 import ShoppingCard from '@/components/shopping/ShoppingCard.vue';
 import CommentCard from '@/components/shopping/CommentCard.vue';
+import CommentModal from '@/components/shopping/CommentModal.vue';
+const modal = ref(null)
 import { useRoute } from 'vue-router';
 import Swal from "sweetalert2"
 const route = useRoute();
@@ -119,6 +125,7 @@ const userId = ref(null)
 const instancecomment = ref({})
 const disabled = ref(true)
 const score = ref(1)
+const mfind = ref({})
 onMounted(function () {
     userId.value = sessionStorage.getItem("userId")
     callFindid(id)
@@ -198,7 +205,6 @@ function cart(id) {
     }
     axiosapi.post(`/hotel/carts/post`, send).then(function (response) {
         Swal.fire({
-            position: "top-end",
             icon: "success",
             title: "新增成功",
             showConfirmButton: false,
@@ -243,7 +249,6 @@ function comment() {
     }
     axiosapi.post(`/hotel/comments`, send).then(function (response) {
         Swal.fire({
-            position: "top-end",
             icon: "success",
             title: "新增成功",
             showConfirmButton: false,
@@ -277,10 +282,9 @@ function handleMethodResult(result) {
     console.log("父元件收到方法的返回值：", result);
     disabled.value = result
 }
-function dodelet(x) {
-    axiosapi.delete(`/hotel/comments/instances/${x}`).then(function (response) {
+function dodelet(commentId) {
+    axiosapi.delete(`/hotel/comments/instances/${commentId}`).then(function (response) {
         Swal.fire({
-            position: "top-end",
             icon: "success",
             title: "刪除成功",
             showConfirmButton: false,
@@ -334,6 +338,61 @@ function changecolor5() {
     document.getElementById("img3").src = "/src/assets/images/star3.jpg"
     document.getElementById("img4").src = "/src/assets/images/star4.jpg"
     document.getElementById("img5").src = "/src/assets/images/star5.jpg"
+}
+function update(commentId) {
+    mfind.value = null
+    axiosapi.get(`/hotel/comments/one/${commentId}`).then(function (response) {
+        mfind.value = response.data
+        console.log(mfind.value)
+    }).catch(function (error) {
+        console.log(error)
+    })
+    modal.value.showModal();
+}
+function send(commentId) {
+    console.log(mfind.value)
+    let send = {
+        "commentId": commentId,
+        "commentText": mfind.value.commentText,
+        "situationType": "商品品質",
+        "typeInstance": mfind.value.typeInstance,
+        "score": mfind.value.score,
+        "member": {
+            "memberId": mfind.value.member.memberId,
+            "name": mfind.value.member.name,
+            "birth": mfind.value.member.birth,
+            "gender": mfind.value.member.gender,
+            "nationId": mfind.value.member.nationId,
+            "email": mfind.value.member.email,
+            "phone_number": mfind.value.member.phoneNumber,
+            "credit_card": mfind.value.member.creditCard,
+            "contact_address": mfind.value.member.contactAddress,
+            "nationality": mfind.value.member.nationality,
+            "login_time": mfind.value.member.loginTime,
+            "login_status": mfind.value.member.loginStatus
+        }
+    }
+    axiosapi.put(`/hotel/comments/${commentId}`, send).then(function (response) {
+        Swal.fire({
+            icon: "success",
+            title: "修改成功",
+            showConfirmButton: false,
+            allowOutsideClick: false,
+            timer: 1000
+        });
+        setTimeout(function () {
+            Swal.close();
+            router.go(0);
+        }, 1000);
+    }).catch(function (error) {
+        console.log("callFind error", error);
+        Swal.fire({
+            text: '失敗：' + error.message,
+            icon: 'error',
+            allowOutsideClick: false,
+            confirmButtonText: '確認',
+        });
+    });
 }
 </script>
 <style scoped>

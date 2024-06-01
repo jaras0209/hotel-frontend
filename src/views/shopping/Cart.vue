@@ -89,7 +89,8 @@ function cliick2(productid) {
     }
     axiosapi.put("/hotel/carts/checkoutchange", data).then(function (response) {
         console.log(response);
-        cart();//但我覺得這個寫法不好////////////////////////////////////////////////////////////////////////////////////
+        cart();
+        //6/1
         router.go(0)
     }).catch(function (error) {
         console.log(error);
@@ -103,7 +104,8 @@ function move(productid) {
     }
     axiosapi.put("/hotel/carts/delete", data).then(function (response) {
         console.log(response);
-        cart();//但我覺得這個寫法不好////////////////////////////////////////////////////////////////////////////////////
+        cart();
+        //6/1
     }).catch(function (error) {
         console.log(error);
     });
@@ -115,7 +117,8 @@ function all() {
     }
     axiosapi.post(`/hotel/carts/selectall`, send).then(function (response) {
         console.log(response);
-        cart();//但我覺得這個寫法不好////////////////////////////////////////////////////////////////////////////////////
+        cart();
+        //6/1
     }).catch(function (error) {
         console.log("callFind error", error);
         Swal.fire({
