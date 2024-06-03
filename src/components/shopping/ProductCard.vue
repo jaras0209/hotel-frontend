@@ -3,7 +3,7 @@
         <div class="card">
             <img class="card-img-top">
             <div class="card-body">
-                <img :src="`http://localhost:8080/hotel/photos/${product.id}`" class="card-img-top" alt="..."
+                <img :src="`${PATHP}/hotel/photos/${product.id}`" class="card-img-top" alt="..."
                     style="width: 250px; height: 250px;">
                 <h5 class="card-title">{{ product.productName }}</h5>
                 <div class="card-text text-danger text-end">NT$ {{ product.productPrice }}</div>
@@ -29,6 +29,7 @@
     </div>
 </template>
 <script setup>
+const PATHP = import.meta.env.VITE_BACKEND_URL;
 const props = defineProps(["product"]);
 const emits = defineEmits(["openUpdate", "delete"]);
 function doclick1(id) {

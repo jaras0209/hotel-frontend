@@ -37,11 +37,11 @@
 </template>
 <script setup>
 const props = defineProps(["total", "AddedTime", "Orderstatus", "orderid", "arriveddTime", "usebonus", "addbonus"]);
-import xxx from "@/plugins/axios.js"
+import axiosapi from "@/plugins/axios.js"
 import { ref } from "vue";
 const newresult = ref(null)
 function myclick(id) {
-    xxx.get(`/hotel/orderdetails/mes/${id}`).then(function (response) {
+    axiosapi.get(`/hotel/orderdetails/mes/${id}`).then(function (response) {
         newresult.value = response.data.ist
     }).catch(function (error) {
         console.log("callFindById error", error);

@@ -4,19 +4,19 @@
             data-bs-wrap="true" data-bs-interval="1800">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img :src="`http://localhost:8080/hotel/photo/${pic}`" class="d-block w-100" alt="..."
+                    <img :src="`${PATHP}/hotel/photo/${pic}`" class="d-block w-100" alt="..."
                         style="width: 500px; height: 500px;">
                     <div class="carousel-caption">
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img :src="`http://localhost:8080/hotel/photo/${pict}`" class="d-block w-100" alt="..."
+                    <img :src="`${PATHP}/hotel/photo/${pict}`" class="d-block w-100" alt="..."
                         style="width: 500px; height: 500px;">
                     <div class="carousel-caption">
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img :src="`http://localhost:8080/hotel/photo/${pictu}`" class="d-block w-100" alt="..."
+                    <img :src="`${PATHP}/hotel/photo/${pictu}`" class="d-block w-100" alt="..."
                         style="width: 500px; height: 500px;">
                     <div class="carousel-caption">
                     </div>
@@ -32,15 +32,15 @@
             </button>
             <div class="carousel-indicators">
                 <button type="button" class="active" data-bs-target="#carouselExample" data-bs-slide-to="0">
-                    <img :src="`http://localhost:8080/hotel/photo/${pic}`" class="d-block w-100" alt="..."
+                    <img :src="`${PATHP}/hotel/photo/${pic}`" class="d-block w-100" alt="..."
                         style="width: 150px; height: 150px;">
                 </button>
                 <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="1">
-                    <img :src="`http://localhost:8080/hotel/photo/${pict}`" class="d-block w-100" alt="..."
+                    <img :src="`${PATHP}/hotel/photo/${pict}`" class="d-block w-100" alt="..."
                         style="width: 150px; height: 150px;">
                 </button>
                 <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="2">
-                    <img :src="`http://localhost:8080/hotel/photo/${pictu}`" class="d-block w-100" alt="..."
+                    <img :src="`${PATHP}/hotel/photo/${pictu}`" class="d-block w-100" alt="..."
                         style="width: 150px; height: 150px;">
                 </button>
             </div>
@@ -50,11 +50,9 @@
             <br><br>
             <h2 class="mt-0">商品價格 :{{ product.productPrice }}</h2>
             <br><br>
-            <span style="font-size: 24px;" v-if="commentcount > 0">{{ commentaveragescore }}分</span><a
-                href="#commemtblock" v-if="commentcount > 0" style="font-size: 24px;">{{
-                    commentcount
-                }}則評價</a>
-            <br><br>
+            <h2 class="mt-0" v-if="commentcount > 0" >商品分數 :{{ commentaveragescore }}分</h2>
+            <a href="#commemtblock" v-if="commentcount > 0" style="font-size: 24px;">{{commentcount}}則評價</a>
+            <br><br><br>
             <h2 class="mt-0">商品介紹 :{{ product.productDescription }}</h2>
             <br><br>
             <select size="1" @change="emits('update:modelValue', $event.target.value)">
@@ -67,6 +65,7 @@
     </div>
 </template>
 <script setup>
+const PATHP = import.meta.env.VITE_BACKEND_URL;
 const props = defineProps(["product", "pic", "pict", "pictu", "options", "modelValue", "commentcount", "commentaveragescore"]);
 const emits = defineEmits(["update:modelValue", "cart"]);
 function doclick(id) {
