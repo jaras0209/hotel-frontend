@@ -10,7 +10,7 @@
             <a href="#" class="btn btn-primary" @click="openMinibarModal(item.id)">詳細資訊</a>
           </div>
           <div class="col text-end">
-            <a href="#" class="btn btn-primary" @click="doclick2(item.id)">點餐</a>
+            <a href="#" class="btn btn-primary" @click="openOrderModal(item.id)">點餐</a>
           </div>
         </div>
       </div>
@@ -19,7 +19,6 @@
 </template>
 
 <script setup>
-
 const props = defineProps(["item"]);
 const emits = defineEmits(["detail", "order"]);
 
@@ -27,7 +26,7 @@ function openMinibarModal(id) {
   emits("detail", id);
 }
 
-function doclick2(id) {
+function openOrderModal(id) {
   emits("order", id);
 }
 </script>

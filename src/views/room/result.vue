@@ -1,290 +1,366 @@
 <template>
-  <div id="app" class="container">
-    <div>
-      <h1>房間搜尋</h1>
-
-      <!-- 開啟進階篩選 Modal 的按鈕 -->
-      <button @click="showModal = true">進階篩選</button>
-
-      <!-- 預算價格輸入框和搜尋按鈕 -->
-      <div>
-        <label for="budgetPrice">預算價格</label>
-        <input type="number" v-model="budgetPrice" id="budgetPrice" placeholder="請輸入預算價格">
-        <button @click="searchRooms">搜尋</button>
-      </div>
-
-      <!-- 排序按鈕 -->
-      <div class="sorting-buttons">
-        <button 
-          :class="{ active: sortType === 'recommend' }"
-          @click="sortRooms('recommend')"
-        >
-          最佳推薦
-        </button>
-        <button 
-          :class="{ active: sortType === 'lowToHigh' }"
-          @click="sortRooms('lowToHigh')"
-        >
-          金額由低到高
-        </button>
-        <button 
-          :class="{ active: sortType === 'highToLow' }"
-          @click="sortRooms('highToLow')"
-        >
-          金額由高到低
-        </button>
+  <div>
+    <BackendNavbar />
+    <div class="box">   
+      <h1 class="title">退房檢查</h1>
+      <button type="button" class="btn btn-primary" @click="showModal">新增</button>
+      <table class="assign">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">編號</th>
+            <th scope="col">住房編號</th>
+            <th scope="col">賠償項目</th>
+            <th scope="col">賠償費用</th>
+            <th scope="col">相片</th>
+            <th scope="col">編輯</th>
+            <th scope="col">刪除</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(assign, index) in paginatedAssigns" :key="assign.id">
+            <th scope="row">{{ (currentPage - 1) * rowsPerPage + index + 1 }}</th>
+            <td>{{ assign.id }}</td>
+            <td>{{ assign.housingManagement.id }}</td>
+            <td>{{ assign.compensation }}</td>
+            <td>NTD {{ assign.fee }}</td>
+            <td>
+              <div v-if="assign.image">
+                <a :href="assign.image" target="_blank">查看圖片</a>
+              </div>
+              <div v-else>
+                <input type="file" @change="uploadImage($event, assign.id)" />
+              </div>
+            </td>
+            <td><a href="#" @click.prevent="editCompensation(assign)" class="btn btn-success">編輯</a></td>
+            <td><a href="#" @click.prevent="deleteCompensation(assign.id)" class="btn btn-danger">刪除</a></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="pagination">
+        <button @click="prevPage" :disabled="currentPage === 1">Previous</button>
+        <span>Page {{ currentPage }} of {{ totalPages }}</span>
+        <button @click="nextPage" :disabled="currentPage === totalPages">Next</button>
       </div>
     </div>
-    <div class="row">
-      <div class="col-sm-12">
-        <br />
-        <h1>房間列表</h1>
-        <hr />
-        <div class="row">
-          <div class="col-sm-4 col-room" v-for="(room, id) in filteredRoomsForList" :key="id">
-            <RoomData
-              :roomData="room"
-              :id="id"
-              :hotelDiscount="hotelDiscount"
-              :hotelFee="serviceFee"
-              :onDelete="deleteRoom"
-            />
+
+    <!-- Modal -->
+    <div ref="exampleModalRef" class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <table>
+              <tr>
+                <td>編號 : </td>
+                <td><input type="text" name="id" v-model="product.id"></td>
+              </tr>
+              <tr>
+                <td>住房編號 : </td>
+                <td><input type="text" name="housingManagement.id" v-model="product.housingManagement.id"></td>
+              </tr>
+              <tr>
+                <td>賠償項目 : </td>
+                <td><input type="text" name="compensation" v-model="product.compensation"></td>
+              </tr>
+              <tr>
+                <td>賠償費用 : </td>
+                <td><input type="text" name="fee" v-model="product.fee"></td>
+              </tr>
+              <tr>
+                <td>相片 : </td>
+                <td><input type="text" name="photo" v-model="product.photo"></td>
+              </tr>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" v-show="isShowButtonInsert" @click="insertProduct">新增</button>
+            <button type="button" class="btn btn-primary" v-show="!isShowButtonInsert" @click="updateProduct">修改</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
         </div>
-      </div>
-    </div>
-
-    <!-- 進階篩選 Modal -->
-    <div v-if="showModal" class="modal">
-      <div class="modal-content">
-        <h2>進階篩選</h2>
-        <div>
-          <label v-for="room in rooms" :key="room.id">
-            <input type="checkbox" :value="room.name" v-model="tempSelectedRoomNames">
-            {{ room.name }}
-          </label>
-        </div>
-        <button @click="applyFilter">套用</button>
-        <button @click="showModal = false">取消</button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import RoomData from '@/components/room/RoomData.vue';
-import { roomsData } from '@/assets/roomsdata.js';
-import { reactive, ref, watch } from 'vue';
+import { ref, onMounted, computed } from 'vue';
+import { useRouter } from 'vue-router';
+import axiosapi from '@/plugins/axios.js';
+import Swal from 'sweetalert2';
+import BackendNavbar from '@/views/BackendNavbar.vue';
+import { Modal } from 'bootstrap';
 
-// 狀態和資料定義
-const rooms = reactive([...roomsData]);
-const hotelDiscount = ref(0.9);
-const serviceFee = ref(200);
-const budgetPrice = ref(8500);
-const sortType = ref('recommend');
-const filteredRoomsForList = ref([...rooms]);
-const selectedRoomNames = ref([]);
-const showModal = ref(false);
-const tempSelectedRoomNames = ref([]);
+const assigns = ref([]);
+const currentPage = ref(1);
+const rowsPerPage = ref(10);
+const totalPages = computed(() => Math.ceil(assigns.value.length / rowsPerPage.value));
+const product = ref({
+  id: '',
+  housingManagement: { id: '' },
+  compensation: '',
+  fee: '',
+  photo: ''
+});
+const isShowButtonInsert = ref(true);
+const exampleModalRef = ref(null);
+const exampleModalObj = ref(null);
+const router = useRouter();
 
-// 監聽 selectedRoomNames 變化，更新 budgetPrice
-watch(selectedRoomNames, () => {
-  if (selectedRoomNames.value.length > 0) {
-    const selectedRooms = rooms.filter(room => selectedRoomNames.value.includes(room.name));
-    const minPrice = Math.min(...selectedRooms.map(room => room.price));
-    budgetPrice.value = minPrice;
-  } else {
-    budgetPrice.value = 8500;
+function callFind() {
+  Swal.fire({
+    text: "Loading......",
+    showConfirmButton: false,
+    allowOutsideClick: false,
+  });
+
+  axiosapi.get('/hotel/backend/checkOutInspection', {
+    params: { p: currentPage.value }
+  })
+  .then(response => {
+    assigns.value = response.data;
+    setTimeout(() => {
+      Swal.close();
+    }, 250);
+  })
+  .catch(error => {
+    Swal.fire({
+      text: '查詢失敗：' + error.message,
+      icon: 'error',
+      allowOutsideClick: false,
+      confirmButtonText: '確認',
+    }).then(() => {
+      if (error && error.response && error.response.status === 403) {
+        router.push("/secure/login");
+      }
+    });
+  });
+}
+
+function editCompensation(assign) {
+  product.value = { ...assign };
+  isShowButtonInsert.value = false;
+  showModal();
+}
+
+function deleteCompensation(id) {
+  Swal.fire({
+    text: "確定刪除？",
+    icon: 'warning',
+    allowOutsideClick: false,
+    confirmButtonText: '確認',
+    showCancelButton: true,
+    cancelButtonText: '取消',
+  }).then(result => {
+    if(result.isConfirmed){
+      Swal.fire({
+        text: "Loading......",
+        showConfirmButton: false,
+        allowOutsideClick: false,
+      });
+      axiosapi.delete(`/hotel/backend/checkOutInspection/${id}`).then(response => {
+        if(response.data.success){
+          Swal.fire({
+            text: response.data.message,
+            icon: 'success',
+            allowOutsideClick: false,
+            confirmButtonText: '確認',
+          }).then(() => {
+            callFind();
+          });
+        } else {
+          Swal.fire({
+            text: response.data.message,
+            icon: 'warning',
+            allowOutsideClick: false,
+            confirmButtonText: '確認',
+          });
+        }          
+      }).catch(error => {
+        Swal.fire({
+          text: '失敗：'+error.message,
+          icon: 'error',
+          allowOutsideClick: false,
+          confirmButtonText: '確認',
+        });
+      });
+    }
+  });
+}
+
+function insertProduct() {
+  Swal.fire({
+    text: "Loading......",
+    showConfirmButton: false,
+    allowOutsideClick: false,
+  });
+
+  let data = {
+    id: product.value.id,
+    compensation: product.value.compensation,
+    fee: product.value.fee,
+    photo: product.value.photo
+  };
+
+  console.log("Insert Product Data:", data);
+
+  axiosapi.post("/hotel/backend/checkOutInspection", data).then(function(response) {
+    console.log("Insert Response:", response.data);
+    if(response.data.success) {
+      Swal.fire({
+        text: response.data.message,
+        icon: 'success',
+        allowOutsideClick: false,
+        confirmButtonText: '確認',
+      }).then(function() {
+        hideModal();
+        callFind();
+      });
+    } else {
+      Swal.fire({
+        text: response.data.message,
+        icon: 'warning',
+        allowOutsideClick: false,
+        confirmButtonText: '確認',
+      });
+    }
+  }).catch(function(error) {
+    console.log("Insert Error:", error);
+    Swal.fire({
+      text: '失敗：'+error.message,
+      icon: 'error',
+      allowOutsideClick: false,
+      confirmButtonText: '確認',
+    });
+  });
+}
+
+function updateProduct() {
+  Swal.fire({
+    text: "Loading......",
+    showConfirmButton: false,
+    allowOutsideClick: false,
+  });
+
+  let data = {
+    id: product.value.id,
+    compensation: product.value.compensation,
+    fee: product.value.fee,
+    photo: product.value.photo
+  };
+
+  console.log("Update Product Data:", data);
+
+  axiosapi.put(`/hotel/backend/checkOutInspection/${product.value.id}`, data).then(function(response) {
+    console.log("Update Response:", response.data);
+    if(response.data.success) {
+      Swal.fire({
+        text: response.data.message,
+        icon: 'success',
+        allowOutsideClick: false,
+        confirmButtonText: '確認',
+      }).then(function() {
+        hideModal();
+        callFind();
+      });
+    } else {
+      Swal.fire({
+        text: response.data.message,
+        icon: 'warning',
+        allowOutsideClick: false,
+        confirmButtonText: '確認',
+      });
+    }
+  }).catch(function(error) {
+    console.log("Update Error:", error);
+    Swal.fire({
+      text: '失敗：'+error.message,
+      icon: 'error',
+      allowOutsideClick: false,
+      confirmButtonText: '確認',
+    });
+  });
+}
+
+function uploadImage(event, id) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64String = reader.result.replace('data:', '').replace(/^.+,/, '');
+      product.value.photo = base64String;
+    };
+    reader.readAsDataURL(file);
   }
+}
+
+const paginatedAssigns = computed(() => {
+  const start = (currentPage.value - 1) * rowsPerPage.value;
+  return assigns.value.slice(start, start + rowsPerPage.value);
 });
 
-const searchRooms = () => {
-  // 限制 budgetPrice 在 6000 - 31000 之間
-  budgetPrice.value = Math.max(6000, Math.min(31000, budgetPrice.value));
+function showModal() {
+  exampleModalObj.value.show();
+}
 
-  const filteredRooms = rooms.filter(room => 
-    room.price >= budgetPrice.value - 2500 && room.price <= budgetPrice.value + 2500
-  );
+function hideModal() {
+  exampleModalObj.value.hide();
+}
 
-  if (selectedRoomNames.value.length > 0) {
-    filteredRoomsForList.value = filteredRooms.filter(room =>
-      selectedRoomNames.value.includes(room.name)
-    );
-  } else {
-    filteredRoomsForList.value = filteredRooms;
+function prevPage() {
+  if (currentPage.value > 1) {
+    currentPage.value--;
+    callFind();
   }
+}
 
-  sortRooms();
-};
-
-const sortRooms = (type = sortType.value) => {
-  sortType.value = type;
-
-  if (type === 'lowToHigh') {
-    filteredRoomsForList.value.sort((a, b) => a.price - b.price);
-  } else if (type === 'highToLow') {
-    filteredRoomsForList.value.sort((a, b) => b.price - a.price);
-  } else {
-    filteredRoomsForList.value.sort((a, b) => rooms.indexOf(a) - rooms.indexOf(b));
+function nextPage() {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++;
+    callFind();
   }
-};
+}
 
-const applyFilter = () => {
-  selectedRoomNames.value = [...tempSelectedRoomNames.value];
-  showModal.value = false;
-};
+onMounted(() => {
+  callFind();
+  exampleModalObj.value = new Modal(exampleModalRef.value);
+});
 </script>
 
-<style scoped lang="scss">
-body {
-  padding: 20px;
-  background: #f5f5f5;
-  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  color: #333;
-  margin: 0;
-}
-
-h1 {
-  font-size: 30px;
-  color: #333;
-}
-
-.container {
-  max-width: 1200px;
-  margin: auto;
-  padding: 0 15px;
-}
-
-.row {
-  margin: 0 -15px;
-}
-
-.col-sm-12,
-.col-sm-4 {
-  padding: 0 15px;
-}
-
-.swiper-container {
-  max-width: 600px !important;
-  margin: 20px auto !important;
-  height: 200px !important;
-  overflow: hidden !important;
-}
-
-.swiper-slide img {
-  width: 100% !important;
-  height: auto !important;
-  object-fit: cover !important;
-  height: 100% !important;
-}
-
-#app {
-  height: 100%;
-  padding-bottom: 20px;
-}
-
-html,
-body {
-  position: relative;
-  height: 100%;
-}
-
-.swiper {
-  width: 100%;
-  height: 30%;
-}
-
-.swiper-slide {
+<style scoped>
+.box {
+  margin-top: 100px;
   text-align: center;
-  font-size: 18px;
-  background: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
-
-.dateCheck {
-  margin: 20px 0;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.dateCheck-title {
-  font-size: 20px;
-  color: #333;
-  margin-bottom: 10px;
-}
-
-.dateCheck-calendar {
-  margin-bottom: 10px;
-}
-
-.dateCheck-reset {
-  cursor: pointer;
-  color: #007bff;
-  text-decoration: underline;
-}
-
-.col-room {
-  margin-bottom: 30px;
-}
-
-hr {
-  border-top: 1px solid #ccc;
-}
-
-.sorting-buttons {
-  margin: 10px 0;
-  display: flex;
-  gap: 10px;
-}
-
-.sorting-buttons button {
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  background-color: #eee;
-  color: #333;
-}
-
-.sorting-buttons button.active {
-  background-color: #333;
-  color: #fff;
-}
-
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.5);
-}
-
-.modal-content {
-  background: #fff;
-  padding: 20px;
-  border-radius: 5px;
-  max-width: 500px;
-  width: 100%;
-}
-
-.modal-content h2 {
-  margin-top: 0;
-}
-
-.modal-content div {
+.button-container {
+  text-align: left;
   margin-bottom: 20px;
 }
-
-.modal-content button {
-  margin-right: 10px;
+.assign {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 18px;
+  text-align: left;
+}
+.assign th, .assign td {
+  border: 1px solid #dddddd;
+  padding: 8px;
+}
+.assign th {
+  background-color: #f2f2f2;
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+.pagination button {
+  margin: 0 10px;
 }
 </style>

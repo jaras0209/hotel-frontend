@@ -12,31 +12,28 @@
     </div>
 
     <div class="row">
-      <MinibarCard v-for="product in products" 
-          :key="product.id" 
-          :item="product" 
-          @detail="openModal">
-      </MinibarCard>
-    </div>
+    <MinibarCard v-for="product in products" 
+        :key="product.id" 
+        :item="product" 
+        @detail="openMinibarModal"
+        @order="openOrderModal">
+    </MinibarCard>
+  </div>
 
-    <MinibarOrder 
-      ref="minibarOrderRef" 
-      v-if="selectedProduct"
-      :id="selectedProduct.id"
-      :item="selectedProduct.item"
-      :price="selectedProduct.price"
-      :make="selectedProduct.make"
-      :expire="selectedProduct.expire"
-      :isShowButtonInsert="true"
-      @insert="insertOrder">
-    </MinibarOrder>
+  <MinibarOrder 
+    ref="minibarOrderRef" 
+    v-if="selectedOrderProduct"
+    :item="selectedOrderProduct"
+    :isShowButtonInsert="true"
+    @insert="insertOrder">
+  </MinibarOrder>
 
-
-    <MinibarModal 
-      ref="minibarModalRef" 
-      :item="selectedProduct" 
-      @close="closeModal">
-    </MinibarModal>
+  <MinibarModal 
+    ref="minibarModalRef" 
+    v-if="selectedDetailProduct"
+    :item="selectedDetailProduct" 
+    @close="closeModal">
+  </MinibarModal>
 
     <div class="col-4" v-show="total != 0">
       <Paginate 
@@ -77,24 +74,14 @@ const rows = ref(8);
 const lastPageRows = ref(0);
 
 const products = ref([]);
-const minibarModalRef = ref(null);
-const isShowButtonInsert = ref(true);
 const findName = ref("");
-const selectedProduct = ref(null);
+const selectedDetailProduct = ref(null); // 用於 MinibarModal
+const selectedOrderProduct = ref(null); // 用於 MinibarOrder
 const router = useRouter();
 
 onMounted(() => {
   callFind();
 });
-
-// function openModal(productId) {
-//   callFindById(productId);
-// }
-
-// function closeModal() {
-//   selectedProduct.value = null;
-//   minibarModalRef.value.closeModal();
-// }
 
 function callFind(page) {
   Swal.fire({
@@ -146,12 +133,15 @@ function callFind(page) {
   });
 }
 
-// 后端返回的 JSON 数据嵌套在 list 数组中的作法
-function openModal(itemId) {
+function openMinibarModal(itemId) {
   axiosapi.get(`/hotel/minibar/${itemId}`).then(response => {
     if (response.data.list && response.data.list.length > 0) {
-      selectedProduct.value = response.data.list[0]; // 取第一个元素
-      minibarModalRef.value.showModal();
+      selectedDetailProduct.value = response.data.list[0];
+      const modalElement = document.getElementById('minibarModal');
+      if (modalElement) {
+        const modalInstance = new bootstrap.Modal(modalElement);
+        modalInstance.show();
+      }
     } else {
       Swal.fire({
         text: '找不到該商品。',
@@ -173,42 +163,56 @@ function openModal(itemId) {
   });
 }
 
-
-function closeModal() {
-  selectedProduct.value = null;
+function openOrderModal(itemId) {
+  axiosapi.get(`/hotel/minibar/${itemId}`).then(response => {
+    if (response.data.list && response.data.list.length > 0) {
+      selectedOrderProduct.value = response.data.list[0];
+      const modalElement = document.getElementById('orderModal');
+      if (modalElement) {
+        const modalInstance = new bootstrap.Modal(modalElement);
+        modalInstance.show();
+      }
+    } else {
+      Swal.fire({
+        text: '找不到該商品。',
+        icon: 'warning',
+        confirmButtonText: '確認'
+      });
+    }
+  }).catch(error => {
+    Swal.fire({
+      text: '查詢失敗：' + error.message,
+      icon: 'error',
+      allowOutsideClick: false,
+      confirmButtonText: '確認',
+    }).then(() => {
+      if (error.response && error.response.status === 403) {
+        router.push("/secure/login");
+      }
+    });
+  });
 }
 
-// function callFindById(id) {
-//   Swal.fire({
-//     text: "Loading......",
-//     showConfirmButton: false,
-//     allowOutsideClick: false,
-//   });
+function closeModal() {
+  selectedDetailProduct.value = null;
+  selectedOrderProduct.value = null;
+}
 
-//   axiosapi.get(`/hotel/minibar/${id}`).then(function (response) {
-//     selectedProduct.value = response.data.product;
-//     minibarModalRef.value.showModal();
-    
-//     setTimeout(function() {
-//       Swal.close();
-//     }, 250);
-//   }).catch(function (error) {
-//     Swal.fire({
-//       text: '查詢失敗：' + error.message,
-//       icon: 'error',
-//       allowOutsideClick: false,
-//       confirmButtonText: '確認',
-//     }).then(function () {
-//       if (error && error.response && error.response.status === 403) {
-//         router.push("/secure/login");
-//       }
-//     });
-//   });
-// }
+function insertOrder(orderData) {
+  axiosapi.post('/hotel/additionalCharges', orderData).then(response => {
+    Swal.fire({
+      text: '訂單已成功提交',
+      icon: 'success',
+      confirmButtonText: '確認'
+    });
+  }).catch(error => {
+    Swal.fire({
+      text: '訂單提交失敗：' + error.message,
+      icon: 'error',
+      allowOutsideClick: false,
+      confirmButtonText: '確認',
+    });
+  });
+  closeModal();
+}
 </script>
-
-<style scoped>
-/* .sticky-bottom{
-  margin-top:autp;
-} */
-</style>

@@ -50,6 +50,7 @@ function openModal(roomId) {
   axiosapi.get(`/hotel/backend/roomManagement/number/${roomId}`).then(response => {
     // console.log("openModal", response);
     selectedRoom.value = response.data;
+    console.log("allRooms",selectedRoom.value)
     roomModalRef.value.showModal();
   }).catch(error => {
     Swal.fire({
@@ -80,6 +81,7 @@ function callFind(){
       params: { p: currentPage.value }
   }).then(function(response){
       rooms.value = response.data;  // 根据后端返回的数据结构调整
+      console.log("allRooms123",rooms.value)
       setTimeout(function () {
           Swal.close();
       }, 250);

@@ -18,6 +18,7 @@ import Reviews from "./front/Reviews.vue";
 import Room from "./Room.vue";
 import RoomView from "./front/RoomView.vue";
 import Calendar from "./result.vue";
+import B from "./B.vue";
 
 
 
@@ -42,4 +43,5 @@ export default [
 
     {name: "room-link", path: "/room", component:Room},
     {name: "calendar-link", path: "/room/calendar", component:Calendar},
+    {name: "b-link", path: "/room/b", component:B},
 ]
