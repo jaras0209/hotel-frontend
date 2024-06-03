@@ -50,7 +50,13 @@
             <br><br>
             <h2 class="mt-0">商品價格 :{{ product.productPrice }}</h2>
             <br><br>
+            <span style="font-size: 24px;" v-if="commentcount > 0">{{ commentaveragescore }}分</span><a
+                href="#commemtblock" v-if="commentcount > 0" style="font-size: 24px;">{{
+                    commentcount
+                }}則評價</a>
+            <br><br>
             <h2 class="mt-0">商品介紹 :{{ product.productDescription }}</h2>
+            <br><br>
             <select size="1" @change="emits('update:modelValue', $event.target.value)">
                 <option v-for="item in options" :key="item" :value="item">
                     {{ item }}
@@ -61,7 +67,7 @@
     </div>
 </template>
 <script setup>
-const props = defineProps(["product", "pic", "pict", "pictu", "options", "modelValue"]);
+const props = defineProps(["product", "pic", "pict", "pictu", "options", "modelValue", "commentcount", "commentaveragescore"]);
 const emits = defineEmits(["update:modelValue", "cart"]);
 function doclick(id) {
     emits("cart", id)

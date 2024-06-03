@@ -1,7 +1,8 @@
 <template>
     <div class="card"
         style="background: linear-gradient(to right, #3EF55C, #12F390, #12F3A8); color: black;width: 18em; margin: 15px;">
-        <img :src="`http://localhost:8080/hotel/photos/${item.id}`" class="card-img-top" alt="...">
+        <img :src="`http://localhost:8080/hotel/photos/${item.id}`" class="card-img-top" alt="..."
+            style="height: 15em;">
         <div class="card-body">
             <p class="card-text">{{ item.productDescription }}</p>
         </div>

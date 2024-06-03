@@ -59,6 +59,7 @@ function cliick(quantity, productid) {
     }
     axiosapi.put("/hotel/carts/modify", data).then(function (response) {
         console.log(response);
+        cart()
     }).catch(function (error) {
         console.log(error);
     });

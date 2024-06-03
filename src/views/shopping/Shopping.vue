@@ -15,12 +15,13 @@
         <div class="main">
             <main>
                 <ShoppingCard v-for="product in find" :key="product.id" :product="product" :pic="pic" :pict="pict"
-                    :pictu="pictu" @cart="cart" :options="options" v-model="data">
+                    :pictu="pictu" @cart="cart" :options="options" v-model="data" :commentcount="commentcount"
+                    :commentaveragescore="commentaveragescore">
                 </ShoppingCard>
                 <br><br><br><br><br><br>
                 <div>
                     <div>
-                        <h2 id="commemtblock">商品評價</h2>
+                        <h2 id="commemtblock">{{ getAverageScore() }}商品評價</h2>
                     </div>
                     <div>
                         <textarea type="text" v-model="commentmessage" placeholder="詳細說明您的想法" width="50%"
@@ -54,27 +55,45 @@
             <h2 id="mustknow">關於退貨</h2>
             <ul>
                 <li>
-                    歡迎來到,這並非商業用途,參考地方來源於,無商業用途,若有冒犯抱歉,依照消費者保護法的規定，享有商品貨到次日起七天猶豫期的權益。(請留意猶豫期非試用期!!)您所退回的商品必須回復原狀（復原至商品到貨時的原始狀態並且保持完整包裝，包括商品本體、配件、贈品、保證書、原廠包裝及所有附隨文件或資料的完整性）。商品一經拆封/啟用歡迎來到,這並非商業用途,參考地方來源於,保固，將使商品價值減損，您理解本公司將依法收取回復原狀必要之費用(若無法復原，費用將以商品價值損失計算)，請先確認商品正確、外觀可接受再行使用，以免影響您的權利，祝您購物順心。
+                    消費者：指以消費為目的而為交易、使用商品或接受服務者。
+                    個別磋商條款：指契約當事人個別磋商而合意之契約條款。定型化契約：指以企業經營者提出之定型化契約條款作為契約內容之全部或一部而訂立之契約。
+                    通訊交易：指企業經營者以廣播、電視、電話、傳真、型錄、報紙、雜誌、網際網路、傳單或其他類似之方法，消費者於未能檢視商品或服務下而與企業經營者所訂立之契約。
+                    訪問交易：指企業經營者未經邀約而與消費者在其住居所、工作場所、公共場所或其他場所所訂立之契約。
+                    分期付款：指買賣契約約定消費者支付頭期款，餘款分期支付，而企業經營者於收受頭期款時，交付標的物與消費者之交易型態。
                 </li>
                 <li>
-                    如果您所購買商品是下列特殊商品，請留意下述退貨注意事項：
+                    企業經營者：指以設計、生產、製造、輸入、經銷商品或提供服務為營業者。
                     <ol>
                         <li>
-                            易於腐敗之商品、保存期限較短之商品、客製化商品、報紙、期刊、雜誌，依據消費者保護法之規定，於收受商品後將無法享有七天猶豫期之權益且不得辦理退貨,歡迎來到,這並非商業用途,參考地方來源於,無商業用途,若有冒犯抱歉歡迎來到,這並非商業用途,參考地方來源於。
+                            消費關係：指消費者與企業經營者間就商品或服務所發生之法律關係。
                         </li>
                         <li>
-                            非以有形媒介提供之數位內容或一經提供即為完成之線上服務，一經您事先同意後始提供者，依消費者保護法之規定，您將無法享有七天猶豫期之權益且不得辦理退貨歡迎來到,這並非商業用途,參考地方來源於。
+                            消費爭議：指消費者與企業經營者間因商品或服務所生之爭議。
                         </li>
                         <li>
-                            若因您要求退貨或換貨、或因本公司無法接受您全部或部分之訂單、或因契約解除或失其效力，而需為您辦理退款事宜時，您同意本公司得代您處理發票或折讓單等相關法令所要求之單據，以利本公司為您辦理退款,歡迎來到,這並非商業用途,參考地方來源於,無商業用途,若有冒犯抱歉歡迎來到,這並非商業用途,參考地方來源於。
+                            消費訴訟：指因消費關係而向法院提起之訴訟。
                         </li>
                         <li>
-                            歡迎來到,這並非商業用途,參考地方來源於,無商業用途,若有冒犯抱歉,依照消費者保護法的規定，享有商品貨到次日起七天猶豫期的權益。(請留意猶豫期非試用期!!)您所退回的商品必須回復原狀歡迎來到,這並非商業用途,參考地方來源於。
+                            從事設計、生產、製造商品或提供服務之企業經營者，於提供商品流通進入市場，或提供服務時，應確保該商品或服務，符合當時科技或專業水準可合理期待之安全性。
+                            商品或服務具有危害消費者生命、身體、健康、財產之可能者，應於明顯處為警告標示及緊急處理危險之方法。
+                            企業經營者違反前二項規定，致生損害於消費者或第三人時，應負連帶賠償責任。但企業經營者能證明其無過失者，法院得減輕其賠償責任。
                         </li>
                     </ol>
                 </li>
                 <li>
-                    歡迎來到,這並非商業用途,參考地方來源於,無商業用途,若有冒犯抱歉,依照消費者保護法的規定，享有商品貨到次日起七天猶豫期的權益。(請留意猶豫期非試用期!!)您所退回的商品必須回復原狀（復原至商品到貨時的原始狀態並且保持完整包裝，包括商品本體、配件、贈品、保證書、原廠包裝及所有附隨文件或資料的完整性）。商品一經拆封/啟用保固，將使商品價值減損，您理解本公司將依法收取回復原狀必要之費用(若無法復原，費用將以商品價值損失計算)，請先確認商品正確、外觀可接受再行使用，歡迎來到,這並非商業用途,參考地方來源於,無商業用途,若有冒犯抱歉,依以免影響您的權利，祝您購物順心,歡迎來到,這並非商業用途,參考地方來源批溪轟。
+                    維護商品或服務之品質與安全衛生。
+                    防止商品或服務損害消費者之生命、身體、健康、財產或其他權益。
+                    確保商品或服務之標示，符合法令規定。
+                    確保商品或服務之廣告，符合法令規定。
+                    確保商品或服務之度量衡，符合法令規定。
+                    促進商品或服務維持合理價格。
+                    促進商品之合理包裝。
+                    促進商品或服務之公平交易。
+                    扶植、獎助消費者保護團體。
+                    協調處理消費爭議。
+                    推行消費者教育。
+                    辦理消費者諮詢服務。
+                    其他依消費生活之發展所必要之消費者保護措施。
                 </li>
             </ul>
         </div>
@@ -126,6 +145,8 @@ const instancecomment = ref({})
 const disabled = ref(true)
 const score = ref(1)
 const mfind = ref({})
+const commentcount = ref(0)
+const commentaveragescore = ref(0)
 onMounted(function () {
     userId.value = sessionStorage.getItem("userId")
     callFindid(id)
@@ -149,6 +170,15 @@ onMounted(function () {
         console.log("callFindById error", error);
     });
 })
+function getAverageScore() {
+    let total = 0
+    for (let i = 0; i < instancecomment.value.length; i++) {
+        console.log(instancecomment.value[i].score)
+        total = total + instancecomment.value[i].score
+    }
+    commentaveragescore.value = total / instancecomment.value.length
+    console.log("commentaveragescore.value=" + commentaveragescore.value)
+}
 function callFindid(id) {
     axiosapi.get(`/hotel/products/${id}`).then(function (response) {
         if (response.data.list[0] != 0) {
@@ -274,6 +304,7 @@ function callcoment() {
     axiosapi.get(`/hotel/comments/instances/${productName.value}`).then(function (response) {
         instancecomment.value = response.data
         console.log(instancecomment.value)
+        commentcount.value = response.data.length
     }).catch(function (error) {
         console.log("callFindById error", error);
     });

@@ -40,7 +40,7 @@
                                 @input="emits('update:commentText', $event.target.value)"
                                 style="font-size: 28px;"></textarea>
                         </tr>
-                        <button type="button" @click="emits('send', commentId)" style="font-size: 20px;">張貼</button>
+                        <button type="button" @click="emits('send', commentId)" style="font-size: 20px;">送出</button>
                     </table>
                 </div>
             </div>
