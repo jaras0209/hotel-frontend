@@ -79,7 +79,13 @@ function callFind(page) {
             icon: 'error',
             allowOutsideClick: false,
             confirmButtonText: '確認',
-        });
+        }).then(function (){
+            if (error.response.status==403){
+                router.push({name:"login-link"})
+            }
+        })
+
+
     });
 }
 function callalert() {

@@ -85,7 +85,7 @@ function login() {
     console.log("data", data);
     axiosapi.post("hotel/employees/login", data).then((response) => {
         console.log("response", response);
-        if (response.data.Success) {
+        if (response.data.success) {
             console.log("success")
             Swal.fire({
                 text: response.data.message,

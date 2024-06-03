@@ -1,67 +1,54 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <RouterLink class="navbar-brand hotel" to="/"><img src="/logo.png" alt="Logo"
-          style="width:40px; border-radius: 40px;">&nbsp;&nbsp;FreeRelx HOTEL</RouterLink>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <RouterLink class="navbar-brand hotel" to="/"><img src="/Logo.png" alt="Logo" style="width:40px; border-radius: 40px;">&nbsp;&nbsp;FreeRelx HOTEL</RouterLink>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+        aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
         <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
 
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/room/front/frontIndex">frontIndex</RouterLink>
+          </li>   
+
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="/room/roomInfo" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">客房介紹</a>
             <ul class="dropdown-menu">
               <li>
-                <RouterLink class="dropdown-item" to="/room/front/booking">Room Information</RouterLink>
-                <RouterLink class="dropdown-item" to="/room/front/deluxe">Deluxe</RouterLink>
-                <RouterLink class="dropdown-item" to="/room/front/executive">Executive</RouterLink>
-                <RouterLink class="dropdown-item" to="/room/front/standard">Standard</RouterLink>
+                <RouterLink class="dropdown-item" to="/room/front/standard">標準客房</RouterLink>
+                <RouterLink class="dropdown-item" to="/room/front/executive">商務客房</RouterLink>
+                <RouterLink class="dropdown-item" to="/room/front/deluxe">尊榮套房</RouterLink>
               </li>
             </ul>
           </li>
 
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/front/frontIndex">frontIndex</RouterLink>
+          
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="/room/roomInfo" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">房務管理</a>
+            <ul class="dropdown-menu">
+              <li>
+                <RouterLink class="dropdown-item" to="/room/back/roomManagement">客房管理</RouterLink>
+                <RouterLink class="dropdown-item" to="/room/back/roomAssignment">分配房型</RouterLink>
+                <RouterLink class="dropdown-item" to="/room/back/housingManagement">住房管理</RouterLink>
+                <RouterLink class="dropdown-item" to="/room/back/additionalCharges">附加費用</RouterLink>
+                <RouterLink class="dropdown-item" to="/room/back/checkOut">賠償費用</RouterLink>
+                <RouterLink class="dropdown-item" to="/room/back/roomInfo">編輯房型</RouterLink>
+              </li>
+            </ul>
           </li>
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/front/booking">booking</RouterLink>
-          </li>
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/front/checkAvailability">空房查詢</RouterLink>
-          </li>
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/front/minibar">RoomService</RouterLink>
-          </li>
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/front/reviews">評論</RouterLink>
-          </li>
+            
           <li class="nav-item">
             <RouterLink class="nav-link" to="/room/back/backIndex">backIndex</RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/back/housingManagement">住房管理</RouterLink>
+            <RouterLink class="nav-link" to="/room/calendar">123</RouterLink>
           </li>
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/back/additionalCharges">附加費</RouterLink>
-          </li>
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/back/checkOut">賠償費</RouterLink>
-          </li>
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/back/roomAssignment">分配房型</RouterLink>
-          </li>
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/back/roomInfo">編輯房型</RouterLink>
-          </li>
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/back/roomManagement">客房管理</RouterLink>
-          </li>
-
-
 
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -74,8 +61,7 @@
                 </RouterLink>
                 <RouterLink class="dropdown-item" to="/shopping/cart">
                   <font-awesome-icon
-                    :icon="['fas', 'cart-shopping']" />&nbsp;&nbsp;&nbsp;購物車&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
-                    v-if="userId != null">{{ some }}</span>
+                    :icon="['fas', 'cart-shopping']" />&nbsp;&nbsp;&nbsp;購物車&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   <!-- 5/29新增 -->
                 </RouterLink>
                 <RouterLink class="dropdown-item" to="/shopping/myorder">
@@ -93,23 +79,46 @@
               哈囉! {{ user }}
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#" @click="doclickShow">資料修改</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
+              <li><a class="dropdown-item" href="#" @click="doclickShow" >資料修改</a></li>
+              <li><RouterLink class="dropdown-item" to="/member/orderHistory">訂房紀錄</RouterLink></li>
+              <li><RouterLink class="dropdown-item" to="/orderRoom/login">目前訂單查詢</RouterLink></li>
+              <li><a class="dropdown-item" href="#" @click="revisePassword">修改密碼</a></li>
+
+              <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="#" @click="logout">登出</a></li>
             </ul>
           </li>
         </ul>
       </div>
     </div>
-    <MemberModal ref="memberRef" v-model:name="userData.memberName" v-model:nationId="userData.nationId"
-      v-model:sexual="userData.gender" v-model:birth="userData.birth" v-model:email="userData.email"
-      v-model:phone="userData.phoneNumber" v-model:creditCard="userData.creditCard"
-      v-model:nationality="userData.nationality" v-model:countSelect="addressCounty" v-model:area="addressArea"
-      v-model:roadName="addressRoadname" v-model:areaList="areaList" v-model:id="userId" @upload="catchPicture"
-      @selected="selected" @modify="callModify"></MemberModal>
+    <MemberModal ref="memberRef"
+      v-model:name="userData.memberName"
+      v-model:nationId="userData.nationId"
+      v-model:sexual="userData.gender"
+      v-model:birth="userData.birth"
+      v-model:email="userData.email"
+      v-model:phone="userData.phoneNumber"
+      v-model:creditCard="userData.creditCard"
+      v-model:nationality="userData.nationality"
+      v-model:countSelect="addressCounty"
+      v-model:area="addressArea"
+      v-model:roadName="addressRoadname"
+      v-model:areaList="areaList"
+      v-model:id="userId"
+      @upload="catchPicture"
+      @selected="selected"
+      @modify="callModify"
+    ></MemberModal>
+
+    <MemberPassword
+      ref="memberPasswordRef"
+      :errorMess="errorMessg"
+      v-model:original="inputPass"
+      v-model:updatePassword="newPass"
+      v-model:againUpdatePassword="newPassAg"
+      @modify="modifyPassword"
+    >
+    </MemberPassword>
   </nav>
 </template>
 
@@ -118,7 +127,7 @@ import axiosapi from '@/plugins/axios.js';
 import { useRouter } from 'vue-router';
 import { ref, onMounted } from 'vue';
 import MemberModal from '@/components/member/MemberModal.vue';
-
+import MemberPassword from '@/components/member/memberPassword.vue';
 import json from '@/CityCountyData.json';// 可能可以改進
 import Swal from 'sweetalert2';
 
@@ -128,49 +137,57 @@ const user = sessionStorage.getItem('user');
 const userId = sessionStorage.getItem('userId');
 const userData = ref({});
 const memberRef = ref(null);
+const memberPasswordRef = ref(null);
 const addressCounty = ref("");
 const addressArea = ref("");
 const addressRoadname = ref("")
 const areaList = ref(null);
 const photoFile = ref(null);
-const some = ref(null)
+
+    //--------修改密碼
+    const inputPass = ref("");
+    const newPass = ref("");
+    const newPassAg = ref("");
+    const errorMessg = ref("");
+
 // const putData = FormData();
 //--------------------------------------------------
-// 使用 Proxy 處理數據
-const handler = {
-  set(target, property, value) {
-    console.log(`Setting ${property} to ${value}`);
-    target[property] = value;
-    return true;
-  },
-  get(target, property) {
-    console.log(`Getting ${property}`);
-    return target[property];
-  }
-};
+    // 使用 Proxy 處理數據
+    const handler = {
+      set(target, property, value) {
+        // console.log(`Setting ${property} to ${value}`);
+        target[property] = value;
+        return true;
+      },
+      get(target, property) {
+        // console.log(`Getting ${property}`);
+        return target[property];
+      }
+    };
 
 const proxyData = new Proxy(userData.value, handler);
 
 //-----------------------------
 
-function selected() {
-  // console.log("select觸發")
-  for (var i = 0; i < json.length; i++) {
-    // console.log(json[i]);
-    if (json[i].CityName == addressCounty.value) {
-      areaList.value = json[i].AreaList;
-      // console.log(areaList.value);
+    function selected(){
+        // console.log("select觸發")
+        for (var i=0 ; i<json.length;i++){
+            // console.log(json[i]);
+            if (json[i].CityName==addressCounty.value){
+                areaList.value = json[i].AreaList;
+                // console.log(areaList.value);
+            }
+        }
+        // console.log(json.length)
     }
-  }
-  console.log(json.length)
-}
 
 function logout() {
   sessionStorage.removeItem('user');
   axiosapi.defaults.headers.authorization = '';
-  axiosapi.put(`hotel/member/logout/${userId}`).then(function (response) { }).catch(function (error) { })
-  console.log("logout", userId)
-  sessionStorage.removeItem("userId")
+  axiosapi.put(`hotel/member/logout/${userId}`).then(function(response){}).catch(function(error){})
+  // console.log("logout", userId)
+  sessionStorage.removeItem("userId");
+  sessionStorage.clear();
   router.go(0);
 }
 
@@ -183,21 +200,30 @@ function doclickShow() {
 
 function callFindUser() {
 
-  axiosapi.get(`hotel/member/${userId}`).then(function (response) {
-    // console.log("response",response);
-    // userData.value = response.data;
-    Object.assign(proxyData, response.data);
-    // console.log("userData.value",response.data.birth);
-    console.log("userData.value", userData.value)
-    console.log("userData.value", typeof (userData.value.contactAddress))
-    addressCounty.value = userData.value.contactAddress.substr(0, 3);
-    addressArea.value = userData.value.contactAddress.substr(3, 3);
-    console.log(addressArea.value)
-    addressRoadname.value = userData.value.contactAddress.substr(6);
-  }).catch(function (error) {
-    console.log("error", error);
-  })
-}
+      axiosapi.get(`hotel/member/${userId}`).then(function (response){
+        // console.log("response",response);
+        // userData.value = response.data;
+        Object.assign(proxyData, response.data);
+        // console.log("userData.value",response.data.birth);
+        // console.log("userData.value",userData.value)
+        // console.log("userData.value", typeof(userData.value.contactAddress))
+        addressCounty.value = userData.value.contactAddress.substr(0,3);
+        addressArea.value = userData.value.contactAddress.substr(3,3);
+        // console.log(addressArea.value)
+        addressRoadname.value = userData.value.contactAddress.substr(6);
+
+        sessionStorage.setItem("name", userData.value.memberName);
+        sessionStorage.setItem("gender", userData.value.gender);
+        sessionStorage.setItem("birth",userData.value.birth);
+        sessionStorage.setItem("national_id",userData.value.nationId);
+        sessionStorage.setItem("email", userData.value.email);
+        sessionStorage.setItem("phone_number", userData.value.phoneNumber);
+        sessionStorage.setItem("password",userData.value.password);
+        sessionStorage.setItem("nationality", userData.value.nationality);
+      }).catch(function (error){
+        console.log("error", error);
+      })
+    }
 
 function catchPicture() {
   photoFile.value = event.target.files[0];
@@ -264,65 +290,137 @@ function callModify() {
   }))
 
 
-  console.log("修改function裡");
-  console.log(formData)
-  axiosapi.put(`/hotel/member/alert2/${userId}`, formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
-  }).then(function (response) {
-    if (response.data.success) {
-      Swal.fire({
-        text: response.data.message,
-        icon: 'success',
-        allowOutsideClick: false,
-        confirmButtonText: '確認',
-      }).then(function () {
-        memberRef.value.hideModal();
-        router.go(0);
-      })
-    } else {
-      Swal.fire({
-        text: response.data.message,
-        icon: "warning",
-        allowOutsideClick: false,
-        confirmButtonText: '確認',
+      console.log("修改function裡");
+      console.log(formData)
+      axiosapi.put(`/hotel/member/alert2/${userId}`,formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    }).then(function (response){
+        if (response.data.success){
+          Swal.fire({
+            text: response.data.message,
+            icon: 'success',
+            allowOutsideClick: false,
+            confirmButtonText: '確認',
+          }).then(function (){
+            memberRef.value.hideModal();
+            router.go(0);
+          })
+        } else {
+          Swal.fire({
+            text: response.data.message,
+            icon: "warning",
+            allowOutsideClick: false,
+            confirmButtonText: '確認',
+          });
+        }
+      }).catch(function (error){
+        console.log("error",error)
+        Swal.fire({
+          text:'失敗：'+error.message,
+          icon: 'error',
+          allowOutsideClick: false,
+          confirmButtonText: '確認',
+        });
       });
     }
-  }).catch(function (error) {
-    console.log("error", error)
-    Swal.fire({
-      text: '失敗：' + error.message,
-      icon: 'error',
-      allowOutsideClick: false,
-      confirmButtonText: '確認',
-    });
-  });
-}
+
+    // 修改密碼
+    function revisePassword(){
+        errorMessg.value="";
+        inputPass.value="";
+        newPass.value="";
+        newPassAg.value=""
+        memberPasswordRef.value.showModal();
+    }   
+    function modifyPassword(){
+        Swal.fire({
+            text: "Loading...",
+            showConfirmButton: false,
+            allowOutsideClick: false,
+        });
+
+        if (inputPass.value === ""){
+            inputPass.value = null;
+        }
+        if (newPass.value === ""){
+            newPass.value = null;
+        }
+        if (newPassAg.value === ""){
+            newPassAg.value = null;
+        }
+
+        if (newPass.value != newPassAg.value){
+            errorMessg.value="兩次密碼輸入不一致";
+            setTimeout(function () {
+                    Swal.close();
+                }, 500);
+        }else{
+            errorMessg.value=""
+            let data = {
+                "memberId":userId,
+                "originPassword":inputPass.value,
+                "newPassword":newPass.value
+            }
+            console.log("data",data)
+            axiosapi.put(`/hotel/members/password/${userId}`, data).then(function (response){
+                console.log("response", response);
+                if (response.status==200){
+                    Swal.fire({
+                        text: '修改成功',
+                        icon: 'success',
+                        allowOutsideClick: false,
+                        confirmButtonText: '確認',
+                    }).then(function (){
+                        memberPasswordRef.value.hideModal();
+                    })
+                }
+            }).catch(function (error){
+                console.log("error", error.response.status);
+                if (error.response.status== 404){
+                    Swal.fire({
+                        text: "原始密碼錯誤，請重新輸入",
+                        icon: 'error',
+                        allowOutsideClick: false,
+                        confirmButtonText: '確認',
+                    });
+                }else{
+                    Swal.fire({
+                        text:'失敗：'+error.message,
+                        icon: 'error',
+                        allowOutsideClick: false,
+                        confirmButtonText: '確認',
+                    });
+                }
+            
+            })
+        }
+    }
 
 onMounted(function () {
   if (userId) {
     callFindUser()
   }
-  cart()
+  // cart()
 })
 
-function cart() {
-  let send = {
-    "memberId": userId
-  }
-  axiosapi.post(`/hotel/carts/find`, send).then(function (response) {
-    some.value = response.data.list.length
-  }).catch(function (error) {
-    console.log("callFind error", error);
-    Swal.fire({
-      text: '失敗：' + error.message,
-      icon: 'error',
-      allowOutsideClick: false,
-      confirmButtonText: '確認',
-    });
-  });
-}
+// function cart() {
+//   let send = {
+//     "memberId": userId
+//   }
+//   axiosapi.post(`/hotel/carts/find`, send).then(function (response) {
+//     some.value = response.data.list.length
+//   }).catch(function (error) {
+//     console.log("callFind error", error);
+//     Swal.fire({
+//       text: '失敗：' + error.message,
+//       icon: 'error',
+//       allowOutsideClick: false,
+//       confirmButtonText: '確認',
+//     });
+//   });
+// }
 </script>
 
 
