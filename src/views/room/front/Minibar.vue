@@ -83,11 +83,11 @@ onMounted(() => {
 // }
 
 function callFind(page) {
-  Swal.fire({
-    text: "Loading......",
-    showConfirmButton: false,
-    allowOutsideClick: false,
-  });
+  // Swal.fire({
+  //   text: "Loading......",
+  //   showConfirmButton: false,
+  //   allowOutsideClick: false,
+  // });
 
   if (page) {
     start.value = (page - 1) * rows.value;

@@ -426,7 +426,7 @@
             "arrival_date": formData.value.checkinDate +" "+formData.value.checkinTime+":00.0",
             "checkout_date": formData.value.checkoutDate + " 00:00:00.0",
             "transaction_password": formData.value.transPassword,
-            "base_price":  basePrice.value*formData.value.roomAmount,  
+            "base_price":  basePrice.value*formData.value.roomAmount,  // 需要再修的bug 猜測呼叫
             "remark":formData.value.requests,
             "member_id": formData.value.userId
         }
@@ -460,15 +460,8 @@
                                     confirmButtonText: '確認',
                                 }).then(function (result){
                                     if (result.isConfirmed){
-                                        // 數量調整
-                                        // roomAssignment controller modify 
-
-                                        console.log("orderId.value",orderId.value);
-                                        // 付款成功和查看訂單所需資料
-                                        sessionStorage.setItem("productPicture", roomImg.value);
-                                        sessionStorage.setItem("productName", roomType.value);
-                                        sessionStorage.setItem("productQuality", formData.value.roomAmount);
-                                        sessionStorage.setItem("singlePrice", basePrice.value);
+                                        // 數量
+                                        console.log("orderId.value",orderId.value)
                                     }
                                 })
                             }
@@ -508,12 +501,8 @@
                 sessionStorage.removeItem("orderTotalAmount");
                 sessionStorage.setItem("transactionId", response.data.info.transactionId);
                 sessionStorage.setItem("orderTotalAmount", basePrice.value*formData.value.roomAmount);
-                sessionStorage.setItem("orderId", orderId.value); // 呼叫transaction Table需要
-                // 
-
                 console.log("transactionId",sessionStorage.getItem("transactionId"));
                 console.log("orderTotalAmount",sessionStorage.getItem("orderTotalAmount"));
-                // window.location.replace(response.data.info.paymentUrl.web);
                 window.open(response.data.info.paymentUrl.web);
             }
         }).catch(function (error){
