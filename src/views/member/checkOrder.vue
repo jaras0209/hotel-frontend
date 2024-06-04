@@ -19,8 +19,9 @@
                 <p><strong>訂單狀態：</strong>{{ transactionStatus }}</p>
             </div>
             <div class="col-2 buttonCon">
-                <button v-if="transactionStatus!='完成付款，但已退訂'" type="button" class="btn btn-outline-danger" @click="callShowRefund">申請退訂</button>
-                <button v-if="transactionStatus =='完成付款，但已退訂'" type="button" class="btn btn-outline-danger" @click="callShowRefund">重新下定</button>
+                <button v-if="transactionStatus!='完成付款，但已退訂' && transactionStatus!='尚未完成付款'" type="button" class="btn btn-outline-danger" @click="callShowRefund">申請退訂</button>
+                <button v-if="transactionStatus =='完成付款，但已退訂'" type="button" class="btn btn-outline-success" @click="callGoBooking">重新下定</button>
+                <button v-if="transactionStatus =='尚未完成付款'" type="button" class="btn btn-outline-success" @click="callLinePay">付費</button>
             </div>
 
         </div>
@@ -38,11 +39,12 @@
     import NavigationBar from '../NavigationBar.vue';
     import axiosapi from '@/plugins/axios.js';
     import { ref, onMounted } from 'vue';
+    import { useRouter } from 'vue-router';
     import RefundModal from '@/components/member/refundModal.vue';
     import Swal from 'sweetalert2';
 
     const roomsData = ref('');
-    const productImage = sessionStorage.getItem("productPicture");
+    const productImage = ref('');//sessionStorage.getItem("productPicture");
     const orderPrice = ref(null); //sessionStorage.getItem("orderTotalAmount");
     const orderId = "RnJlZVJlbHggSE9URUw_"+sessionStorage.getItem("orderId");
     const productName = ref(null);//sessionStorage.getItem("productName");
@@ -61,6 +63,44 @@
     const refundRatio = ref(0);
 
     // const roomsData = ref('');
+    const router = useRouter();
+
+    function callGoBooking(){
+        router.push({name:"roomView-link"})
+    }
+
+    function callLinePay(){
+        let data = {
+            "orderTotalAmount": orderPrice.value, // 目前只做一個房型的訂購
+            "orderId" : sessionStorage.getItem("orderId"),
+            "totalPrice" : orderPrice.value,
+            "productId" : roomTypeId.value,
+            "productName" : productName.value,
+            "productPicture" : productImage.value,
+            "productQuality": productQuality.value,
+            "singlePrice" : singlePrice.value
+        }
+        console.log(data)
+        axiosapi.post('hotel/orderRoom/transactions/line-pay', data).then(function (response){
+            console.log("response", response.data);
+            if (response.data.returnMessage=="Success."){
+                // window.location.href = response.data.info.paymentUrl.web;
+                
+                sessionStorage.removeItem("transactionId");
+                sessionStorage.removeItem("orderTotalAmount");
+                sessionStorage.setItem("transactionId", response.data.info.transactionId);
+                sessionStorage.setItem("orderTotalAmount", orderPrice.value);
+                // 
+
+                console.log("transactionId",sessionStorage.getItem("transactionId"));
+                console.log("orderTotalAmount",sessionStorage.getItem("orderTotalAmount"));
+                // window.location.replace(response.data.info.paymentUrl.web);
+                window.open(response.data.info.paymentUrl.web);
+            }
+        }).catch(function (error){
+            console.log("error", error);
+        })
+    }
 
 
     function callOrderData(){
@@ -78,6 +118,7 @@
                 transactionStatus.value = roomsData.value[6];
                 checkinDate.value = roomsData.value[7].split(' ')[0];
                 checkoutDate.value = roomsData.value[8].split(' ')[0];
+                productImage.value = roomsData.value[9]
             }
         })
     }
@@ -143,10 +184,19 @@
                             console.log('error form orderRoom update', error);
                         })
                         // 房間數回復待做
-
+                        let dataRooms={
+                            'rooms':productQuality.value,
+                            'booking':false
+                        }
+                        axiosapi.post(`hotel/backend/roomAssignment/findID/${checkinDate.value}/${roomTypeId.value}`, dataRooms).then(function (response){
+                            console.log('response in callAssignment',response);
+                        }).catch(function (error){
+                            console.log("error in callAssignment", error);
+                        })
                         
                         // 資料重新整理
-                        callOrderData();
+                        refundRef.value.hideModal();
+                        router.go(0);
                     }
                 })
 

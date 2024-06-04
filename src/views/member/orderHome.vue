@@ -256,8 +256,8 @@
             <form @submit.prevent="submitPayment">
             <label for="payment-method">付款方式:</label>
             <select v-model="formData.paymentMethod" @change="toggleCreditCardInfo" required>
+                <option value="linePay" selected>Line Pay</option>
                 <option value="credit-card">信用卡</option>
-                <option value="alipay">支付寶</option>
                 <option value="wechat">微信支付</option>
             </select><br>
     
@@ -328,7 +328,7 @@
 
         checkinTime: '',
         requests: '',
-        paymentMethod: 'credit-card',
+        paymentMethod: 'linePay',
         cardNumber: '',
         expiryDate: '',
         cvv: ''
@@ -441,6 +441,7 @@
                     //
                     if (response.data.success){
                         orderId.value = response.data.orderId;
+                        sessionStorage.setItem("orderId", orderId.value); // 呼叫transaction Table需要
                         let detailData = {
                             "roomAmount": formData.value.roomAmount,
                             "price": basePrice.value*formData.value.roomAmount,
@@ -461,7 +462,18 @@
                                 }).then(function (result){
                                     if (result.isConfirmed){
                                         // 數量調整
-                                        // roomAssignment controller modify 
+                                        // roomAssignment controller modify
+                                        let dataRooms={
+                                            'rooms':formData.value.roomAmount,
+                                            'booking':true
+                                        }
+                                        axiosapi.post(`hotel/backend/roomAssignment/findID/${formData.value.checkinDate}/${roomInfoId.value}`, dataRooms).then(function (response){
+                                            console.log('response in callAssignment',response);
+                                        }).catch(function (error){
+                                            console.log("error in callAssignment", error);
+                                        });
+                                        //
+                                    
 
                                         console.log("orderId.value",orderId.value);
                                         // 付款成功和查看訂單所需資料
@@ -508,7 +520,7 @@
                 sessionStorage.removeItem("orderTotalAmount");
                 sessionStorage.setItem("transactionId", response.data.info.transactionId);
                 sessionStorage.setItem("orderTotalAmount", basePrice.value*formData.value.roomAmount);
-                sessionStorage.setItem("orderId", orderId.value); // 呼叫transaction Table需要
+                
                 // 
 
                 console.log("transactionId",sessionStorage.getItem("transactionId"));
