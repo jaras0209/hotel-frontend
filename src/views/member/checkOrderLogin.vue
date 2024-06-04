@@ -2,7 +2,7 @@
     <NavigationBar></NavigationBar>
     <div class="row justify-content-md-center">
         <div class="col-6">
-            <h1>登入頁面</h1>
+            <h1>目前訂單查詢</h1>
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Email address</label>
                 <input type="text" class="form-control" id="exampleInputEmail1" name="username"
@@ -10,20 +10,19 @@
                 <div id="emailHelp" class="form-text">{{ erMess }}</div>
             </div>
             <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Password</label>
+                <label for="exampleInputPassword1" class="form-label">Transaction Password</label>
                 <input type="password" class="form-control" id="exampleInputPassword1" name="pwd" v-model="password"
-                    placeholder="請輸入密碼" autocomplete>
+                    placeholder="請輸入交易密碼" autocomplete>
             </div>
 
             <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                {{ message }}
             </div>
-            <div class="d-flex justify-content-evenly">
-                <button type="submit" class="btn btn-primary" @click="login">登入</button><span>{{ message }}</span>
-                <div class="p-3 mb-2 bg-success-subtle text-success-emphasis rounded">
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary" @click="login">登入</button><span></span>
+                <!-- <div class="p-3 mb-2 bg-success-subtle text-success-emphasis rounded">
                     <RouterLink class="nav-link" to="/member/register">註冊</RouterLink>
-                </div>
+                </div> -->
             </div>
 
             <!-- <div th:text="${loginSuccess}"></div>
@@ -61,14 +60,12 @@ function checkEmail() {
 }
 
 function login() {
-    Swal.fire({
-        text: "Loading....",
-        showConfirmButton: false,
-        allowOutsideClick: false,
-    });
+    // Swal.fire({
+    //     text: "Loading....",
+    //     showConfirmButton: false,
+    //     allowOutsideClick: false,
+    // });
     
-    axiosapi.defaults.headers.authorization = '';
-    sessionStorage.removeItem("user");
 
     if (userEmail.value === "") {
         userEmail.value = null;
@@ -82,24 +79,12 @@ function login() {
         "password": password.value
     }
     console.log("data", data);
-    axiosapi.post("hotel/member/login", data).then((response) => {
+    axiosapi.post("hotel/orderRoom/InquireOrder", data).then((response) => {
         console.log("response", response);
         if (response.data.success) {
-            Swal.fire({
-                text: response.data.message,
-                icon: "success",
-                allowOutsideClick: false,
-                confirmButtonText: "確認",
-            }).then(function (result) {
-                if (result.isConfirmed) {
-                    axiosapi.defaults.headers.authorization = "Bearer " + response.data.token;
-                    console.log("axiosapi.defaults.headers.authorization",axiosapi.defaults.headers.authorization)
-                    sessionStorage.setItem("user", response.data.user);
-                    sessionStorage.setItem("userId", response.data.userId);
-                    // window.location.href = '/';
-                    router.push({name:"home-link"})
-                }
-            });
+            sessionStorage.setItem("orderId", response.data.orderId);
+            
+            router.push({name:"checkOrder-link"})
         } else {
             console.log("error")
             message.value = response.data.message;
@@ -129,7 +114,7 @@ function login() {
 
 <style scoped>
 .row {
-    background-image: url('@/assets/images/sunset-8516639_1920.jpg');
+    background-image: url('@/assets/images/orderCheck.jpg');
     background-size: cover;
     background-position: center;
     height: 100vh;
@@ -140,7 +125,7 @@ function login() {
 }
 
 .col-6 {
-    background-color: rgba(255, 255, 2255, 0.5);
+    background-color: rgba(255, 255, 2255, 0.8);
     ;
     padding: 10px;
     border-radius: 5px;
