@@ -3,17 +3,17 @@
     <NavigationBar></NavigationBar>
     <table class="table">
         <thead>
-            <tr>
+            <tr v-if="havesomething">
                 <th scope="col">
                     <font-awesome-icon :icon="['fas', 'hand-pointer']" shake size="5x" @click="all"
                         style="cursor: pointer;color: blue;" />
                 </th>
-                <th scope="col">商品名稱</th>
-                <th scope="col">數量</th>
-                <th scope="col">單價</th>
-                <th scope="col">小計</th>
-                <th scope="col">庫存量</th>
-                <th scope="col">移除</th>
+                <th scope="col" style="font-size: 24px;">商品名稱</th>
+                <th scope="col" style="font-size: 24px;">數量</th>
+                <th scope="col" style="font-size: 24px;">單價</th>
+                <th scope="col" style="font-size: 24px;">小計</th>
+                <th scope="col" style="font-size: 24px;">庫存量</th>
+                <th scope="col" style="font-size: 24px;">移除</th>
             </tr>
             <Cartlist v-for="result in result" :memberid="result.memberid" :productid="result.productid"
                 :name="result.productname" :quantity="result.quantity" :productprice="result.productprice"
@@ -22,8 +22,10 @@
             </Cartlist>
         </thead>
     </table>
+    <h1 v-if="!havesomething" style="text-align: center;"> 購物車尚無商品</h1>
+    <button v-if="!havesomething" style="font-size: 24px; border-radius: 15px; color: red;"><RouterLink class="dropdown-item" to="/shopping/shoppinglist">再去逛</RouterLink></button>
     <RouterLink :to="{ name: 'checkcart-link' }">
-        <button type="button" :disabled="disabled || disabledd">結帳</button>
+        <button type="button" :disabled="disabled || disabledd" v-if="havesomething">結帳</button>
     </RouterLink>
 </template>
 <script setup>
@@ -38,6 +40,7 @@ const result = ref({})
 const disabled = ref(false) // red
 const disabledd = ref(true) // green
 const userId = ref(null)
+const havesomething=ref(true)
 onMounted(function () {
     userId.value = sessionStorage.getItem("userId")
     cart()
@@ -72,6 +75,10 @@ function cart() {
         console.log(response.data.list);
         console.log(response.data.list.length)
         result.value = response.data.list
+        if(response.data.list.length==0){
+            console.log("ha")
+            havesomething.value=false
+        }
     }).catch(function (error) {
         console.log("callFind error", error);
         Swal.fire({
@@ -137,4 +144,5 @@ function all() {
     left: 1150px;
     border: 3px solid #73AD21;
 }
+
 </style>

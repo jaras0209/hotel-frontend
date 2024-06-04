@@ -11,7 +11,7 @@
                 <div class="modal-body">
                     <table>
                         <tr>
-                            <td v-if="member != null" style="font-size: 40px;">{{ member.memberName }}</td>
+                            <td v-if="member != null" style="font-size: 40px;"><img :src="PATH+member.memberId"  alt="..." height="60px" width="60px" style="border-radius: 50%;">{{ member.memberName }}</td>
                         </tr>
                         <tr>
                             <img src="@/assets/images/star1.jpg" alt="..." width="40px" id="iimg1" v-if="score >= 1"
@@ -55,6 +55,7 @@ import bootstrap from 'bootstrap/dist/js/bootstrap.bundle.min.js'
 const commentModal = ref(null);
 const commentModalObj = ref(null);
 const newscore = ref(null)
+const PATH = import.meta.env.VITE_MEMBER_PICTURE;
 onMounted(function () {
     commentModalObj.value = new bootstrap.Modal(commentModal.value);
 });

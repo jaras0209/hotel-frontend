@@ -1,6 +1,7 @@
 <template>
     <div class="card text-bg-light mb-3">
         <div class="card-header" style="font-size: 40px;">
+            <img :src="PATH+commentmemberId"  alt="..." height="80px" width="80px" style="border-radius: 50%;">
             {{ memberName }}
             <img src="@/assets/images/star1.jpg" alt="..." width="40px" id="img1" v-if="score >= 1">
             <img src="@/assets/images/star2.jpg" alt="..." width="40px" id="img2" v-if="score >= 2">
@@ -17,9 +18,9 @@
         <div class="card-body">
             <p class="card-text" style="font-size: 30px;">{{ commentText }}</p>
             <button type="button" v-if="commentmemberId == userId" @click="doclick1(commentId)"
-                style="font-size: 20px;">編輯留言</button>&nbsp;&nbsp;
+                style="font-size: 20px; border-radius: 10px; background: #4DF268;">編輯留言</button>&nbsp;&nbsp;
             <button type="button" v-if="commentmemberId == userId" @click="doclick(commentId)"
-                style="font-size: 20px;">刪除留言</button>
+                style="font-size: 20px; border-radius: 10px; background: #FF8A85;">刪除留言</button>
         </div>
     </div>
     <td v-if="commentmemberId == userId">{{ dodo() }}</td>
@@ -27,6 +28,7 @@
 <script setup>
 const props = defineProps(["memberName", "commentText", "commentmemberId", "userId", "commentId", "score", "create"]);
 const emits = defineEmits(["delet", "method-result", "update"]);
+const PATH = import.meta.env.VITE_MEMBER_PICTURE;
 function doclick(commentId) {
     emits("delet", commentId);
 }

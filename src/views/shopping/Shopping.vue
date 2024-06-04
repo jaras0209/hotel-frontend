@@ -1,8 +1,7 @@
 <template>
-
-    <body>
+    <body id="A">
         <header>
-            <nav>
+            <nav id="B">
                 <NavigationBar></NavigationBar>
                 <a href="#product">商品</a>
                 <a href="#commemtblock">評論</a>
@@ -21,25 +20,25 @@
                 <br><br><br><br><br><br>
                 <div>
                     <div>
-                        <h2 id="commemtblock">{{ getAverageScore() }}商品評價</h2>
+                        <h2 id="commemtblock">{{ getAverageScore() }}商品評論區</h2>
                     </div>
                     <div>
                         <textarea type="text" v-model="commentmessage" placeholder="詳細說明您的想法" width="50%"
-                            v-if="disabled" rows="4" cols="70"></textarea>
+                            v-if="disabled & iscanputmessage" rows="4" cols="70"></textarea>
                         <img src="@/assets/images/blackstar1.jpg" alt="..." width="80px" @click="changecolor1" id="img1"
-                            style="cursor: pointer;" v-if="disabled">
+                            style="cursor: pointer;" v-if="disabled & iscanputmessage">
                         <img src="@/assets/images/blackstar2.jpg" alt="..." width="80px" @click="changecolor2" id="img2"
-                            style="cursor: pointer;" v-if="disabled">
+                            style="cursor: pointer;" v-if="disabled & iscanputmessage">
                         <img src="@/assets/images/blackstar3.jpg" alt="..." width="80px" @click="changecolor3" id="img3"
-                            style="cursor: pointer;" v-if="disabled">
+                            style="cursor: pointer;" v-if="disabled & iscanputmessage">
                         <img src="@/assets/images/blackstar4.jpg" alt="..." width="80px" @click="changecolor4" id="img4"
-                            style="cursor: pointer;" v-if="disabled">
+                            style="cursor: pointer;" v-if="disabled & iscanputmessage">
                         <img src="@/assets/images/blackstar5.jpg" alt="..." width="80px" @click="changecolor5" id="img5"
-                            style="cursor: pointer;" v-if="disabled">
+                            style="cursor: pointer;" v-if="disabled & iscanputmessage">
                     </div>
-                    <div>
+                    <div >
                         <button type="button" @click="comment" style="background-color: aquamarine;"
-                            v-if="disabled">評論送出</button>
+                        v-if="disabled & iscanputmessage">評論送出</button>
                     </div>
                 </div>
             </main>
@@ -51,7 +50,7 @@
                 :score="comment.score" :create="comment.createDate" @update="update">
             </CommentCard>
         </div>
-        <div>
+        <div style="background-color: #C7EFEB;">
             <h2 id="mustknow">關於退貨</h2>
             <ul>
                 <li>
@@ -147,6 +146,7 @@ const score = ref(1)
 const mfind = ref({})
 const commentcount = ref(0)
 const commentaveragescore = ref(0)
+const iscanputmessage=ref(false)
 onMounted(function () {
     userId.value = sessionStorage.getItem("userId")
     callFindid(id)
@@ -169,6 +169,13 @@ onMounted(function () {
     }).catch(function (error) {
         console.log("callFindById error", error);
     });
+    // 獲取 A 元素
+    var elementA = document.getElementById('A');
+    // 獲取 A 元素的寬度
+    var widthA = elementA.offsetWidth;
+    // 將 B 元素設置為與 A 元素相同的寬度
+    document.getElementById('B').style.width = widthA + 'px';
+    callthispeoplebuywhat()
 })
 function getAverageScore() {
     let total = 0
@@ -314,7 +321,16 @@ function handleMethodResult(result) {
     disabled.value = result
 }
 function dodelet(commentId) {
-    axiosapi.delete(`/hotel/comments/instances/${commentId}`).then(function (response) {
+    Swal.fire({
+        text: "確定刪除留言嗎",
+        icon: 'warning',
+        allowOutsideClick: false,
+        confirmButtonText: '確認',
+        showCancelButton: true,
+        cancelButtonText: '取消',
+    }).then(function(result){
+        if(result.isConfirmed){
+            axiosapi.delete(`/hotel/comments/instances/${commentId}`).then(function (response) {
         Swal.fire({
             icon: "success",
             title: "刪除成功",
@@ -328,6 +344,8 @@ function dodelet(commentId) {
         }, 1000);
     }).catch(function (error) {
         console.log(error)
+    })
+        }
     })
 }
 function changecolor1() {
@@ -423,6 +441,22 @@ function send(commentId) {
             allowOutsideClick: false,
             confirmButtonText: '確認',
         });
+    });
+}
+//判斷是否能留言
+function callthispeoplebuywhat(){
+    axiosapi.get(`/hotel/orders/all/${userId.value}`).then(function (response) {
+        console.log("callthispeoplebuywhat");
+        console.log(response)
+        for (let i = 0; i < response.data.list.length; i++) {
+        if(response.data.list[i].ProductName==productName.value){
+            console.log("可留言")
+            iscanputmessage.value =true
+        }
+    }
+    console.log("iscanputmessage.value"+iscanputmessage.value)
+    }).catch(function (error) {
+        console.log("callFindById error", error);
     });
 }
 </script>
