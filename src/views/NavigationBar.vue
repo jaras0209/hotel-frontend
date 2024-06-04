@@ -83,8 +83,6 @@
               <li><a class="dropdown-item" href="#" @click="doclickShow" >資料修改</a></li>
               <li><RouterLink class="dropdown-item" to="/member/orderHistory">訂房紀錄</RouterLink></li>
               <li><RouterLink class="dropdown-item" to="/orderRoom/login">目前訂單查詢</RouterLink></li>
-              <!-- <li><RouterLink class="dropdown-item" to="/member/orderHome">訂房</RouterLink></li> -->
-              <li><RouterLink class="dropdown-item" to="/room/front/minibar">RoomService</RouterLink></li>
               <li><a class="dropdown-item" href="#" @click="revisePassword">修改密碼</a></li>
 
               <li><hr class="dropdown-divider"></li>
