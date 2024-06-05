@@ -49,7 +49,8 @@
             </div>
         </div>
             <div class="d-flex justify-content-evenly">
-                <button type="submit" class="btn btn-outline-success" @click="checkFormData">下一步</button>
+                <button v-if="allDate.length!=1" type="submit" class="btn btn-outline-success" @click="checkFormData">下一步</button>
+                <button v-if="allDate.length==1" type="submit" class="btn btn-outline-success" @click="checkFormData" disabled >下一步</button>
             </div>
             </form>
         </div>
@@ -367,7 +368,8 @@
             formData.value.nationality = sessionStorage.getItem("nationality");
         }
 
-        console.log(formData)
+        console.log("formData.value", formData.value);
+        console.log("allDate.value",allDate.value)
     }
 
     function findCheckStartChange(date) {
@@ -607,7 +609,7 @@
         leftRoomNumer.value = queryString.leftRoomNumer || '';
         roomImg.value = queryString.picture || '';
 
-        console.log("roomImg.value",roomImg.value);
+        console.log("basePrice.value",basePrice.value);
     })
 </script>
 
