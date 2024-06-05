@@ -93,9 +93,10 @@ function login() {
             }).then(function (result) {
                 if (result.isConfirmed) {
                     axiosapi.defaults.headers.authorization = "Bearer " + response.data.token;
-                    console.log("axiosapi.defaults.headers.authorization",axiosapi.defaults.headers.authorization)
+                    console.log("axiosapi.defaults.headers.authorization",axiosapi.defaults.headers.authorization);
                     sessionStorage.setItem("user", response.data.user);
                     sessionStorage.setItem("userId", response.data.userId);
+                    sessionStorage.setItem("token", response.data.token);
                     // window.location.href = '/';
                     router.push({name:"home-link"})
                 }

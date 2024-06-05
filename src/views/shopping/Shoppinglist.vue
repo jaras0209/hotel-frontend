@@ -37,8 +37,10 @@ const current = ref(50);
 const start = ref(0);
 const rows = ref(10);
 const total = ref(0);
-const findname = ref("")
-const userId = ref(null)
+const findname = ref("");
+const userId = ref(null);
+const token = sessionStorage.getItem("token");
+
 onMounted(function () {
     userId.value = sessionStorage.getItem("userId")
     callFind()
@@ -60,8 +62,8 @@ function callFind(page) {
         "rows": rows.value,
         "productName": findname.value,
     }
-    console.log(axiosapi.defaults.headers.authorization);
-    axiosapi.post(`/hotel/products/find`, data).then(function (response) {
+    // console.log(axiosapi.defaults.headers.authorization);
+    axiosapi.post(`/hotel/products/find`, data,{ headers: {"Authorization" : `Bearer ${token}`} }).then(function (response) {
         console.log("count", response.data.count);
         console.log("response", response.data.list);
         all.value = response.data.list;
@@ -81,6 +83,7 @@ function callFind(page) {
             confirmButtonText: '確認',
         }).then(function (){
             if (error.response.status==403){
+                sessionStorage.clear();
                 router.push({name:"login-link"})
             }
         })

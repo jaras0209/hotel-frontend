@@ -273,7 +273,9 @@ const showBookingModal = (room) => {
     id: selectedRoom.value.id,
     typeName:selectedRoom.value.name,
     adults: formData.adults,
-    children: formData.children
+    children: formData.children,
+    leftRoomNumer:roomInfo.value[selectedRoom.value.id].left,
+    picture:selectedRoom.value.cover
   };
   const queryString = new URLSearchParams(payload).toString();
   window.location.href = `/member/orderHome?${queryString}`;    // `/room?${queryString}`;
