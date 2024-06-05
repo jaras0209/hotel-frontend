@@ -1,7 +1,7 @@
 <template>
-    <NavigationBar></NavigationBar>
+    <backendNavbar></backendNavbar>
     <!-- 0529 -->
-
+    <br><br><br>
     <body>
         <div class="main">
             <aside class="left">
@@ -21,7 +21,7 @@
     </footer>
 </template>
 <script setup>
-import NavigationBar from '../NavigationBar.vue';
+import backendNavbar from '../backendNavbar.vue';
 import { useRouter } from "vue-router"
 const router = useRouter();
 import ProductPhotoupload from '@/components/shopping/ProductPhotoupload.vue';

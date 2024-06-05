@@ -1,13 +1,12 @@
 <template>
     <NavigationBar></NavigationBar>
-    <!-- 0529 -->
 
     <body>
         <div class="main">
             <main>
                 <h1 style="text-align: center;">商城首頁</h1>
                 <div class="col-4">
-                    <ProductRows :total="total" :choices="[5, 10]" @change="callFind" v-model="rows"></ProductRows>
+                    <ProductRows :total="total" :choices="[10, 20]" @change="callFind" v-model="rows"></ProductRows>
                     <input type="text" v-model="findname" placeholder="請輸入關鍵字" @input="callFind(0)">
                 </div>
                 <div class="row">
@@ -24,7 +23,6 @@
         </div>
     </body>
 </template>
-
 <script setup>
 import NavigationBar from '../NavigationBar.vue';
 import ShoppinglistCard from '@/components/shopping/ShoppinglistCard.vue';
@@ -33,12 +31,11 @@ import Swal from "sweetalert2"
 import axiosapi from "@/plugins/axios.js"
 import Paginate from 'vuejs-paginate-next';
 import ProductRows from "@/components/shopping/ProductRows.vue";
-import { ssrModuleExportsKey } from 'vite/runtime';
 const all = ref({});
 const pages = ref(100);
 const current = ref(50);
 const start = ref(0);
-const rows = ref(5);
+const rows = ref(10);
 const total = ref(0);
 const findname = ref("")
 const userId = ref(null)
@@ -87,8 +84,6 @@ function callFind(page) {
                 router.push({name:"login-link"})
             }
         })
-
-
     });
 }
 function callalert() {

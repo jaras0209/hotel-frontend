@@ -14,6 +14,7 @@
                 aria-expanded="false" :aria-controls="orderid" @click="myclick(orderid)">
                 看明細
             </button>
+            <button class="btn btn-danger" type="button" v-if="Orderstatus==='訂單成立'" @click="dodelete(orderid)">取消</button>
         </p>
         <div class="collapse" :id="orderid">
             <div class="card card-body">
@@ -37,15 +38,39 @@
 </template>
 <script setup>
 const props = defineProps(["total", "AddedTime", "Orderstatus", "orderid", "arriveddTime", "usebonus", "addbonus"]);
-import xxx from "@/plugins/axios.js"
+import axiosapi from "@/plugins/axios.js"
 import { ref } from "vue";
+import { useRouter } from "vue-router"
+import Swal from "sweetalert2"
+const router = useRouter();
 const newresult = ref(null)
 function myclick(id) {
-    xxx.get(`/hotel/orderdetails/mes/${id}`).then(function (response) {
+    axiosapi.get(`/hotel/orderdetails/mes/${id}`).then(function (response) {
         newresult.value = response.data.ist
     }).catch(function (error) {
         console.log("callFindById error", error);
     });
+}
+function dodelete(id) {
+    Swal.fire({
+        text: "確定取消嗎",
+        icon: 'question',
+        allowOutsideClick: false,
+        confirmButtonText: '確認',
+        showCancelButton: true,
+        cancelButtonText: '取消',
+    }).then(function (result) {
+        if (result.isConfirmed) {
+            axiosapi.delete(`/hotel/orders/one/${id}`).then(function (response) {
+            router.go(0)
+            console.log(response)
+        }).catch(function (error) {
+        console.log("callFindById error", error);
+    });
+        }
+    })
+    console.log(id)
+ 
 }
 </script>
 <style></style>

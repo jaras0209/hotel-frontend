@@ -93,7 +93,7 @@
                     <div class="child2">
                         <div class="mb-3">
                             <label for="formGroupExampleInput2" class="form-label"
-                                style="width: 95%; font-size: 18px; height: 28px; border-radius: 5px;">姓名</label>
+                                style="width: 120px; font-size: 18px; height: 28px; border-radius: 5px;">姓名</label>
                             <input type="text" id="formGroupExampleInput" v-model="name">
                         </div>
                         <div class="mb-3">
@@ -204,22 +204,22 @@ function people() {
         //收件人開始
         name.value = response.data.listt[0].MemberName
         phone.value = response.data.listt[0].phoneNumber
-        city.value = response.data.listt[0].contactAddress.substr(3, 3) //第一部分地址
+        city.value = response.data.listt[0].contactAddress.substr(0, 3) //第一部分地址
         console.log(city.value)
         docitychange()
-        districts.value = response.data.listt[0].contactAddress.substr(6, 3)//第二部分地址
+        districts.value = response.data.listt[0].contactAddress.substr(3, 3)//第二部分地址
         console.log(districts.value)
-        addressback.value = response.data.listt[0].contactAddress.substr(9)  //第三部分地址
+        addressback.value = response.data.listt[0].contactAddress.substr(6)  //第三部分地址
         console.log(addressback.value)
         address.value = city.value + districts.value + addressback.value
         //收件人結束
         //寄件人開始
         payername.value = response.data.listt[0].MemberName
         payerphone.value = response.data.listt[0].phoneNumber
-        payercity.value = response.data.listt[0].contactAddress.substr(3, 3) //第一部分地址
+        payercity.value = response.data.listt[0].contactAddress.substr(0, 3) //第一部分地址
         payerdocitychange()
-        payerdistricts.value = response.data.listt[0].contactAddress.substr(6, 3)//第二部分地址
-        payeraddressback.value = response.data.listt[0].contactAddress.substr(9)  //第三部分地址
+        payerdistricts.value = response.data.listt[0].contactAddress.substr(3, 3)//第二部分地址
+        payeraddressback.value = response.data.listt[0].contactAddress.substr(6)  //第三部分地址
         payeraddress.value = payercity.value + payerdistricts.value + payeraddressback.value
         //寄件人結束
     }).catch(function (error) {

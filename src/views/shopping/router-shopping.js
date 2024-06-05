@@ -7,7 +7,9 @@ import Shopping from "./Shopping.vue"
 import Shoppinglist from "./Shoppinglist.vue"
 import suppliers from './suppliers.vue'
 import Myorder from './Myorder.vue'
-
+import backendShoppingOrder from './backendShoppingOrder.vue'
+import backendShoppingOrderDetails from './backendShoppingOrderDetails.vue'
+import backendShoppingArriveOrder from './backendShoppingArriveOrder.vue'
 //設定路由網址
 
 export default [
@@ -18,5 +20,8 @@ export default [
     { name: "shopping-link", path: "/shopping/mall:id", component: Shopping },
     { name: "shoppinglist-link", path: "/shopping/shoppinglist", component: Shoppinglist },
     { name: "suppliers-link", path: "/supplier/allsupplier", component: suppliers },
-    { name: "myorder-link", path: "/shopping/myorder", component: Myorder }
+    { name: "myorder-link", path: "/shopping/myorder", component: Myorder },
+    { name: "backendShoppingOrder", path: "/backend/ShoppingOrder", component: backendShoppingOrder },
+    { name: "backendShoppingOrderDetails", path: "/backend/ShoppingOrderDetails:id", component: backendShoppingOrderDetails },
+    { name: "backendShoppingArriveOrder", path: "/backend/ShoppingArriveOrder", component: backendShoppingArriveOrder }
 ];

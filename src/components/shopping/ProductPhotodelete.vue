@@ -5,12 +5,13 @@
             <button type="button" @click="doclick(find.id)">刪除照片</button>
         </div>
         <div style="text-align: center;">
-            <img :src="`http://localhost:8080/hotel/photo/${find.id}`" class="card-img-top" alt="未新增"
+            <img :src="`${PATHP}/hotel/photo/${find.id}`" class="card-img-top" alt="未新增"
                 style="width: 30%;">
         </div>
     </div>
 </template>
 <script setup>
+const PATHP = import.meta.env.VITE_BACKEND_URL;
 const props = defineProps(["find"]);
 const emits = defineEmits(["decesion"]);
 function doclick(id) {

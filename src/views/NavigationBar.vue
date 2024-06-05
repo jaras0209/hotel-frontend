@@ -55,27 +55,25 @@
               aria-expanded="false">Shopping</a>
             <ul class="dropdown-menu">
               <li>
-                <RouterLink class="dropdown-item" to="/supplier/allsupplier">合作夥伴(後端)</RouterLink>
                 <RouterLink class="dropdown-item" to="/shopping/shoppinglist">
                   <font-awesome-icon :icon="['fas', 'shop']" /> &nbsp;&nbsp;商城
                 </RouterLink>
                 <RouterLink class="dropdown-item" to="/shopping/cart">
-                  <font-awesome-icon :icon="['fas', 'cart-shopping']" />&nbsp;&nbsp;&nbsp;購物車
+                  <font-awesome-icon
+                    :icon="['fas', 'cart-shopping']" />&nbsp;&nbsp;&nbsp;購物車&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <!-- 5/29新增 -->
                 </RouterLink>
                 <RouterLink class="dropdown-item" to="/shopping/myorder">
                   <font-awesome-icon :icon="['fas', 'truck-fast']" />&nbsp;&nbsp;&nbsp;訂單查詢
                 </RouterLink>
               </li>
-              <li><a class="dropdown-item" href="#">link1</a></li>
-              <li><a class="dropdown-item" href="#">link2</a></li>
-              <li><a class="dropdown-item" href="#">link3</a></li>
             </ul>
           </li>
 
-          <li class="nav-item" v-if="user==null">
+          <li class="nav-item" v-if="user == null">
             <RouterLink class="nav-link" to="/member/login">登入/註冊{{ user }}</RouterLink>
           </li>
-          <li class="nav-item dropdown" v-if="user!=null">
+          <li class="nav-item dropdown" v-if="user != null">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               哈囉! {{ user }}
             </a>
@@ -132,6 +130,7 @@ import MemberPassword from '@/components/member/memberPassword.vue';
 import json from '@/CityCountyData.json';// 可能可以改進
 import Swal from 'sweetalert2';
 
+
 const router = useRouter();
 const user = sessionStorage.getItem('user');
 const userId = sessionStorage.getItem('userId');
@@ -165,7 +164,7 @@ const photoFile = ref(null);
       }
     };
 
-    const proxyData = new Proxy(userData.value, handler);
+const proxyData = new Proxy(userData.value, handler);
 
 //-----------------------------
 
@@ -192,14 +191,14 @@ function logout() {
   // router.go(0);
 }
 
-function doclickShow(){
-        memberRef.value.showModal()
-        console.log("ihi");
-        callFindUser()
-        selected();
-    }
+function doclickShow() {
+  memberRef.value.showModal()
+  console.log("ihi");
+  callFindUser()
+  selected();
+}
 
-    function callFindUser(){
+function callFindUser() {
 
       axiosapi.get(`hotel/member/${userId}`).then(function (response){
         // console.log("response",response);
@@ -226,69 +225,69 @@ function doclickShow(){
       })
     }
 
-    function catchPicture(){
-      photoFile.value = event.target.files[0];
-      console.log("photoFile.value",photoFile.value)
-    }
+function catchPicture() {
+  photoFile.value = event.target.files[0];
+  console.log("photoFile.value", photoFile.value)
+}
 
-    function callModify(){
-      Swal.fire({
-        text: "Loading...",
-        showConfirmButton: false,
-        allowOutsideClick: false,
-      });
-      
-      if (userData.value.memberName===""){
-        userData.value.memberName = null;
-      }
-      if (userData.value.nationId===""){
-        userData.value.nationId=null;
-      }
-      if (userData.value.gender===""){
-        userData.value.gender=null;
-      }
-      if (userData.value.birth===""){
-        userData.value.birth = null;
-      }
-      if (userData.value.email===""){
-        userData.value.email=null;
-      }
-      if (userData.value.phoneNumber===""){
-        userData.value.phoneNumber=null;
-      }
-      if (userData.value.creditCard===""){
-        userData.value.creditCard=null;
-      }
-      if (userData.value.nationality===""){
-        userData.value.nationality=null;
-      }
-      // let data={
-      //   "name":userData.value.memberName,
-      //   "gender":userData.value.gender,
-      //   "birth":userData.value.birth,
-      //   "national_id":userData.value.nationId,
-      //   "email":userData.value.email,
-      //   "phone_number":userData.value.phoneNumber,
-      //   "credit_card":userData.value.creditCard,
-      //   "contact_address":addressCounty.value+addressArea.value+addressRoadname.value,
-      //   "password":userData.value.password,
-      //   "nationality":userData.value.nationality
-      // }
+function callModify() {
+  Swal.fire({
+    text: "Loading...",
+    showConfirmButton: false,
+    allowOutsideClick: false,
+  });
 
-      const formData = new FormData();
-      formData.append("multipartFile",photoFile.value);
-      formData.append("json",JSON.stringify({
-        "name":userData.value.memberName,
-        "gender":userData.value.gender,
-        "birth":userData.value.birth,
-        "national_id":userData.value.nationId,
-        "email":userData.value.email,
-        "phone_number":userData.value.phoneNumber,
-        "credit_card":userData.value.creditCard,
-        "contact_address":addressCounty.value+addressArea.value+addressRoadname.value,
-        "password":userData.value.password,
-        "nationality":userData.value.nationality
-      }))
+  if (userData.value.memberName === "") {
+    userData.value.memberName = null;
+  }
+  if (userData.value.nationId === "") {
+    userData.value.nationId = null;
+  }
+  if (userData.value.gender === "") {
+    userData.value.gender = null;
+  }
+  if (userData.value.birth === "") {
+    userData.value.birth = null;
+  }
+  if (userData.value.email === "") {
+    userData.value.email = null;
+  }
+  if (userData.value.phoneNumber === "") {
+    userData.value.phoneNumber = null;
+  }
+  if (userData.value.creditCard === "") {
+    userData.value.creditCard = null;
+  }
+  if (userData.value.nationality === "") {
+    userData.value.nationality = null;
+  }
+  // let data={
+  //   "name":userData.value.memberName,
+  //   "gender":userData.value.gender,
+  //   "birth":userData.value.birth,
+  //   "national_id":userData.value.nationId,
+  //   "email":userData.value.email,
+  //   "phone_number":userData.value.phoneNumber,
+  //   "credit_card":userData.value.creditCard,
+  //   "contact_address":addressCounty.value+addressArea.value+addressRoadname.value,
+  //   "password":userData.value.password,
+  //   "nationality":userData.value.nationality
+  // }
+
+  const formData = new FormData();
+  formData.append("multipartFile", photoFile.value);
+  formData.append("json", JSON.stringify({
+    "name": userData.value.memberName,
+    "gender": userData.value.gender,
+    "birth": userData.value.birth,
+    "national_id": userData.value.nationId,
+    "email": userData.value.email,
+    "phone_number": userData.value.phoneNumber,
+    "credit_card": userData.value.creditCard,
+    "contact_address": addressCounty.value + addressArea.value + addressRoadname.value,
+    "password": userData.value.password,
+    "nationality": userData.value.nationality
+  }))
 
 
       console.log("修改function裡");
@@ -399,28 +398,47 @@ function doclickShow(){
         }
     }
 
-    onMounted(function (){
-      if (userId){
-        callFindUser()
-      }
-    })
+onMounted(function () {
+  if (userId) {
+    callFindUser()
+  }
+  // cart()
+})
+
+// function cart() {
+//   let send = {
+//     "memberId": userId
+//   }
+//   axiosapi.post(`/hotel/carts/find`, send).then(function (response) {
+//     some.value = response.data.list.length
+//   }).catch(function (error) {
+//     console.log("callFind error", error);
+//     Swal.fire({
+//       text: '失敗：' + error.message,
+//       icon: 'error',
+//       allowOutsideClick: false,
+//       confirmButtonText: '確認',
+//     });
+//   });
+// }
 </script>
 
 
 <style scoped>
 @import '../assets/style/all.scss';
 
-.hotel{
-    font-family: "Dancing Script", cursive;
-    font-optical-sizing: auto;
-    font-weight:weight;
-    font-style:normal;}
+.hotel {
+  font-family: "Dancing Script", cursive;
+  font-optical-sizing: auto;
+  font-weight: weight;
+  font-style: normal;
+}
 
 .navbar-dark .navbar-nav .nav-link {
   color: #fff;
 }
 
-.navbar-dark .navbar-nav{
+.navbar-dark .navbar-nav {
   color: #ccc;
 }
 
@@ -442,7 +460,7 @@ function doclickShow(){
 }
 
 .brand-logo {
-  width: 80px; 
+  width: 80px;
   height: auto;
 }
 
@@ -453,6 +471,4 @@ function doclickShow(){
   padding: 10px;
   z-index: 1050;
 }  */
-
-
 </style>
