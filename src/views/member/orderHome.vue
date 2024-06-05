@@ -428,7 +428,13 @@
             "transaction_password": formData.value.transPassword,
             "base_price":  basePrice.value*formData.value.roomAmount,  
             "remark":formData.value.requests,
-            "member_id": formData.value.userId
+            "member_id": formData.value.userId,
+            "stay_person_name": formData.value.spname,
+            "stay_person_birth": formData.value.spbirth,
+            "stay_person_Email":formData.value.spemail,
+            "stay_person_gender": formData.value.spsexual,
+            "stay_person_national_id": formData.value.spnationId,
+            "stay_person_phone": formData.value.spphone
         }
 
 
