@@ -187,57 +187,69 @@ const clearAll = () => {
 };
 
 // 搜尋房間
+// 搜尋房間
 const searchRooms = async () => {
-  Swal.fire({
-    text: "Loading......",
-    showConfirmButton: false,
-    allowOutsideClick: false,
-  });
+    Swal.fire({
+        text: "Loading......",
+        showConfirmButton: false,
+        allowOutsideClick: false,
+    });
 
-  let availableRooms = [];
-  if (checkInDate.value) {
     try {
-      const response = await axiosapi.get('/hotel/backend/roomAssignment', {
-        params: { date: checkInDate.value }
-      });
-
-      // 收集每個房間的資訊
-      roomInfo.value = response.data.reduce((acc, room) => {
-        acc[room.roomInformation.id] = room;
-        return acc;
-      }, {});
-
-      availableRooms = rooms.filter(room => {
-        const info = roomInfo.value[room.id];
-        if (info) {
-          let isAvailable = true;
-          for (let i = 0; i < nights.value; i++) {
-            const date = new Date(checkInDate.value);
-            date.setDate(date.getDate() + i);
-            const dateString = date.toISOString().split('T')[0];
-            if (info[dateString] && info[dateString].left <= 0) {
-              isAvailable = false;
-              break;
+        // 計算 checkOutDate
+        const checkOutDate = calculateCheckOutDate(checkInDate.value, nights.value);
+        
+        // 發送 API 請求
+        const response = await axiosapi.get('/hotel/backend/roomAssignment/availableRooms', {
+            params: { 
+                startDate: checkInDate.value, 
+                endDate: checkOutDate 
             }
-          }
-          return isAvailable;
-        }
-        return false;
-      });
+        });
+
+        // 將 API 回應的資料轉換為需要的格式
+        roomInfo.value = response.data.reduce((acc, room) => {
+            acc[room.roomInformation.id] = room;
+            return acc;
+        }, {});
+
+        // 根據篩選條件和可用房間篩選房間
+        const availableRooms = rooms.filter(room => {
+            const info = roomInfo.value[room.id];
+            if (info) {
+                let isAvailable = true;
+                for (let i = 0; i < nights.value; i++) {
+                    const date = new Date(checkInDate.value);
+                    date.setDate(date.getDate() + i);
+                    const dateString = date.toISOString().split('T')[0];
+                    if (info[dateString] && info[dateString].left <= 0) {
+                        isAvailable = false;
+                        break;
+                    }
+                }
+                return isAvailable;
+            }
+            return false;
+        });
+
+        // 篩選和排序房間
+        filteredRooms.value = availableRooms.filter(
+            room => selectedRoomNames.value.length === 0 || selectedRoomNames.value.includes(room.name)
+        );
+
+        sortRooms();
     } catch (error) {
-      console.error('Failed to fetch room assignment:', error);
+        console.error('Failed to fetch available rooms:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Failed to fetch available rooms. Please try again later.'
+        });
+    } finally {
+        Swal.close();
     }
-  } else {
-    availableRooms = [...rooms];
-  }
-
-  filteredRooms.value = availableRooms.filter(
-    room => selectedRoomNames.value.length === 0 || selectedRoomNames.value.includes(room.name)
-  );
-
-  sortRooms();
-  Swal.close();
 };
+
 
 // 房間排序
 const sortRooms = (type = sortType.value) => {
@@ -265,24 +277,51 @@ const showBookingModal = (room) => {
   showBooking.value = true;
 };
 
+// 計算 checkOutDate
+const calculateCheckOutDate = (checkInDate, nights) => {
+  const date = new Date(checkInDate);
+  date.setDate(date.getDate() + nights);
+  return date.toISOString().split('T')[0];
+};
+
 // 包成JSON前端傳遞
-  const goOrder = () => {
-  const payload = {
-    checkInDate: checkInDate.value,
-    price: selectedRoom.value.price,
-    id: selectedRoom.value.id,
-    typeName:selectedRoom.value.name,
-    adults: formData.adults,
-    children: formData.children
-  };
-  const queryString = new URLSearchParams(payload).toString();
-  window.location.href = `/member/orderHome?${queryString}`;    // `/room?${queryString}`;
+const goOrder = async () => {
+  try {
+    const checkOutDate = calculateCheckOutDate(checkInDate.value, nights.value);
+    
+    const response = await axiosapi.get('/hotel/backend/roomAssignment/minLeft', {
+      params: {
+        startDate: checkInDate.value,
+        endDate: checkOutDate,
+        roomId: selectedRoom.value.id
+      }
+    });
+    
+    const minLeft = response.data?.left || 0;
+
+    const payload = {
+      checkInDate: checkInDate.value,
+      checkOutDate: checkOutDate,
+      price: selectedRoom.value.price,
+      id: selectedRoom.value.id,
+      typeName: selectedRoom.value.name,
+      adults: formData.adults,
+      children: formData.children,
+      minLeft: minLeft
+    };
+
+    const queryString = new URLSearchParams(payload).toString();
+    window.location.href = `/member/orderHome?${queryString}`;
+  } catch (error) {
+    console.error('Failed to fetch minimum left:', error);
+  }
 };
 
 onMounted(() => {
   searchRooms();
 });
 </script>
+
 
 <style scoped lang="scss">
 body {
