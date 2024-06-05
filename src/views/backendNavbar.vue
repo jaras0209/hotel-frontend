@@ -17,10 +17,10 @@
                     <RouterLink class="nav-link active" to="/backend/home">Home</RouterLink>
                 </li>
                 <li class="nav-item">
-                    <RouterLink class="nav-link active" to="/backend/orderRoom">OrderRoom</RouterLink>
+                    <RouterLink class="nav-link active" to="/backend/orderRoom">Check in</RouterLink>
                 </li>
                 <li class="nav-item">
-                    <RouterLink class="nav-link active" to="/backend/roomService">Room Service</RouterLink>
+                    <RouterLink class="nav-link active" to="/backend/orderRoom">OrderRoom</RouterLink>
                 </li>
                 <li class="nav-item">
                     <RouterLink class="nav-link active" to="/backend/memberManage">Member Manage</RouterLink>
@@ -31,6 +31,19 @@
                 <li class="nav-item" v-if="position=='GeneralManger'">
                     <RouterLink class="nav-link active" to="/backend/employeeManage">Employees Manage</RouterLink>
                 </li>
+                <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="roomManageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                房務管理
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="roomManageDropdown">
+                                <li><RouterLink class="dropdown-item" to="/room/back/housingManagement">住房管理</RouterLink></li>
+                                <li><RouterLink class="dropdown-item" to="/room/back/roomManagement">房間管理</RouterLink></li>
+                                <li><RouterLink class="dropdown-item" to="/room/back/roomAssignment">房間分配</RouterLink></li>
+                                <li><RouterLink class="dropdown-item" to="/room/back/additionalCharges">附加費用</RouterLink></li>
+                                <li><RouterLink class="dropdown-item" to="/room/back/checkOut">退房檢查</RouterLink></li>
+                                <li><RouterLink class="dropdown-item" to="/room/back/roomInfo">編輯房間資料</RouterLink></li>
+                            </ul>
+                        </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="offcanvasNavbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" v-if="employee!=null">
                     歡迎 {{employee}}

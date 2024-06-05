@@ -8,7 +8,7 @@
           <th scope="col">商品編號</th>
           <th scope="col">數量</th>
           <th scope="col">價格</th>
-          <th scope="col">控制</th>
+          <th scope="col">編輯</th>
         </tr>
       </thead>
       <tbody>
@@ -19,10 +19,7 @@
           <td>{{ assign.quantity }}</td>
           <td>{{ assign.amount }}</td>
           <td>
-            <div>
-              <a href="#" @click.prevent="doclick1(assign.id)" class="btn btn-sm">增加</a>
-              <a href="#" @click.prevent="doclick2(assign.id)" class="btn btn-sm">減少</a>
-            </div>
+            <a href="#" @click.prevent="editAssign(assign)" class="btn btn-success">編輯</a>
           </td>
         </tr>
       </tbody>
@@ -34,19 +31,15 @@
 import { computed } from 'vue';
 
 const props = defineProps(['assigns', 'currentPage', 'rowsPerPage']);
-const emits = defineEmits(["add1", "minus1"]);
+const emits = defineEmits(['edit']);
 
 const paginatedAssigns = computed(() => {
   const start = (props.currentPage - 1) * props.rowsPerPage;
   return props.assigns.slice(start, start + props.rowsPerPage);
 });
 
-function doclick1(id) {
-  emits("add1", id);
-}
-
-function doclick2(id) {
-  emits("minus1", id);
+function editAssign(assign) {
+  emits('edit', assign);
 }
 </script>
 

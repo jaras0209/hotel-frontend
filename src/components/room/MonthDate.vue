@@ -2,7 +2,7 @@
   <div class="date-cell" :class="{ 'current': !day.isMonth, 'today': isToday }">
     <span>{{ dayTag }}</span>
     <div class="data-content">
-      <div v-for="(room, id) in day.data" :key="id">
+      <div v-for="(room, id) in day.data" :key="id" class="room-info">
         <p v-if="room.roomInformation && room.roomInformation.id === roomId && room.left > 0">
           剩餘{{ room.left }}間
         </p>
@@ -52,8 +52,10 @@ const dayTag = computed(() => dayjs(props.day.date).format('D'));
 }
 
 .data-content {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
+  margin-top: 10px;
+}
+
+.room-info {
+  margin-top: 5px;
 }
 </style>

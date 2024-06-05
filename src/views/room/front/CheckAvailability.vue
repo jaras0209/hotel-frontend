@@ -1,8 +1,9 @@
 <template>
   <FrontNavBar class="sticky-top"></FrontNavBar>
-  
-  <div class="main-container">
-    <RoomCalendar v-for="(room, index) in roomsData" :key="index" :room="room" />
+  <div class="box">
+    <div class="main-container">
+      <RoomCalendar v-for="(room, index) in roomsData" :key="index" :room="room" />
+    </div>
   </div>
   <Footer></Footer>
 </template>
@@ -18,5 +19,8 @@ import { roomsData } from '@/assets/roomsdata.js';
 .main-container {
   padding: 2rem;
   background-color: #dbdbe5bb;
+}
+.box {
+  text-align: center;
 }
 </style>

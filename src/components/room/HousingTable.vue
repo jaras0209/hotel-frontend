@@ -6,13 +6,15 @@
           <th scope="col">#</th>
           <th scope="col">住房編號</th>
           <th scope="col">房號</th>
+          <th scope="col">房間編號</th>
           <th scope="col">訂單資料</th>
           <th scope="col">CheckIn時間</th>
           <th scope="col">CheckOut時間</th>
           <th scope="col">附加費用</th>
           <th scope="col">退房檢查</th>
           <th scope="col">備註</th>
-          <th scope="col">控制</th>
+          <th scope="col">revise</th>
+          <th scope="col">delete</th>
         </tr>
       </thead>
       <tbody>
@@ -20,18 +22,15 @@
           <th scope="row">{{ (currentPage - 1) * rowsPerPage + index + 1 }}</th>
           <td>{{ assign.id }}</td>
           <td>{{ assign.roomManagement.number }}</td>
-          <td>{{ assign.orderRoom.orderId }}</td>
+          <td>{{ assign.roomManagement.id }}</td>
+          <td>{{ assign.orderRoom ? assign.orderRoom.orderId : 'N/A' }}</td>
           <td>{{ assign.checkInTime }}</td>
           <td>{{ assign.checkOutTime }}</td>
           <td>{{ assign.totalAdditional }}</td>
           <td>{{ assign.totalCompensation }}</td>
           <td>{{ assign.remarks }}</td>
-          <td>
-            <div>
-              <a href="#" @click.prevent="doclick1(assign.id)" class="btn btn btn-sm">增加</a>
-              <a href="#" @click.prevent="doclick2(assign.id)" class="btn btn btn-sm">減少</a>
-            </div>
-          </td>
+          <td><a href="#" @click.prevent="doclick1(assign.id)" class="btn btn-success">編輯</a></td>
+          <td><a href="#" @click.prevent="doclick2(assign.id)" class="btn btn-danger">刪除</a></td>
         </tr>
       </tbody>
     </table>

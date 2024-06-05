@@ -13,22 +13,18 @@ import LevelDeluxe from "./front/LevelDeluxe.vue";
 import LevelExecutive from "./front/LevelExecutive.vue";
 import LevelStandard from "./front/LevelStandard.vue";
 import Minibar from "./front/Minibar.vue";
-import Reviews from "./front/Reviews.vue";
-
-import Room from "./Room.vue";
 import RoomView from "./front/RoomView.vue";
-import Calendar from "./result.vue";
-
+import Reviews from "./front/Reviews.vue";
 
 
 export default [
-    {name: "additionalCharges-link", path: "/room/back/additionalCharges", component: AdditionalCharges},
+    {name: "additionalCharges-link", path: "/room/back/additionalCharges", component: AdditionalCharges,meta: { requiresAuth: true , roles:['Housekeeping', 'GeneralManger']} },
     {name: "backIndex-link", path: "/room/back/backIndex", component: BackIndex},
-    {name: "checkOut-link", path: "/room/back/checkOut", component: CheckOut},
-    {name: "housingManagement-link", path: "/room/back/housingManagement", component: HousingManagement},
-    {name: "roomAssignment-link", path: "/room/back/roomAssignment", component: RoomAssignment},
-    {name: "roomInfo-link", path: "/room/back/roomInfo", component: RoomInfo},
-    {name: "roomManagement-link", path: "/room/back/roomManagement", component: RoomManagement},
+    {name: "checkOut-link", path: "/room/back/checkOut", component: CheckOut,meta: { requiresAuth: true , roles:['Housekeeping', 'GeneralManger']} },
+    {name: "housingManagement-link", path: "/room/back/housingManagement", component: HousingManagement,meta: { requiresAuth: true , roles:['Housekeeping', 'GeneralManger']} },
+    {name: "roomAssignment-link", path: "/room/back/roomAssignment", component: RoomAssignment,meta: { requiresAuth: true , roles:['Housekeeping', 'GeneralManger']} },
+    {name: "roomInfo-link", path: "/room/back/roomInfo", component: RoomInfo,meta: { requiresAuth: true , roles:['GeneralManger']} },
+    {name: "roomManagement-link", path: "/room/back/roomManagement", component: RoomManagement,meta: { requiresAuth: true , roles:['Housekeeping', 'GeneralManger']} },
 
     {name: "booking-link", path: "/room/front/booking", component:Booking},
     {name: "checkAvailability-link", path: "/room/front/checkAvailability", component:CheckAvailability},
@@ -37,9 +33,6 @@ export default [
     {name: "LevelExecutive-link", path: "/room/front/executive", component: LevelExecutive},
     {name: "LevelStandard-link", path: "/room/front/standard", component: LevelStandard},
     {name: "minibar-link", path: "/room/front/minibar", component: Minibar},
-    {name: "reviews-link", path: "/room/front/reviews", component: Reviews},
     {name: "roomView-link", path: "/room/front/roomView", component: RoomView},
-
-    {name: "room-link", path: "/room", component:Room},
-    {name: "calendar-link", path: "/room/calendar", component:Calendar},
+    {name: "reviews-link", path: "/room/front/reviews", component: Reviews},
 ]

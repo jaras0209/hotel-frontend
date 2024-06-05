@@ -6,12 +6,30 @@
           <h5 class="modal-title">{{ room.number }}</h5>
         </div>
         <div class="modal-body">
-          <p class="card-text">房間狀態: {{ room.id }}</p>
-          <p class="card-text">房間狀態: {{ room.roomState.state }}</p>
+          <p class="card-text">房間編號: {{ room.id }}</p>
+          <div v-if="!editingState">
+            <p class="card-text">房間狀態: {{ room.roomState.state }}</p>
+            <button type="button" class="btn btn-secondary" @click="toggleEdit">編輯</button>
+          </div>
+          <div v-else class="form-group">
+            <label for="roomState">房間狀態:</label>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-sm-10">
+                  <select v-model="selectedRoomState" class="form-control">
+                    <option value="1">待入住</option>
+                    <option value="2">已入住</option>
+                    <option value="3">已退房(未清潔)</option>
+                    <option value="4">準備完成(已清潔)</option>
+                  </select>
+                </div>
+                <div class="col-sm-2">
+                  <button type="button" class="btn btn-primary btn-block" @click="confirmEdit">確定</button>
+                </div>
+              </div>
+            </div>
+          </div>
           <p class="card-text">報修狀態: {{ room.repairStatus }}</p>
-          <!-- <p>房間型號: {{ room.roomInformation.id }}</p>
-          <p>房間型號: {{ room.roomInformation.bedType }}</p>
-          <p>房間型號: {{ room.roomInformation.maxOccupancy }}</p> -->
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" @click="closeModal">Close</button>
@@ -23,10 +41,15 @@
 
 <script setup>
 import { ref } from 'vue';
+import axiosapi from '@/plugins/axios.js';
+import Swal from 'sweetalert2';
 
 const props = defineProps(["room"]);
-const emits = defineEmits(["close"]);
+const emits = defineEmits(["close", "updateSuccess"]);
 const isVisible = ref(false);
+const selectedRoomState = ref('');
+const editingState = ref(false);
+let previousRoomState = '';
 
 function showModal() {
   isVisible.value = true;
@@ -37,8 +60,49 @@ function closeModal() {
   emits("close");
 }
 
-defineExpose({ showModal });
+function toggleEdit() {
+  editingState.value = !editingState.value;
+  if (!editingState.value) {
+    selectedRoomState.value = previousRoomState;
+  } else {
+    previousRoomState = selectedRoomState.value;
+  }
+}
 
+async function confirmEdit() {
+  const payload = {
+    id: props.room.id,
+    roomState: selectedRoomState.value
+  };
+
+  try {
+    const response = await axiosapi.put(`/hotel/backend/roomManagement/${props.room.id}`, payload);
+    if (response.data.success) {
+      Swal.fire({
+        text: '修改成功',
+        icon: 'success',
+        confirmButtonText: '確認'
+      }).then(() => {
+        closeModal();
+        emits("updateSuccess");
+      });
+    } else {
+      Swal.fire({
+        text: '修改失敗: ' + response.data.message,
+        icon: 'error',
+        confirmButtonText: '確認'
+      });
+    }
+  } catch (error) {
+    Swal.fire({
+      text: '修改失敗: ' + error.message,
+      icon: 'error',
+      confirmButtonText: '確認'
+    });
+  }
+}
+
+defineExpose({ showModal });
 </script>
 
 <style scoped>
