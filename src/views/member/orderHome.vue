@@ -377,6 +377,10 @@
         }
         formData.value.checkinDate = checkInDate.value;
         // console.log('formData.value.checkinDate',formData.value.checkinDate)
+        let result = getDatesBetween(formData.value.checkinDate, formData.value.checkoutDate);
+        allDate.value =[];
+        result.forEach(date => allDate.value.push(date.toISOString().split('T')[0]));// console.log(date.toISOString().split('T')[0])
+        console.log(allDate.value.length)
     }
 
     function findCheckEndChange(date) {
@@ -386,7 +390,7 @@
         }
         formData.value.checkoutDate = checkOutDate.value;
 
-        let result = getDatesBetween(checkInDate.value, formData.value.checkoutDate);
+        let result = getDatesBetween(formData.value.checkinDate, formData.value.checkoutDate);
 
         // 打印結果
         allDate.value =[];
