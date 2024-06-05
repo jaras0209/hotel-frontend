@@ -1,5 +1,5 @@
 <template>
-  <FrontNavBar></FrontNavBar>
+  <FrontNavBar class="sticky-top"></FrontNavBar>
   <swiper
     :loop="true"
     :navigation="true"

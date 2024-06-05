@@ -33,6 +33,6 @@ export default [
     {name: "LevelExecutive-link", path: "/room/front/executive", component: LevelExecutive},
     {name: "LevelStandard-link", path: "/room/front/standard", component: LevelStandard},
     {name: "minibar-link", path: "/room/front/minibar", component: Minibar},
-    {name: "reviews-link", path: "/room/front/reviews", component: Reviews},
     {name: "roomView-link", path: "/room/front/roomView", component: RoomView},
+    {name: "reviews-link", path: "/room/front/reviews", component: Reviews},
 ]
