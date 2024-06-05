@@ -1,47 +1,62 @@
 <template>
-    <BackendNavbar></BackendNavbar>
+  <BackendNavbar></BackendNavbar>
   <div class="box">
     <h1 class="title">房間分配</h1>
-    <AssignmentTable
-      :assigns="assigns"
-      :currentPage="currentPage"
-      :rowsPerPage="rowsPerPage"
-      @add1="add1"
-      @minus1="minus1"/>
-    
-      <!-- :currentPage="currentPage"
-:rowsPerPage="rowsPerPage" -->
-    <!-- <div class="col-4" v-show="total != 0">
-      <Paginate 
-        :first-last-button="true" 
-        first-button-text="&lt;&lt;" 
-        last-button-text="&gt;&gt;"
-        prev-text="&lt;" next-text="&gt;" 
-        :page-count="pages" 
-        :initial-page="currentPage" 
-        v-model="currentPage" 
-        :click-handler="fetchAdditions">
-      </Paginate>
-    </div> -->
+    <div>
+      <table class="assign">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">房間型號</th>
+            <th scope="col">總共間數</th>
+            <th scope="col">剩餘間數</th>
+            <th scope="col">日期</th>
+            <th scope="col">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(assign, index) in paginatedAssigns" :key="assign.id">
+            <th scope="row">{{ (currentPage - 1) * rowsPerPage + index + 1 }}</th>
+            <td>{{ assign.roomInformation.id }}</td>
+            <td>{{ assign.roomInformation.total }}</td>
+            <td>
+              <div class="d-flex align-items-center">
+                <input type="number" v-model="assign.left" min="0" max="5" required class="form-control mr-2">
+              </div>
+            </td>
+            <td>{{ assign.date }}</td>
+            <td>
+              <a href="#" @click.prevent="updateAssign(assign.id)" class="btn btn-primary btn-sm">更新</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pagination">
+      <button @click="prevPage" :disabled="currentPage === 1">上一頁</button>
+      <span>第 {{ currentPage }} 頁，共 {{ totalPages }} 頁</span>
+      <button @click="nextPage" :disabled="currentPage === totalPages">下一頁</button>
+    </div>
   </div>
 </template>
 
 <script setup>
-import BackendNavbar from '@/views/BackendNavbar.vue';
-import { ref, onMounted } from 'vue';
+import BackendNavbar from '@/views/backendNavbar.vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import axiosapi from '@/plugins/axios.js';
 import Swal from 'sweetalert2';
-import AssignmentTable from '@/components/room/AssignmentTable.vue';
-
 
 const assigns = ref([]);
 const currentPage = ref(1);
 const rowsPerPage = ref(10);
-const total = ref(0);
-const pages = ref(0);
+const totalPages = ref(0);
 const router = useRouter();
 
+const paginatedAssigns = computed(() => {
+  const start = (currentPage.value - 1) * rowsPerPage.value;
+  return assigns.value.slice(start, start + rowsPerPage.value);
+});
 
 function callFind() {
   Swal.fire({
@@ -55,65 +70,41 @@ function callFind() {
   })
   .then(response => {
     assigns.value = response.data;
+    totalPages.value = Math.ceil(assigns.value.length / rowsPerPage.value); // 總頁數
     setTimeout(function () {
-          Swal.close();
-      }, 250);
-    }).catch(function (error) {
-      Swal.fire({
-          text: '查詢失敗：' + error.message,
-          icon: 'error',
-          allowOutsideClick: false,
-          confirmButtonText: '確認',
-      }).then(function () {
-          if (error && error.response && error.response.status === 403) {
-              router.push("/secure/login");
-          }
-      });
+      Swal.close();
+    }, 250);
+  }).catch(function (error) {
+    Swal.fire({
+      text: '查詢失敗：' + error.message,
+      icon: 'error',
+      allowOutsideClick: false,
+      confirmButtonText: '確認',
+    }).then(function () {
+      if (error && error.response && error.response.status === 403) {
+        router.push("/secure/login");
+      }
+    });
   });
 }
 
-function add1(assign) {
-  console.log('+1', assign);
+function updateAssign(id) {
+  console.log('更新', id);
+  // 實現更新邏輯
 }
 
-// function minus1(assign) {
-  function minus1() {
-  console.log('-1', assign);
-//   Swal.fire({
-//     text: "Loading......",
-//     showConfirmButton: false,
-//     allowOutsideClick: false,
-//   });
-//   let data = assigns.value;
-//   axiosapi.put(`/backend/roomAssignment/${assigns.value.id}`, data)
-//   .then(response => {
-//       if (response.data.success) {
-//         Swal.fire({
-//           text: response.data.message,
-//           icon: 'success',
-//           allowOutsideClick: false,
-//           confirmButtonText: '確認',
-//         }).then(() => {
-//           // minibarModalRef.value.hideModal();
-//           // callFind(current.value);
-//         });
-//         } else {
-//         Swal.fire({
-//           text: response.data.message,
-//           icon: 'warning',
-//           allowOutsideClick: false,
-//           confirmButtonText: '確認',
-//         });
-//       }
-//     })
-//     .catch(error => {
-//       Swal.fire({
-//         text: '失敗：' + error.message,
-//         icon: 'error',
-//         allowOutsideClick: false,
-//         confirmButtonText: '確認',
-//       });
-//     });
+function prevPage() {
+  if (currentPage.value > 1) {
+    currentPage.value--;
+    callFind();
+  }
+}
+
+function nextPage() {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++;
+    callFind();
+  }
 }
 
 onMounted(() => {
@@ -122,13 +113,42 @@ onMounted(() => {
 </script>
 
 <style scoped>
-  .box{
-      margin-top: 100px;
-      text-align: center;
-  }
+.box {
+  margin-top: 100px;
+  text-align: center;
+}
 
-.button-container {
+.assign {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 18px;
   text-align: left;
-  margin-bottom: 20px;
+}
+
+.assign th,
+.assign td {
+  border: 1px solid #dddddd;
+  padding: 8px;
+}
+
+.assign th {
+  background-color: #f2f2f2;
+}
+
+.pagination {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination button {
+  margin: 0 10px;
+  padding: 5px 10px;
+}
+
+.pagination span {
+  margin: 0 10px;
 }
 </style>

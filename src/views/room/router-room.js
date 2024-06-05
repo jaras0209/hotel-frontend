@@ -13,13 +13,8 @@ import LevelDeluxe from "./front/LevelDeluxe.vue";
 import LevelExecutive from "./front/LevelExecutive.vue";
 import LevelStandard from "./front/LevelStandard.vue";
 import Minibar from "./front/Minibar.vue";
-import Reviews from "./front/Reviews.vue";
-
-import Room from "./Room.vue";
 import RoomView from "./front/RoomView.vue";
-import Calendar from "./result.vue";
-import B from "./B.vue";
-
+import Reviews from "./front/Reviews.vue";
 
 
 export default [
@@ -40,8 +35,4 @@ export default [
     {name: "minibar-link", path: "/room/front/minibar", component: Minibar},
     {name: "reviews-link", path: "/room/front/reviews", component: Reviews},
     {name: "roomView-link", path: "/room/front/roomView", component: RoomView},
-
-    {name: "room-link", path: "/room", component:Room},
-    {name: "calendar-link", path: "/room/calendar", component:Calendar},
-    {name: "b-link", path: "/room/b", component:B},
 ]

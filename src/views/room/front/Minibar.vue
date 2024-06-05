@@ -4,36 +4,36 @@
     <h1 class="row mb-6 justify-content-center">Minibar</h1>
     <div class="row mb-3 justify-content-center align-items-center">
       <div class="col-4 text-start">
-        <input type="text" v-model="findName" placeholder="請輸入產品名稱" @input="callFind(0)" class="form-control">
+        <input type="text" v-model="findName" placeholder="請輸入產品名稱" @input="callFind(1)" class="form-control">
       </div>
       <div class="col-8 text-end">
-        <MinibarRows :total="total" :choices="[2, 4, 8, 12]" v-model="rows" @change="callFind"></MinibarRows>
+        <MinibarRows :total="total" :choices="[2, 4, 8, 12]" v-model="rows" @change="callFind(1)"></MinibarRows>
       </div>
     </div>
 
     <div class="row">
-    <MinibarCard v-for="product in products" 
-        :key="product.id" 
-        :item="product" 
-        @detail="openMinibarModal"
-        @order="openOrderModal">
-    </MinibarCard>
-  </div>
+      <MinibarCard v-for="product in filteredProducts" 
+          :key="product.id" 
+          :item="product" 
+          @detail="openMinibarModal"
+          @order="openOrderModal">
+      </MinibarCard>
+    </div>
 
-  <MinibarOrder 
-    ref="minibarOrderRef" 
-    v-if="selectedOrderProduct"
-    :item="selectedOrderProduct"
-    :isShowButtonInsert="true"
-    @insert="insertOrder">
-  </MinibarOrder>
+    <MinibarOrder 
+      ref="minibarOrderRef" 
+      v-if="selectedOrderProduct"
+      :item="selectedOrderProduct"
+      :isShowButtonInsert="true"
+      @insert="insertOrder">
+    </MinibarOrder>
 
-  <MinibarModal 
-    ref="minibarModalRef" 
-    v-if="selectedDetailProduct"
-    :item="selectedDetailProduct" 
-    @close="closeModal">
-  </MinibarModal>
+    <MinibarModal 
+      ref="minibarModalRef" 
+      v-if="selectedDetailProduct"
+      :item="selectedDetailProduct" 
+      @close="closeModal">
+    </MinibarModal>
 
     <div class="col-4" v-show="total != 0">
       <Paginate 
@@ -54,17 +54,16 @@
 </template>
 
 <script setup>
-import FrontNavBar from '../../FrontNavBar.vue';
+import FrontNavBar from '@/views/FrontNavBar.vue';
 import MinibarCard from '@/components/room/MinibarCard.vue';
 import MinibarModal from '@/components/room/MinibarModal.vue';
 import MinibarRows from '@/components/room/MinibarRows.vue';
 import MinibarOrder from '@/components/room/MinibarOrder.vue';
 import axiosapi from '@/plugins/axios.js';
 import Swal from 'sweetalert2';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import Paginate from 'vuejs-paginate-next';
-import Footer from '@/components/room/Footer.vue';
 
 const total = ref(0);
 const current = ref(1);
@@ -83,31 +82,29 @@ onMounted(() => {
   callFind();
 });
 
-function callFind(page) {
-  Swal.fire({
-    text: "Loading......",
-    showConfirmButton: false,
-    allowOutsideClick: false,
-  });
+function callFind(page = 1) {
+  if (page < 1) {
+    page = 1;
+  }
+  
+  // Swal.fire({
+  //   text: "Loading......",
+  //   showConfirmButton: false,
+  //   allowOutsideClick: false,
+  // });
 
-  if (page) {
-    start.value = (page - 1) * rows.value;
-    current.value = page;
-  } else {
+  start.value = (page - 1) * rows.value;
+  if (start.value < 0) {
     start.value = 0;
-    current.value = 1;
   }
-
-  if (findName.value === "") {
-    findName.value = null;
-  }
+  current.value = page;
 
   let request = {
     start: start.value,
     rows: rows.value,
     dir: false,
     order: "id",
-    name: findName.value
+    name: findName.value || null
   };
 
   axiosapi.post(`/hotel/minibar/find`, request).then(function (response) {
@@ -132,6 +129,12 @@ function callFind(page) {
     });
   });
 }
+
+const filteredProducts = computed(() => {
+  if (!findName.value) return products.value;
+  const regex = new RegExp(findName.value.split('').join('.*'), 'i');
+  return products.value.filter(product => regex.test(product.item));
+});
 
 function openMinibarModal(itemId) {
   axiosapi.get(`/hotel/minibar/${itemId}`).then(response => {
@@ -199,11 +202,13 @@ function closeModal() {
 }
 
 function insertOrder(orderData) {
-  axiosapi.post('/hotel/additionalCharges', orderData).then(response => {
+  axiosapi.post('/hotel/minibar/order', orderData).then(response => {
     Swal.fire({
-      text: '訂單已成功提交',
+      text: '訂單提交成功',
       icon: 'success',
       confirmButtonText: '確認'
+    }).then(() => {
+      router.push('/room/front/minibar');
     });
   }).catch(error => {
     Swal.fire({
@@ -213,6 +218,5 @@ function insertOrder(orderData) {
       confirmButtonText: '確認',
     });
   });
-  closeModal();
 }
 </script>

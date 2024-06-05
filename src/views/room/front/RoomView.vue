@@ -30,7 +30,7 @@
             <button :class="{ active: roomType === null }" @click="filterRoomsByType(null)">全部</button>
             <button :class="{ active: roomType === 1 }" @click="filterRoomsByType(1)">標準客房</button>
             <button :class="{ active: roomType === 2 }" @click="filterRoomsByType(2)">豪華客房</button>
-            <button :class="{ active: roomType === 3 }" @click="filterRoomsByType(3)">總統套房</button>
+            <button :class="{ active: roomType === 3 }" @click="filterRoomsByType(3)">尊榮套房</button>
           </div>
         </div>
         <div class="row room-row">
@@ -64,7 +64,6 @@ const budgetPrice = ref(null);  // 初始值為 null，使用者需輸入值才�
 const roomType = ref(null);  // 初始設為 null 表示顯示所有類型
 const filteredRoomsForList = ref([...rooms]);
 const allRoomsForSlider = ref([...rooms]);  // 這裡始終包含所有房間
-// const sortType = ref('recommend');
 
 const searchRooms = () => {
   if (budgetPrice.value) {

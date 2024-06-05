@@ -27,7 +27,7 @@
 </template>
 
 <script setup>
-import BackendNavbar from '@/views/BackendNavbar.vue';
+import BackendNavbar from '@/views/backendNavbar.vue';
 import { ref, onMounted } from 'vue';
 import RoomCard from '@/components/room/RoomCard.vue';
 import RoomModal from '@/components/room/RoomModal.vue';
@@ -81,7 +81,7 @@ function callFind(){
       params: { p: currentPage.value }
   }).then(function(response){
       rooms.value = response.data;  // 根据后端返回的数据结构调整
-      console.log("allRooms123",rooms.value)
+      console.log("allRooms",rooms.value)
       setTimeout(function () {
           Swal.close();
       }, 250);

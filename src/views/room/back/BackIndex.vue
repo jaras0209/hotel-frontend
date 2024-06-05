@@ -78,9 +78,11 @@
 
 <script setup>
 import { reactive, ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import axiosapi from '@/plugins/axios.js';
-import backendNavbar from '../../BackendNavbar.vue';
+import backendNavbar from '../../backendNavbar.vue';
 
+const router = useRouter();
 const currentStep = ref(1);
 
 const formData = reactive({
@@ -137,10 +139,18 @@ const previousStep = (step) => {
 const onSubmit = async () => {
     validateForm();
     if (Object.values(errors).every(error => !error)) {
+        const submissionData = {
+            orderid: formData.orderid,
+            roomid: formData.roomNumber,
+            remarks: formData.remarks || 'No remarks',
+            totalAdditional: 0.000000,
+            totalCompensation: 0.000000
+        };
+
         try {
-            const response = await axiosapi.post('/hotel/backend/housingManagement', formData);
-            alert('Form submitted successfully!');
-            // Reset form or redirect
+            const response = await axiosapi.post('/hotel/backend/housingManagement', submissionData);
+            alert('完成報到手續!');
+            router.push('/room/back/housingManagement');
         } catch (error) {
             alert('Error submitting form. Please try again.');
             console.error('Error submitting form:', error);
@@ -152,7 +162,7 @@ const fetchAvailableRooms = async () => {
     if (!formData.roomType) return;
     isLoadingRooms.value = true;
     try {
-        const response = await axiosapi.get('/hotel/backend/roomManagement', {
+        const response = await axiosapi.get('/hotel/backend/list/roomManagement', {
             params: { roomType: formData.roomType }
         });
         const rooms = Array.isArray(response.data) ? response.data : [];
@@ -221,11 +231,8 @@ body {
 }
 
 .box {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 3rem;
-    margin: 2rem;
+        margin-top: 100px;
+        text-align: center;
 }
 
 .wrap {

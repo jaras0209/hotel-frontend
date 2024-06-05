@@ -1,5 +1,5 @@
 <template>
-  <BackendNavbar></BackendNavbar>
+  <BackendNavbar/>
 
   <div class="box">
     <h1 class="title">附加費用</h1>
@@ -19,7 +19,7 @@
 </template>
 
 <script setup>
-import BackendNavbar from '@/views/BackendNavbar.vue';
+import BackendNavbar from '@/views/backendNavbar.vue';
 import AssignmentTable from '@/components/room/AdditionTable.vue';
 import EditModal from '@/components/room/EditModal.vue';
 import axiosapi from '@/plugins/axios.js';

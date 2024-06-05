@@ -33,7 +33,7 @@
 </template>
 
 <script setup>
-import backendNavbar from '../BackendNavbar.vue';
+import backendNavbar from '../backendNavbar.vue';
 import Swal from 'sweetalert2';
 import axiosapi from '@/plugins/axios.js';
 import { ref } from 'vue';

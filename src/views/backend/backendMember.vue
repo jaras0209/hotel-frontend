@@ -47,7 +47,7 @@
 </template>
     
 <script setup>
-    import backendNavbar from '../BackendNavbar.vue';
+import backendNavbar from '@/views/backendNavbar.vue';
     import { ref, onMounted } from 'vue';
     import axiosapi from '@/plugins/axios.js';
     import Swal from 'sweetalert2';

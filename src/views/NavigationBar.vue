@@ -12,23 +12,8 @@
         <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
 
           <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/front/frontIndex">關於我們</RouterLink>
+            <RouterLink class="nav-link" to="/room/front/frontIndex">住房資訊</RouterLink>
           </li>   
-
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="/room/roomInfo" role="button" data-bs-toggle="dropdown"
-              aria-expanded="false">房務管理</a>
-            <ul class="dropdown-menu">
-              <li>
-                <RouterLink class="dropdown-item" to="/room/back/roomManagement">客房管理</RouterLink>
-                <RouterLink class="dropdown-item" to="/room/back/roomAssignment">分配房型</RouterLink>
-                <RouterLink class="dropdown-item" to="/room/back/housingManagement">住房管理</RouterLink>
-                <RouterLink class="dropdown-item" to="/room/back/additionalCharges">附加費用</RouterLink>
-                <RouterLink class="dropdown-item" to="/room/back/checkOut">賠償費用</RouterLink>
-                <RouterLink class="dropdown-item" to="/room/back/roomInfo">編輯房型</RouterLink>
-              </li>
-            </ul>
-          </li>
 
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="/room/roomInfo" role="button" data-bs-toggle="dropdown"
@@ -40,22 +25,6 @@
                 <RouterLink class="dropdown-item" to="/room/front/deluxe">尊榮套房</RouterLink>
               </li>
             </ul>
-          </li>
-
-            
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/back/backIndex">backIndex</RouterLink>
-          </li>
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/room">test</RouterLink>
-          </li>
-
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/b">B</RouterLink>
-          </li>
-
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/room/calendar">t</RouterLink>
           </li>
 
           <li class="nav-item dropdown">

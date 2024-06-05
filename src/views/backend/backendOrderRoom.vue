@@ -4,7 +4,7 @@
 </template>
     
 <script setup>
-    import backendNavbar from '../BackendNavbar.vue';
+    import backendNavbar from '../backendNavbar.vue';
 </script>
     
 <style>

@@ -4,7 +4,7 @@ import App from './App.vue'
 import router from '@/router/router.js'
 /* import the fontawesome core */
 import { library } from '@fortawesome/fontawesome-svg-core';
-import VCalendar from 'v-calendar';
+// import VCalendar from 'v-calendar';
 
 /* import font awesome icon component */
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'

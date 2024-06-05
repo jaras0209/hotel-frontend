@@ -52,7 +52,7 @@
 </template>
     
 <script setup>
-    import backendNavbar from '../BackendNavbar.vue';
+import backendNavbar from '@/views/backendNavbar.vue';
     import EmployeeModal from '@/components/backend/employeeModal.vue';
     import NewEmployeeModal from '@/components/backend/addEmployee.vue'; 
     import { ref, onMounted } from 'vue';
