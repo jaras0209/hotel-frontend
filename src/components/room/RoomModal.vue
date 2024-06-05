@@ -13,13 +13,21 @@
           </div>
           <div v-else class="form-group">
             <label for="roomState">房間狀態:</label>
-            <select v-model="selectedRoomState" class="form-control">
-              <option value="1">待入住</option>
-              <option value="2">已入住</option>
-              <option value="3">已退房(未清潔)</option>
-              <option value="4">準備完成(已清潔)</option>
-            </select>
-            <button type="button" class="btn btn-primary" @click="confirmEdit">確定</button>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-sm-10">
+                  <select v-model="selectedRoomState" class="form-control">
+                    <option value="1">待入住</option>
+                    <option value="2">已入住</option>
+                    <option value="3">已退房(未清潔)</option>
+                    <option value="4">準備完成(已清潔)</option>
+                  </select>
+                </div>
+                <div class="col-sm-2">
+                  <button type="button" class="btn btn-primary btn-block" @click="confirmEdit">確定</button>
+                </div>
+              </div>
+            </div>
           </div>
           <p class="card-text">報修狀態: {{ room.repairStatus }}</p>
         </div>
@@ -33,9 +41,11 @@
 
 <script setup>
 import { ref } from 'vue';
+import axiosapi from '@/plugins/axios.js';
+import Swal from 'sweetalert2';
 
 const props = defineProps(["room"]);
-const emits = defineEmits(["close"]);
+const emits = defineEmits(["close", "updateSuccess"]);
 const isVisible = ref(false);
 const selectedRoomState = ref('');
 const editingState = ref(false);
@@ -59,14 +69,40 @@ function toggleEdit() {
   }
 }
 
-function confirmEdit() {
-  // 向后端发送更新房间状态的请求，使用 selectedRoomState 的值
-  console.log("更新房间状态为:", selectedRoomState.value);
-  editingState.value = false; // 切换回显示状态
+async function confirmEdit() {
+  const payload = {
+    id: props.room.id,
+    roomState: selectedRoomState.value
+  };
+
+  try {
+    const response = await axiosapi.put(`/hotel/backend/roomManagement/${props.room.id}`, payload);
+    if (response.data.success) {
+      Swal.fire({
+        text: '修改成功',
+        icon: 'success',
+        confirmButtonText: '確認'
+      }).then(() => {
+        closeModal();
+        emits("updateSuccess");
+      });
+    } else {
+      Swal.fire({
+        text: '修改失敗: ' + response.data.message,
+        icon: 'error',
+        confirmButtonText: '確認'
+      });
+    }
+  } catch (error) {
+    Swal.fire({
+      text: '修改失敗: ' + error.message,
+      icon: 'error',
+      confirmButtonText: '確認'
+    });
+  }
 }
 
 defineExpose({ showModal });
-
 </script>
 
 <style scoped>

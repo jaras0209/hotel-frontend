@@ -59,12 +59,24 @@ import Swal from 'sweetalert2';
 const assigns = ref([]);
 const currentPage = ref(1);
 const rowsPerPage = ref(10);
-const total = ref(0);
-const pages = ref(0);
+// const total = ref(0);
+// const pages = ref(0);
 const router = useRouter();
 const availableRooms = ref([]);
 const isLoadingRooms = ref(false);
 const formData = ref({ roomType: null });
+
+const roomTypes = ref([
+    { id: 1, name: '標準客房' },
+    { id: 2, name: '精緻客房' },
+    { id: 3, name: '豪華客房' },
+    { id: 4, name: '豪華家庭房' },
+    { id: 5, name: '標準商務房' },
+    { id: 6, name: '尊榮商務房' },
+    { id: 7, name: '大使套房' },
+    { id: 8, name: '皇家套房' },
+    { id: 9, name: '總統套房' }
+]);
 
 const paginatedAssigns = computed(() => {
   const start = (currentPage.value - 1) * rowsPerPage.value;
@@ -108,7 +120,10 @@ async function fetchAvailableRooms() {
       params: { roomType: formData.value.roomType }
     });
     const rooms = Array.isArray(response.data) ? response.data : [];
-    availableRooms.value = rooms.filter(room => room.roomInformation.id === formData.value.roomType && room.roomState.id === 4);
+    availableRooms.value = rooms.filter(room => 
+      room.roomInformation.id === parseInt(formData.value.roomType) && 
+      room.roomState.id === 4
+    );
   } catch (error) {
     console.error('Error fetching available rooms:', error);
   } finally {
@@ -116,65 +131,67 @@ async function fetchAvailableRooms() {
   }
 }
 
-function changeRoom(assign) {
-  Swal.fire({
-    title: '輸入房間類型',
-    input: 'text',
-    inputPlaceholder: '房間類型',
+async function changeRoom(assign) {
+  const { value: roomType } = await Swal.fire({
+    title: '選擇房間類型',
+    input: 'select',
+    inputOptions: roomTypes.value.reduce((options, type) => {
+      options[type.id] = type.name;
+      return options;
+    }, {}),
+    inputPlaceholder: '選擇房間類型',
     showCancelButton: true,
     confirmButtonText: '下一步',
     cancelButtonText: '取消'
-  }).then(async (roomTypeResult) => {
-    if (roomTypeResult.isConfirmed) {
-      formData.value.roomType = roomTypeResult.value;
-      await fetchAvailableRooms();
+  });
 
-      if (availableRooms.value.length === 0) {
+  if (roomType) {
+    formData.value.roomType = roomType;
+    await fetchAvailableRooms();
+
+    if (availableRooms.value.length === 0) {
+      Swal.fire({
+        text: '沒有符合條件的空房',
+        icon: 'error',
+        confirmButtonText: '確認',
+      });
+      return;
+    }
+
+    const { value: selectedRoom } = await Swal.fire({
+      title: '選擇新的房間',
+      input: 'select',
+      inputOptions: availableRooms.value.reduce((options, room) => {
+        options[room.id] = room.number;
+        return options;
+      }, {}),
+      inputPlaceholder: '選擇房間',
+      showCancelButton: true,
+      confirmButtonText: '確認',
+      cancelButtonText: '取消'
+    });
+
+    if (selectedRoom) {
+      axiosapi.put(`/hotel/backend/housingManagement/changeRoom/${assign.id}`, {
+        newRoomId: selectedRoom
+      })
+      .then(response => {
         Swal.fire({
-          text: '沒有符合條件的空房',
+          text: '換房成功',
+          icon: 'success',
+          confirmButtonText: '確認',
+        });
+        callFind(); // Refresh the data
+      })
+      .catch(error => {
+        Swal.fire({
+          text: '換房失敗：' + error.message,
           icon: 'error',
           confirmButtonText: '確認',
         });
-        return;
-      }
-
-      // Prompt user to select a room
-      const { value: selectedRoom } = await Swal.fire({
-        title: '選擇新的房間',
-        input: 'select',
-        inputOptions: availableRooms.value.reduce((options, room) => {
-          options[room.id] = room.number;
-          return options;
-        }, {}),
-        inputPlaceholder: '選擇房間',
-        showCancelButton: true,
-        confirmButtonText: '確認',
-        cancelButtonText: '取消'
       });
-
-      if (selectedRoom) {
-        // Update the room assignment
-        axiosapi.put(`/hotel/backend/housingManagement/changeRoom/${assign.id}`, {
-          newRoomId: selectedRoom
-        })
-        .then(response => {
-          Swal.fire({
-            text: '換房成功',
-            icon: 'success',
-            confirmButtonText: '確認',
-          });
-          callFind(); // Refresh the data
-        })
-        .catch(error => {
-          Swal.fire({
-            text: '換房失敗：' + error.message,
-            icon: 'error',
-            confirmButtonText: '確認',
-          });
-        });
-      }
     }
-  });
+  }
 }
 
 function checkOut(id) {

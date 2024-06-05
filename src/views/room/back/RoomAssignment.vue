@@ -26,7 +26,7 @@
             </td>
             <td>{{ assign.date }}</td>
             <td>
-              <a href="#" @click.prevent="updateAssign(assign.id)" class="btn btn-primary btn-sm">更新</a>
+              <a href="#" @click.prevent="updateAssign(assign)" class="btn btn-primary btn-sm">更新</a>
             </td>
           </tr>
         </tbody>
@@ -49,16 +49,15 @@ import Swal from 'sweetalert2';
 
 const assigns = ref([]);
 const currentPage = ref(1);
-const rowsPerPage = ref(10);
-const totalPages = ref(0);
+const rowsPerPage = ref(15);  // 每頁顯示15條數據
+const totalPages = ref(54);   // 總共54頁
 const router = useRouter();
 
 const paginatedAssigns = computed(() => {
-  const start = (currentPage.value - 1) * rowsPerPage.value;
-  return assigns.value.slice(start, start + rowsPerPage.value);
+  return assigns.value;
 });
 
-function callFind() {
+function callFind(page = 1) {
   Swal.fire({
     text: "Loading......",
     showConfirmButton: false,
@@ -66,11 +65,11 @@ function callFind() {
   });
 
   axiosapi.get('/hotel/backend/roomAssignment', {
-    params: { p: currentPage.value }
+    params: { p: page }
   })
   .then(response => {
     assigns.value = response.data;
-    totalPages.value = Math.ceil(assigns.value.length / rowsPerPage.value); // 總頁數
+    currentPage.value = page;  // 更新当前页码
     setTimeout(function () {
       Swal.close();
     }, 250);
@@ -88,22 +87,56 @@ function callFind() {
   });
 }
 
-function updateAssign(id) {
-  console.log('更新', id);
-  // 實現更新邏輯
+function updateAssign(assign) {
+  Swal.fire({
+    text: "Updating...",
+    showConfirmButton: false,
+    allowOutsideClick: false,
+  });
+
+  const data = {
+    left: assign.left
+  };
+
+  axiosapi.put(`/hotel/backend/roomAssignment/${assign.id}`, data)
+  .then(response => {
+    if (response.data.success) {
+      Swal.fire({
+        text: response.data.message,
+        icon: 'success',
+        allowOutsideClick: false,
+        confirmButtonText: '確認',
+      }).then(() => {
+        callFind(currentPage.value);
+      });
+    } else {
+      Swal.fire({
+        text: response.data.message,
+        icon: 'error',
+        allowOutsideClick: false,
+        confirmButtonText: '確認',
+      });
+    }
+  })
+  .catch(error => {
+    Swal.fire({
+      text: '更新失敗：' + error.message,
+      icon: 'error',
+      allowOutsideClick: false,
+      confirmButtonText: '確認',
+    });
+  });
 }
 
 function prevPage() {
   if (currentPage.value > 1) {
-    currentPage.value--;
-    callFind();
+    callFind(currentPage.value - 1);
   }
 }
 
 function nextPage() {
   if (currentPage.value < totalPages.value) {
-    currentPage.value++;
-    callFind();
+    callFind(currentPage.value + 1);
   }
 }
 

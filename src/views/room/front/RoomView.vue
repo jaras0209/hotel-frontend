@@ -29,7 +29,7 @@
           <div class="filter-buttons">
             <button :class="{ active: roomType === null }" @click="filterRoomsByType(null)">全部</button>
             <button :class="{ active: roomType === 1 }" @click="filterRoomsByType(1)">標準客房</button>
-            <button :class="{ active: roomType === 2 }" @click="filterRoomsByType(2)">豪華客房</button>
+            <button :class="{ active: roomType === 2 }" @click="filterRoomsByType(2)">商務客房</button>
             <button :class="{ active: roomType === 3 }" @click="filterRoomsByType(3)">尊榮套房</button>
           </div>
         </div>

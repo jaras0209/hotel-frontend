@@ -25,8 +25,8 @@
 <script setup>
 import { ref } from 'vue';
 import Swal from 'sweetalert2';
-import axiosapi from '@/plugins/axios.js'; // 確保導入 axiosapi
-import { useRouter } from 'vue-router'; // 導入 useRouter 以便進行路由導航
+import axiosapi from '@/plugins/axios.js';
+import { useRouter } from 'vue-router';
 
 const props = defineProps(["item"]);
 const emits = defineEmits(["close"]);
@@ -85,7 +85,7 @@ function confirmOrder(item) {
           icon: 'success',
           confirmButtonText: '確認'
         }).then(() => {
-          router.push('/room/front/minibar'); // 成功提交訂單後導航到 /room/front/minibar 頁面
+          router.push('/room/front/minibar');
         });
       }).catch(error => {
         Swal.fire({
