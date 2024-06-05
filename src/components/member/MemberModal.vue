@@ -9,7 +9,7 @@
             </div>
             <div class="modal-body">
                 <div>
-                    <img :src="PATH+props.id" class="card-img-top" alt="..." style="border-radius: 50%;">
+                    <img :src="PATH+props.id" class="card-img-top" alt="..." style="border-radius: 50%; width: 466px; height: 448px;">
                     <label for="file-upload" class="custom-file-upload">
                         <i class="fa fa-cloud-upload"></i>修改大頭照
                     </label>

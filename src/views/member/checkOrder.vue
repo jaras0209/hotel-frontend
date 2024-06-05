@@ -15,6 +15,7 @@
                 <p><strong>訂單號碼：</strong>{{ orderId }}</p>
                 <p><strong>價格：</strong>{{ singlePrice }} 元</p>
                 <p><strong>數量：</strong>{{ productQuality }} 間</p>
+                <p><strong>天數：</strong>{{ allDate.length-1 }} 個夜晚</p>
                 <p><strong>總計：</strong>{{ orderPrice }} 元</p>
                 <p><strong>訂單狀態：</strong>{{ transactionStatus }}</p>
             </div>
@@ -61,6 +62,7 @@
     const refundTypeId = ref('');
     const refundType = ref('');
     const refundRatio = ref(0);
+    const allDate= ref([]);
 
     // const roomsData = ref('');
     const router = useRouter();
@@ -118,7 +120,10 @@
                 transactionStatus.value = roomsData.value[6];
                 checkinDate.value = roomsData.value[7].split(' ')[0];
                 checkoutDate.value = roomsData.value[8].split(' ')[0];
-                productImage.value = roomsData.value[9]
+                productImage.value = roomsData.value[9];
+                allDate.value =[];
+                getDatesBetween(checkinDate.value, checkoutDate.value).forEach(date => allDate.value.push(date.toISOString().split('T')[0]));
+                
             }
         })
     }
@@ -146,6 +151,32 @@
         })
         refundRef.value.showModal();
     }
+
+
+    function getDatesBetween(startDate, endDate) {
+        // 解析輸入的日期
+        let start = new Date(startDate);
+        let end = new Date(endDate);
+
+        // 確保開始日期早於或等於結束日期
+        if (start > end) {
+            console.error("開始日期不能晚於結束日期");
+            return [];
+        }
+
+        // 初始化結果數組
+        let dates = [];
+        let currentDate = start;
+
+        // 使用循環來獲取中間日期
+        while (currentDate <= end) {
+            dates.push(new Date(currentDate));
+            currentDate.setDate(currentDate.getDate() + 1); // 將日期加1
+        }
+
+        return dates;
+    }
+
     function applyRefund(){
         Swal.fire({
             text: "是否真的退訂",
@@ -183,16 +214,36 @@
                         }).catch(function (error){
                             console.log('error form orderRoom update', error);
                         })
+                        checkinDate.value = roomsData.value[7].split(' ')[0];
+                
+                        let result = getDatesBetween(checkinDate.value, checkoutDate.value);
+
+                        // 退房所需日期
+                        allDate.value =[];
+                        result.forEach(date => allDate.value.push(date.toISOString().split('T')[0]));// console.log(date.toISOString().split('T')[0])
                         // 房間數回復待做
                         let dataRooms={
                             'rooms':productQuality.value,
                             'booking':false
                         }
-                        axiosapi.post(`hotel/backend/roomAssignment/findID/${checkinDate.value}/${roomTypeId.value}`, dataRooms).then(function (response){
-                            console.log('response in callAssignment',response);
-                        }).catch(function (error){
-                            console.log("error in callAssignment", error);
-                        })
+                        console.log('allDate.value', allDate.value);
+
+                        // 沒有使用for-loop，只有當天的部分
+                        // axiosapi.post(`hotel/backend/roomAssignment/findID/${checkinDate.value}/${roomTypeId.value}`, dataRooms).then(function (response){
+                        //     console.log('response in callAssignment',response);
+                        // }).catch(function (error){
+                        //     console.log("error in callAssignment", error);
+                        // })
+                        // 用for-loop
+                        for (let i=0; i<=allDate.value.length-2;i++){
+                            axiosapi.post(`hotel/backend/roomAssignment/findID/${allDate.value[i]}/${roomTypeId.value}`, dataRooms).then(function (response){
+                                console.log('response in callAssignment',response);
+                            }).catch(function (error){
+                                console.log("error in callAssignment", error);
+                            });
+                        }
+
+
                         
                         // 資料重新整理
                         refundRef.value.hideModal();

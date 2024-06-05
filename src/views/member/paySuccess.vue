@@ -6,12 +6,17 @@
         <img :src="productImage" alt="商品圖片" class="product-image">
         </div>
         <div class="details col-4">
+            <p><strong>入住時間：</strong>{{ checkInDate }}</p>
+            <p><strong>退房時間：</strong>{{ checkOutdate }}</p>
+            
+        </div>
+        <div class="details col-4">
             <p><strong>商品名稱：</strong>{{ productName }}</p>
             <p><strong>訂單號碼：</strong>{{ orderId }}</p>
             <p><strong>價格：</strong>{{ singlePrice }} 元</p>
             <p><strong>數量：</strong>{{ productQuality }} 間</p>
+            <p><strong>天數：</strong>{{ days-1 }} 個夜晚</p>
             <p><strong>總計：</strong>{{ orderPrice }} 元</p>
-        
         </div>
     </div>
     
@@ -29,6 +34,9 @@
     const productName = sessionStorage.getItem("productName");
     const productQuality = sessionStorage.getItem("productQuality");
     const singlePrice = sessionStorage.getItem("singlePrice");
+    const checkInDate = sessionStorage.getItem("arrival_date");
+    const checkOutdate = sessionStorage.getItem("checkout_date");
+    const days = sessionStorage.getItem('days');
 
     function confirmLine(){
         Swal.fire({

@@ -20,7 +20,7 @@
                     </div>
                     <div class="col-md-12">
                         <label for="refundReason" class="form-label"><span class="star">*</span><strong>退訂原因</strong></label>
-                        <textarea class="form-control" id="validationDefault02" placeholder="請簡述退訂原因"required :value="reasonInput" @input="emits('update:reasonInput', $event.target.value)"></textarea>
+                        <textarea class="form-control" id="validationDefault02" placeholder="請簡述退訂原因" required :value="reasonInput" @input="emits('update:reasonInput', $event.target.value)"></textarea>
                     </div>
                 </div>
             </div>

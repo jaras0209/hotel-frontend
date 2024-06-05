@@ -37,12 +37,12 @@
         </div>
         <div class="mb-3">
             <label class="col-form-label"><strong>總金額：</strong></label>
-            <span>{{ props.orderPrice }}</span>
+            <span>{{ props.orderPrice }} 元</span>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
       </div>
     </div>
   </div>
@@ -73,6 +73,6 @@
     })
 </script>
     
-<style>
-    
+<style scoped>
+
 </style>
