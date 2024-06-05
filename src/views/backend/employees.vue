@@ -20,8 +20,8 @@
                 <td>{{ employee.premission }}</td>
                 <td>{{ employee.email }}</td>
                 <td>{{ employee.status }}</td>
-                <td><a class="btn btn-outline-success" @click="callShowModify(employee.employeeId)">修改</a></td>
-                <td><a class="btn btn-outline-danger" @click="callDelete(employee.employeeId)">刪除</a></td>
+                <td v-show="employee.employeeId!=currentManage"><a class="btn btn-outline-success" @click="callShowModify(employee.employeeId)">修改</a></td>
+                <td v-show="employee.employeeId!=currentManage"><a class="btn btn-outline-danger" @click="callDelete(employee.employeeId)">刪除</a></td>
             </tr>
         </table>
         <button type="button" class="btn btn-outline-light" @click="callShowAdd">+</button>
@@ -71,6 +71,7 @@
     const permission = ref("");
     const newsStatus = ref("");
     const newPermission = ref("");
+    const currentManage = sessionStorage.getItem('employeeId');
 
 
     function callShowAdd(){
@@ -79,6 +80,7 @@
     function callShowModify(id){
         employeeModal.value.showModal();
         callFindEmployee(id);
+        
 
     }
     //--------------------------------------------------
@@ -199,7 +201,7 @@
             console.log("response", response);
             if (response.status==200){
                 Swal.fire({
-                    text: response.data.message,
+                    text: '修改成功',
                     icon: 'success',
                     allowOutsideClick: false,
                     confirmButtonText: '確認',

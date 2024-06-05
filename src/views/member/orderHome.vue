@@ -171,7 +171,7 @@
                     <p>入住大人人數: {{ formData.adults }}</p>
                     <p>入住小孩人數: {{ formData.children }}</p>
                     <p>房間數量: {{ formData.roomAmount }}</p>
-                    <p>價格: {{ basePrice*formData.roomAmount }}</p>
+                    <p>價格: {{ basePrice*formData.roomAmount*(allDate.length-1) }}</p>
                     
                 </div>
                 <div>
@@ -256,8 +256,8 @@
             <form @submit.prevent="submitPayment">
             <label for="payment-method">付款方式:</label>
             <select v-model="formData.paymentMethod" @change="toggleCreditCardInfo" required>
+                <option value="linePay" selected>Line Pay</option>
                 <option value="credit-card">信用卡</option>
-                <option value="alipay">支付寶</option>
                 <option value="wechat">微信支付</option>
             </select><br>
     
@@ -300,6 +300,7 @@
     const leftRoomNumer = ref(null);
     const roomImg = ref(null);
     const orderId = ref(null);
+    const allDate = ref([]);
 
     const steps = ref(["選擇房型", "填寫資料", "確認畫面", "付款"]);
     const isNotSamePerson = ref(false)
@@ -328,7 +329,7 @@
 
         checkinTime: '',
         requests: '',
-        paymentMethod: 'credit-card',
+        paymentMethod: 'linePay',
         cardNumber: '',
         expiryDate: '',
         cvv: ''
@@ -375,6 +376,11 @@
             checkOutDate.value = checkInDate.value;
         }
         formData.value.checkinDate = checkInDate.value;
+        // console.log('formData.value.checkinDate',formData.value.checkinDate)
+        let result = getDatesBetween(formData.value.checkinDate, formData.value.checkoutDate);
+        allDate.value =[];
+        result.forEach(date => allDate.value.push(date.toISOString().split('T')[0]));// console.log(date.toISOString().split('T')[0])
+        console.log(allDate.value.length)
     }
 
     function findCheckEndChange(date) {
@@ -383,7 +389,41 @@
             checkInDate.value = checkOutDate.value;
         }
         formData.value.checkoutDate = checkOutDate.value;
+
+        let result = getDatesBetween(formData.value.checkinDate, formData.value.checkoutDate);
+
+        // 打印結果
+        allDate.value =[];
+        result.forEach(date => allDate.value.push(date.toISOString().split('T')[0]));// console.log(date.toISOString().split('T')[0])
+        console.log(allDate.value.length)
     }
+
+
+    function getDatesBetween(startDate, endDate) {
+        // 解析輸入的日期
+        let start = new Date(startDate);
+        let end = new Date(endDate);
+
+        // 確保開始日期早於或等於結束日期
+        if (start > end) {
+            console.error("開始日期不能晚於結束日期");
+            return [];
+        }
+
+        // 初始化結果數組
+        let dates = [];
+        let currentDate = start;
+
+        // 使用循環來獲取中間日期
+        while (currentDate <= end) {
+            dates.push(new Date(currentDate));
+            currentDate.setDate(currentDate.getDate() + 1); // 將日期加1
+        }
+
+        return dates;
+    }
+
+
 
     // 訂單成立
     function buildOrder(){
@@ -426,9 +466,15 @@
             "arrival_date": formData.value.checkinDate +" "+formData.value.checkinTime+":00.0",
             "checkout_date": formData.value.checkoutDate + " 00:00:00.0",
             "transaction_password": formData.value.transPassword,
-            "base_price":  basePrice.value*formData.value.roomAmount,  
+            "base_price":  basePrice.value*formData.value.roomAmount*(allDate.value.length-1),  
             "remark":formData.value.requests,
-            "member_id": formData.value.userId
+            "member_id": formData.value.userId,
+            "stay_person_name": formData.value.spname,
+            "stay_person_birth": formData.value.spbirth,
+            "stay_person_Email":formData.value.spemail,
+            "stay_person_gender": formData.value.spsexual,
+            "stay_person_national_id": formData.value.spnationId,
+            "stay_person_phone": formData.value.spphone
         }
 
 
@@ -441,9 +487,10 @@
                     //
                     if (response.data.success){
                         orderId.value = response.data.orderId;
+                        sessionStorage.setItem("orderId", orderId.value); // 呼叫transaction Table需要
                         let detailData = {
                             "roomAmount": formData.value.roomAmount,
-                            "price": basePrice.value*formData.value.roomAmount,
+                            "price": basePrice.value*formData.value.roomAmount*(allDate.value.length-1),
                             "id": {
                                 "orderId": response.data.orderId,
                                 "roomInformationId": roomInfoId.value
@@ -461,7 +508,32 @@
                                 }).then(function (result){
                                     if (result.isConfirmed){
                                         // 數量調整
-                                        // roomAssignment controller modify 
+
+                                        // roomAssignment controller modify
+                                        let dataRooms={
+                                            'rooms':formData.value.roomAmount,
+                                            'booking':true
+                                        }
+                                        // 只計算某一天，沒有用for-loop
+
+                                        // **********************************
+                                        // axiosapi.post(`hotel/backend/roomAssignment/findID/${formData.value.checkinDate}/${roomInfoId.value}`, dataRooms).then(function (response){
+                                        //     console.log('response in callAssignment',response);
+                                        // }).catch(function (error){
+                                        //     console.log("error in callAssignment", error);
+                                        // });
+                                        //*********************************
+
+                                        // 用for-loop
+                                        for (let i=0; i<=allDate.value.length-2;i++){
+                                            axiosapi.post(`hotel/backend/roomAssignment/findID/${allDate.value[i]}/${roomInfoId.value}`, dataRooms).then(function (response){
+                                                console.log('response in callAssignment',response);
+                                            }).catch(function (error){
+                                                console.log("error in callAssignment", error);
+                                            });
+                                        }
+
+                                    
 
                                         console.log("orderId.value",orderId.value);
                                         // 付款成功和查看訂單所需資料
@@ -469,6 +541,10 @@
                                         sessionStorage.setItem("productName", roomType.value);
                                         sessionStorage.setItem("productQuality", formData.value.roomAmount);
                                         sessionStorage.setItem("singlePrice", basePrice.value);
+                                        sessionStorage.setItem("arrival_date", formData.value.checkinDate);
+                                        sessionStorage.setItem("checkout_date", formData.value.checkoutDate);
+                                        sessionStorage.setItem("days", allDate.value.length);
+            
                                     }
                                 })
                             }
@@ -489,14 +565,14 @@
 
     function callLinePay(){
         let data = {
-            "orderTotalAmount": basePrice.value*formData.value.roomAmount, // 目前只做一個房型的訂購
+            "orderTotalAmount": basePrice.value*formData.value.roomAmount*(allDate.value.length-1), // 目前只做一個房型的訂購
             "orderId" : orderId.value,
-            "totalPrice" : basePrice.value*formData.value.roomAmount,
+            "totalPrice" : basePrice.value*formData.value.roomAmount*(allDate.value.length-1),
             "productId" : roomInfoId.value,
             "productName" : roomType.value,
             "productPicture" : roomImg.value,
             "productQuality": formData.value.roomAmount,
-            "singlePrice" : basePrice.value
+            "singlePrice" : basePrice.value*(allDate.value.length-1)
         }
         console.log(data)
         axiosapi.post('hotel/orderRoom/transactions/line-pay', data).then(function (response){
@@ -507,8 +583,8 @@
                 sessionStorage.removeItem("transactionId");
                 sessionStorage.removeItem("orderTotalAmount");
                 sessionStorage.setItem("transactionId", response.data.info.transactionId);
-                sessionStorage.setItem("orderTotalAmount", basePrice.value*formData.value.roomAmount);
-                sessionStorage.setItem("orderId", orderId.value); // 呼叫transaction Table需要
+                sessionStorage.setItem("orderTotalAmount", basePrice.value*formData.value.roomAmount*(allDate.value.length-1));
+                
                 // 
 
                 console.log("transactionId",sessionStorage.getItem("transactionId"));

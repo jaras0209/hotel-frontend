@@ -188,7 +188,8 @@ function logout() {
   // console.log("logout", userId)
   sessionStorage.removeItem("userId");
   sessionStorage.clear();
-  router.go(0);
+  window.location.href = '/';
+  // router.go(0);
 }
 
 function doclickShow(){

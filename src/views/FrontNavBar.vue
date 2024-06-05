@@ -73,10 +73,15 @@ import MemberModal from '@/components/member/MemberModal.vue';
 const router = useRouter();
 const user = ref(sessionStorage.getItem('user'));
 const memberRef = ref(null);
+const userId = sessionStorage.getItem('userId');
 
 function logout() {
   sessionStorage.removeItem('user');
   axiosapi.defaults.headers.authorization = '';
+  axiosapi.put(`hotel/member/logout/${userId}`).then(function(response){}).catch(function(error){})
+  // console.log("logout", userId)
+  sessionStorage.removeItem("userId");
+  sessionStorage.clear();
   router.go(0);
 }
 
