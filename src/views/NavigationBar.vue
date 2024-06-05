@@ -55,7 +55,6 @@
               aria-expanded="false">Shopping</a>
             <ul class="dropdown-menu">
               <li>
-                <RouterLink class="dropdown-item" to="/supplier/allsupplier">合作夥伴(後端)</RouterLink>
                 <RouterLink class="dropdown-item" to="/shopping/shoppinglist">
                   <font-awesome-icon :icon="['fas', 'shop']" /> &nbsp;&nbsp;商城
                 </RouterLink>

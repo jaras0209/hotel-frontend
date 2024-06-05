@@ -5,8 +5,8 @@
             <div class="card-body">
                 <img :src="`${PATHP}/hotel/photos/${product.id}`" class="card-img-top" alt="..."
                     style="width: 250px; height: 250px;">
-                <h5 class="card-title">{{ product.productName }}</h5>
-                <div class="card-text text-danger text-end">NT$ {{ product.productPrice }}</div>
+                <h5 class="card-title" style="font-size: 22px;">{{ product.productName }}</h5>
+                <div class="card-text text-danger text-end"  style="font-size: 22px;">NT$ {{ product.productPrice }}</div>
                 <div class="row">
                     <ul class="list-group list-group-flush">
                         <!-- <li class="list-group-item">{{ product.productDescription }}</li> -->

@@ -1,6 +1,7 @@
 <template>
-    <NavigationBar></NavigationBar>
+    <backendNavbar></backendNavbar>
     <!-- 0529 -->
+    <br><br><br><br>
     <h1>{{ $route.params.name }}</h1>
     <div class="col-4">
         <button type="button" class="btn btn-primary" @click="openModal('insert')">
@@ -19,7 +20,7 @@
     </div>
 </template>
 <script setup>
-import NavigationBar from '../NavigationBar.vue';
+import backendNavbar from '../backendNavbar.vue';
 import { useRoute } from 'vue-router';
 import Swal from "sweetalert2"
 import axiosapi from "@/plugins/axios.js"
@@ -193,7 +194,8 @@ function callModify(id) {
     //異動訊息
     if (oneproduct.value.productPrice !== oldprice.value) {
         let alert = {
-            "productId": id
+            "productId": id,
+            "newPrice":oneproduct.value.productPrice
         }
         axiosapi.post("/hotel/alerts/post", alert).then(function (response) {
             console.log(response)

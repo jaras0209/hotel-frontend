@@ -84,8 +84,6 @@ function callFind(page) {
                 router.push({name:"login-link"})
             }
         })
-
-
     });
 }
 function callalert() {
