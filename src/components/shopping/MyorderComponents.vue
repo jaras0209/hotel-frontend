@@ -14,7 +14,8 @@
                 aria-expanded="false" :aria-controls="orderid" @click="myclick(orderid)">
                 看明細
             </button>
-            <button class="btn btn-danger" type="button" v-if="Orderstatus==='訂單成立'" @click="dodelete(orderid)">取消</button>
+            <span v-if="Orderstatus==='訂單成立'">{{ calll(AddedTime) }}</span>
+            <button class="btn btn-danger" type="button" v-if="Orderstatus==='訂單成立'" @click="dodelete(orderid)" :disabled="iscandelete">取消</button>
         </p>
         <div class="collapse" :id="orderid">
             <div class="card card-body">
@@ -44,6 +45,7 @@ import { useRouter } from "vue-router"
 import Swal from "sweetalert2"
 const router = useRouter();
 const newresult = ref(null)
+const iscandelete=ref(true)
 function myclick(id) {
     axiosapi.get(`/hotel/orderdetails/mes/${id}`).then(function (response) {
         newresult.value = response.data.ist
@@ -70,7 +72,15 @@ function dodelete(id) {
         }
     })
     console.log(id)
- 
+}
+function calll(AddedTime){
+    console.log(new Date().getTime())
+    console.log(new Date(AddedTime).getTime())
+    console.log((new Date().getTime()-new Date(AddedTime).getTime())/1000)
+    console.log("---------------")
+    if((new Date().getTime()-new Date(AddedTime).getTime())/1000<15){
+        iscandelete.value=false;
+    }
 }
 </script>
 <style></style>
