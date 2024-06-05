@@ -32,20 +32,18 @@
               aria-expanded="false">線上購物</a>
             <ul class="dropdown-menu">
               <li>
-                <RouterLink class="dropdown-item" to="/supplier/allsupplier">合作夥伴(後端)</RouterLink>
                 <RouterLink class="dropdown-item" to="/shopping/shoppinglist">
                   <font-awesome-icon :icon="['fas', 'shop']" /> &nbsp;&nbsp;商城
                 </RouterLink>
                 <RouterLink class="dropdown-item" to="/shopping/cart">
-                  <font-awesome-icon :icon="['fas', 'cart-shopping']" />&nbsp;&nbsp;&nbsp;購物車
+                  <font-awesome-icon
+                    :icon="['fas', 'cart-shopping']" />&nbsp;&nbsp;&nbsp;購物車&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <!-- 5/29新增 -->
                 </RouterLink>
                 <RouterLink class="dropdown-item" to="/shopping/myorder">
                   <font-awesome-icon :icon="['fas', 'truck-fast']" />&nbsp;&nbsp;&nbsp;訂單查詢
                 </RouterLink>
               </li>
-              <li><a class="dropdown-item" href="#">link1</a></li>
-              <li><a class="dropdown-item" href="#">link2</a></li>
-              <li><a class="dropdown-item" href="#">link3</a></li>
             </ul>
           </li>
 
