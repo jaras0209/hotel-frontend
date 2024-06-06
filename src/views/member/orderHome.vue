@@ -603,10 +603,11 @@
     onMounted(function (){
         const queryString = route.query;
         checkInDate.value = queryString.checkInDate || '';
+        checkOutDate.value = queryString.checkOutDate || '';
         basePrice.value = queryString.price || '';
         roomInfoId.value = queryString.id || '';
         roomType.value = queryString.typeName || '';
-        leftRoomNumer.value = queryString.leftRoomNumer || '';
+        leftRoomNumer.value = queryString.minLeft || '';
         roomImg.value = queryString.picture || '';
 
         console.log("basePrice.value",basePrice.value);

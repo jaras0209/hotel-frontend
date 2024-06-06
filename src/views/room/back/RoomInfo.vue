@@ -160,6 +160,7 @@ h1 {
 
 #app {
   height: 100%;
+  overflow-y: auto; /* 允許滾動 */
 }
 
 html,

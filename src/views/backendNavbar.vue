@@ -17,7 +17,7 @@
                     <RouterLink class="nav-link active" to="/backend/home">Home</RouterLink>
                 </li>
                 <li class="nav-item">
-                    <RouterLink class="nav-link active" to="/backend/orderRoom">Check in</RouterLink>
+                    <RouterLink class="nav-link active" to="/backend/backIndex">Check in</RouterLink>
                 </li>
                 <li class="nav-item">
                     <RouterLink class="nav-link active" to="/backend/orderRoom">OrderRoom</RouterLink>
@@ -58,10 +58,6 @@
                     </ul>
                 </li>
                 </ul>
-                <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
             </div>
         </div>
     </div>
@@ -204,5 +200,8 @@
         font-optical-sizing: auto;
         font-weight:weight;
         font-style:normal;
+    }
+    nav{
+        overflow-y: auto; /* 允許滾動 */
     }
 </style>

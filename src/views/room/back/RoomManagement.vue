@@ -1,7 +1,7 @@
 <template>
   <BackendNavbar></BackendNavbar>
   <div class="box">
-    <div class="container">
+    
       <h1 class="title">客房管理</h1>
       <div class="pagination-controls">
         <label for="page-select">選擇樓層:</label>
@@ -23,7 +23,7 @@
         @close="closeModal" 
         @updateSuccess="callFind">
       </RoomModal>
-    </div>
+    
   </div>
 </template>
 
@@ -79,7 +79,7 @@ function callFind() {
   axiosapi.get(`/hotel/backend/roomManagement`, {
     params: { p: currentPage.value }
   }).then(response => {
-    rooms.value = response.data;  // 根据后端返回的数据结构调整
+    rooms.value = response.data;  // 根据后端返回結構條整
     Swal.close();
   }).catch(error => {
     Swal.fire({
@@ -101,23 +101,29 @@ function callFind() {
   margin-top: 100px;
   text-align: center;
 }
-.container {
+
+#app {
   padding: 20px;
   background-color: #f8f9fa;
+  overflow-y: auto; /* 允許滾動 */
 }
+
 .title {
   text-align: center;
   margin-bottom: 20px;
   color: #343a40;
 }
+
 .pagination-controls {
   text-align: center;
   margin-bottom: 20px;
 }
+
 .pagination-controls label {
   margin-right: 10px;
   color: #495057;
 }
+
 .pagination-controls select {
   padding: 5px;
   font-size: 16px;
@@ -126,6 +132,7 @@ function callFind() {
   background-color: #ffffff;
   color: #495057;
 }
+
 .row {
   display: flex;
   flex-wrap: wrap;

@@ -284,6 +284,10 @@
 </script>
     
 <style scoped>
+    #app {
+    height: 100%;
+    overflow-y: auto; /* 允許滾動 */
+    }
     .box{
         margin-top: 100px;
         text-align: center;

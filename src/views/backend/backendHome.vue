@@ -4,7 +4,7 @@
         <div class="context"><RouterLink class="button--secondary" to="/backend/orderRoom" ><span class="text"><font-awesome-icon :icon="['fas', 'house']" />&nbsp;訂房管理</span></RouterLink></div>
         <div class="context"><RouterLink class="button--secondary" to="/backend/memberManage"><span class="text"><font-awesome-icon :icon="['fas', 'user']" />&nbsp;會員管理</span></RouterLink></div>
         <div class="context"><RouterLink class="button--secondary" to="/backend/shoppingManage"><span class="text"><font-awesome-icon :icon="['fas', 'shop']" />&nbsp;商城管理</span></RouterLink></div>
-        <div class="context"><RouterLink class="button--secondary" to="/backend/roomService"><span class="text"><font-awesome-icon :icon="['fas', 'door-open']" />&nbsp;房務管理</span></RouterLink></div>
+        <div class="context"><RouterLink class="button--secondary" to="/backend/backIndex"><span class="text"><font-awesome-icon :icon="['fas', 'door-open']" />&nbsp;房務管理</span></RouterLink></div>
     </div>
 </template>
     
