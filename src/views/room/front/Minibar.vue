@@ -35,17 +35,19 @@
       @close="closeModal">
     </MinibarModal>
 
-    <div class="col-4" v-show="total != 0">
-      <Paginate 
-        :first-last-button="true" 
-        first-button-text="&lt;&lt;" 
-        last-button-text="&gt;&gt;"
-        prev-text="&lt;" next-text="&gt;" 
-        :page-count="pages" 
-        :initial-page="current" 
-        v-model="current" 
-        :click-handler="callFind">
-      </Paginate>
+    <div class="row justify-content-center" v-show="total != 0">
+      <div class="col-auto">
+        <Paginate 
+          :first-last-button="true" 
+          first-button-text="&lt;&lt;" 
+          last-button-text="&gt;&gt;"
+          prev-text="&lt;" next-text="&gt;" 
+          :page-count="pages" 
+          :initial-page="current" 
+          v-model="current" 
+          :click-handler="callFind">
+        </Paginate>
+      </div>
     </div>
   </div>
   <div>
@@ -74,8 +76,8 @@ const lastPageRows = ref(0);
 
 const products = ref([]);
 const findName = ref("");
-const selectedDetailProduct = ref(null); // 用於 MinibarModal
-const selectedOrderProduct = ref(null); // 用於 MinibarOrder
+const selectedDetailProduct = ref(null);
+const selectedOrderProduct = ref(null);
 const router = useRouter();
 
 onMounted(() => {
@@ -85,14 +87,12 @@ onMounted(() => {
 function callFind(page = 1) {
   if (page < 1) {
     page = 1;
-  }
-  
+  } 
   // Swal.fire({
   //   text: "Loading......",
   //   showConfirmButton: false,
   //   allowOutsideClick: false,
   // });
-
   start.value = (page - 1) * rows.value;
   if (start.value < 0) {
     start.value = 0;

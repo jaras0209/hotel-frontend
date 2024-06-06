@@ -28,6 +28,7 @@
                 <th>預計退房時間</th>
                 <th>訂單狀態</th>
                 <th>明細</th>
+                <th>通知</th>
             </tr>
             <tr v-for="order in orders" :key="order.order_id">
                 <td>{{ order.orderdate}}</td>
@@ -40,6 +41,7 @@
                 <td>{{ order.checkout_date }}</td>
                 <td>{{ order.reservation_status }}</td>
                 <td><a class="btn btn-outline-info" @click="callShowDetail(order)">詳細資料</a></td>
+                <td><a class="btn btn-outline-info" @click="callShowMail(order)">通知</a></td>
             </tr>
         </table>
         <Paginate
@@ -63,6 +65,14 @@
         :room-name="roomName"
         :order-price="orderPrice"
     ></OrderRoomModal>
+
+    <OrderMailModal
+        ref="orderRooMailRef"
+        :receiver="receiver"
+        v-model:subject="subject"
+        v-model:context="context"
+        @send="sendEmail"
+    ></OrderMailModal>
 </template>
     
 <script setup>
@@ -71,7 +81,9 @@
     import axiosapi from '@/plugins/axios.js';
     import Swal from 'sweetalert2';
     import Paginate from 'vuejs-paginate-next';
-    import OrderRoomModal from '@/components/backend/orderRoomModal.vue'
+    import OrderRoomModal from '@/components/backend/orderRoomModal.vue';
+    import OrderMailModal from '@/components/backend/orderMailModal.vue';
+import { data } from 'jquery';
 
     const orders = ref(null);
     // const memberId = sessionStorage.getItem("userId");
@@ -81,6 +93,7 @@
     const pages = ref(1);
 
     const orderomRef = ref(null);
+    const orderRooMailRef = ref(null);
 
     //Modaly 資料
     const identity = ref('');
@@ -93,6 +106,10 @@
     const orderPrice = ref(null);
     const roomName = ref(null);
     const roomAmount = ref(null);
+
+    const receiver = ref('');
+    const subject = ref('Relx Hotel 繳費通知!!');
+    const context = ref('感謝您，訂購本飯店房間\n煩請您在三日內進行繳費');
 
         //--------------------------------------------------
     // 使用 Proxy 處理數據
@@ -169,13 +186,43 @@
             console.log(error);
         })
     }
-    function callFindTotal(){
-        axiosapi.get(`hotel/members/OrderRooms/totals/${memberId}`).then(function (response){
-            console.log("data_total", response.data.total);
-            totalData.value = response.data.total;
+    // function callFindTotal(){
+    //     axiosapi.get(`hotel/members/OrderRooms/totals/${memberId}`).then(function (response){
+    //         console.log("data_total", response.data.total);
+    //         totalData.value = response.data.total;
 
+    //     }).catch(function (error){
+    //         console.log(error);
+    //     })
+    // }
+
+    function callShowMail(order){
+        orderRooMailRef.value.showModal();
+        console.log(order);
+        receiver.value = order.email;
+    }
+    function sendEmail(){
+        let data = {
+            "receiver":receiver.value,
+            "subject":subject.value,
+            "context":context.value
+        }
+        axiosapi.post('/hotel/orderRoom/confirm', data).then(function (response){
+            console.log("response", response);
+            if (response.status == 200){
+                Swal.fire({
+                    text: "寄信成功",
+                    icon: 'success',
+                    allowOutsideClick: false,
+                    confirmButtonText: '確認',
+                }).then(function (isConfirmed){
+                    if (isConfirmed){
+                        orderRooMailRef.value.hideModal();
+                    }
+                })
+            }
         }).catch(function (error){
-            console.log(error);
+            console.log("error", error);
         })
     }
 

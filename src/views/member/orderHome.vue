@@ -615,6 +615,7 @@
         roomImg.value = queryString.picture || '';
         adults.value = queryString.adults || '';
         children.value = queryString.children || '';
+        console.log("queryString", queryString)
         console.log("basePrice.value",basePrice.value);
     })
 </script>
