@@ -79,7 +79,7 @@ function callFind() {
   axiosapi.get(`/hotel/backend/roomManagement`, {
     params: { p: currentPage.value }
   }).then(response => {
-    rooms.value = response.data;  // 根据后端返回的数据结构调整
+    rooms.value = response.data;  // 根据后端返回結構條整
     Swal.close();
   }).catch(error => {
     Swal.fire({

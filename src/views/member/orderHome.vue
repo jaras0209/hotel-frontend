@@ -280,13 +280,13 @@
 </template>
 
 <script setup>
-    import NavigationBar from '../NavigationBar.vue';
-    import FlatPickr from 'vue-flatpickr-component';
     import countries from '@/Country.json';
-    import axiosapi from '@/plugins/axios.js';
-    import { ref, onMounted } from 'vue';
-    import { useRoute } from 'vue-router';
-    import Swal from 'sweetalert2';
+import axiosapi from '@/plugins/axios.js';
+import Swal from 'sweetalert2';
+import { onMounted, ref } from 'vue';
+import FlatPickr from 'vue-flatpickr-component';
+import { useRoute } from 'vue-router';
+import NavigationBar from '../NavigationBar.vue';
     
 
     const route = useRoute();
@@ -532,6 +532,7 @@
         roomImg.value = queryString.picture || '';
 
         console.log("roomImg.value",roomImg.value);
+        console.log('傳遞的資料:', queryString);
     })
 </script>
 

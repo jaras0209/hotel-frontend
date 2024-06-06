@@ -31,7 +31,7 @@ import { useRouter } from 'vue-router';
 const props = defineProps(["item"]);
 const emits = defineEmits(["close"]);
 const isVisible = ref(false);
-const router = useRouter(); // 初始化 router
+const router = useRouter();
 
 function showModal() {
   isVisible.value = true;

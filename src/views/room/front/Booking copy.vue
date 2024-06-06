@@ -65,7 +65,7 @@
             <div class="col-sm-4 text-right">
               <p>價格: {{ room.price }}</p>
               <!-- 顯示剩餘房間數量 -->
-              <p v-if="roomInfo[room.id]">剩餘{{ roomInfo[room.id].minLeft }}間房</p>
+              <p v-if="roomInfo[room.id]">剩餘{{ roomInfo[room.id].left }}間房</p>
               <button class="btn btn-secondary" @click="showBookingModal(room)">立即下訂</button>
             </div>
           </div>
@@ -147,6 +147,7 @@ import { roomsData } from '@/assets/roomsdata.js';
 import { reactive, ref, onMounted } from 'vue';
 import Swal from 'sweetalert2';
 
+// 取得當天日期並格式化為 YYYY-MM-DD
 const getTodayDate = () => {
   const today = new Date();
   const year = today.getFullYear();
@@ -155,14 +156,15 @@ const getTodayDate = () => {
   return `${year}-${month}-${day}`;
 };
 
+// 狀態和資料定義
 const rooms = reactive([...roomsData]);
 const sortType = ref('recommend');
-const filteredRooms = ref([]);
+const filteredRooms = ref([...rooms]);
 const selectedRoomNames = ref([]);
 const showModal = ref(false);
 const tempSelectedRoomNames = ref([]);
-const checkInDate = ref(getTodayDate());
-const nights = ref(1);
+const checkInDate = ref(getTodayDate()); // 初始化為當天日期
+const nights = ref(1); // 初始化為1夜
 const showDetail = ref(false);
 const detailPage = ref(1);
 const showBooking = ref(false);
@@ -173,18 +175,21 @@ const formData = reactive({
   children: 0
 });
 
+// 套用篩選條件
 const applyFilter = () => {
   selectedRoomNames.value = [...tempSelectedRoomNames.value];
   showModal.value = false;
   searchRooms();
 };
 
+// 清除所有篩選條件
 const clearAll = () => {
   tempSelectedRoomNames.value = [];
   selectedRoomNames.value = [];
   searchRooms();
 };
 
+// 搜尋房間
 const searchRooms = async () => {
   Swal.fire({
     text: "Loading......",
@@ -193,25 +198,43 @@ const searchRooms = async () => {
   });
 
   try {
+    // 計算 checkOutDate
     const checkOutDate = calculateCheckOutDate(checkInDate.value, nights.value);
-    const availableRooms = [];
-
-    for (let roomId = 1; roomId <= 9; roomId++) {
-      const response = await axiosapi.get('/hotel/backend/roomAssignment/fullAvailability', {
-        params: { 
-          startDate: checkInDate.value, 
-          endDate: checkOutDate,
-          roomId: roomId
-        }
-      });
-
-      const roomData = response.data;
-      if (roomData && roomData.minLeft !== undefined) {
-        roomInfo.value[roomId] = roomData;
-        availableRooms.push(rooms.find(room => room.id === roomId));
+    // 發送 API 請求
+    const response = await axiosapi.get('/hotel/backend/roomAssignment/availableRooms', {
+      params: { 
+        startDate: checkInDate.value, 
+        endDate: checkOutDate 
       }
-    }
+    });
+    console.log("999",checkInDate.value,checkOutDate);
 
+    // 將 API 回應的資料轉換為需要的格式
+    roomInfo.value = response.data.reduce((acc, room) => {
+      acc[room.roomInformation.id] = room;
+      return acc;
+    }, {});
+
+    // 根據篩選條件和可用房間篩選房間
+    const availableRooms = rooms.filter(room => {
+      const info = roomInfo.value[room.id];
+      if (info) {
+        let isAvailable = true;
+        for (let i = 0; i < nights.value; i++) {
+          const date = new Date(checkInDate.value);
+          date.setDate(date.getDate() + i);
+          const dateString = date.toISOString().split('T')[0];
+          if (info[dateString] && info[dateString].left <= 0) {
+            isAvailable = false;
+            break;
+          }
+        }
+        return isAvailable;
+      }
+      return false;
+    });
+
+    // 篩選和排序房間
     filteredRooms.value = availableRooms.filter(
       room => selectedRoomNames.value.length === 0 || selectedRoomNames.value.includes(room.name)
     );
@@ -229,6 +252,7 @@ const searchRooms = async () => {
   }
 };
 
+// 房間排序
 const sortRooms = (type = sortType.value) => {
   sortType.value = type;
 
@@ -241,31 +265,35 @@ const sortRooms = (type = sortType.value) => {
   }
 };
 
+// 詳細內容 Modal
 const showDetailModal = (room) => {
   selectedRoom.value = room;
   detailPage.value = 1;
   showDetail.value = true;
 };
 
+// 顯示訂房 Modal
 const showBookingModal = (room) => {
   selectedRoom.value = room;
   showBooking.value = true;
 };
 
+// 計算 checkOutDate
 const calculateCheckOutDate = (checkInDate, nights) => {
   const date = new Date(checkInDate);
-  date.setDate(date.getDate() + nights);
+  date.setDate(date.getDate() + nights - 1); // Subtract 1 day from the total nights
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day} 12:00:00`;
+  return `${year}-${month}-${day} 12:00:00`; // Append the time string "12:00:00"
 };
 
+// 包成JSON前端傳遞
 const goOrder = async () => {
   try {
     const checkOutDate = calculateCheckOutDate(checkInDate.value, nights.value);
     
-    const response = await axiosapi.get('/hotel/backend/roomAssignment/fullAvailability', {
+    const response = await axiosapi.get('/hotel/backend/roomAssignment/minLeft', {
       params: {
         startDate: checkInDate.value,
         endDate: checkOutDate,
@@ -273,7 +301,7 @@ const goOrder = async () => {
       }
     });
     
-    const minLeft = response.data?.minLeft || 0;
+    const minLeft = response.data?.left || 0;
 
     const payload = {
       checkInDate: checkInDate.value,
@@ -286,8 +314,8 @@ const goOrder = async () => {
       minLeft: minLeft
     };
 
-    const queryString = encodeURIComponent(JSON.stringify(payload));
-    window.location.href = `/member/orderHome?data=${queryString}`;
+    const queryString = new URLSearchParams(payload).toString();
+    window.location.href = `/member/orderHome?${queryString}`;
   } catch (error) {
     console.error('Failed to fetch minimum left:', error);
   }
@@ -298,6 +326,7 @@ onMounted(() => {
 });
 
 </script>
+
 
 <style scoped lang="scss">
 body {
