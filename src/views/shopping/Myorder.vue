@@ -38,19 +38,36 @@ import NavigationBar from '../NavigationBar.vue';
 import MyorderComponents from '@/components/shopping/MyorderComponents.vue';
 import { ref, onMounted } from "vue";
 import axiosapi from "@/plugins/axios.js"
+import Swal from "sweetalert2";
+import { useRouter } from 'vue-router';
+
 const result = ref({})
 const userId = ref(null)
+const token = sessionStorage.getItem("token");
+const router = useRouter();
+
 onMounted(function () {
     userId.value = sessionStorage.getItem("userId")
     myorder()
 })
 function myorder() {
-    axiosapi.get(`/hotel/orders/mes/${userId.value}`).then(function (response) {
+    axiosapi.get(`/hotel/orders/mes/${userId.value}`,{ headers: {"Authorization" : `Bearer ${token}`} }).then(function (response) {
         console.log(response);
         result.value = response.data.list
         console.log(result.value)
     }).catch(function (error) {
         console.log("callFindById error", error);
+        Swal.fire({
+            text: '請登入',
+            icon: 'error',
+            allowOutsideClick: false,
+            confirmButtonText: '確認',
+        }).then(function (){
+            if (error.response.status==403){
+                sessionStorage.clear();
+                router.push({name:"login-link"})
+            }
+        })
     });
 }
 </script>

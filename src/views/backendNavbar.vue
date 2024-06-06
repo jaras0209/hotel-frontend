@@ -1,7 +1,7 @@
 <template>
     <nav class="navbar navbar-light bg-light fixed-top">
-    <div class="container-fluid">
-        <a class="navbar-brand hotel" href="#"><img src="/Logo.png" alt="Logo" style="width:40px; border-radius: 40px;">FreeRelx HOTEL Backend</a>
+    <div class="container">
+        <RouterLink class="navbar-brand hotel" to="/backend/home"><img src="/Logo.png" alt="Logo" style="width:40px; border-radius: 40px;">FreeRelx HOTEL Backend</RouterLink>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
         <span class="navbar-toggler-icon"></span>

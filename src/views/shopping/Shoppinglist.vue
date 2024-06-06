@@ -31,6 +31,8 @@ import Swal from "sweetalert2"
 import axiosapi from "@/plugins/axios.js"
 import Paginate from 'vuejs-paginate-next';
 import ProductRows from "@/components/shopping/ProductRows.vue";
+import { useRouter } from 'vue-router';
+
 const all = ref({});
 const pages = ref(100);
 const current = ref(50);
@@ -40,6 +42,7 @@ const total = ref(0);
 const findname = ref("");
 const userId = ref(null);
 const token = sessionStorage.getItem("token");
+const router = useRouter();
 
 onMounted(function () {
     userId.value = sessionStorage.getItem("userId")

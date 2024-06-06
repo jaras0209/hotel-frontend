@@ -367,10 +367,11 @@ function doclickShow(){
     onMounted(function (){
       if (userId){
         callFindUser();
-        window.addEventListener('beforeunload', function (){
-          axiosapi.put(`hotel/member/logout/${userId}`).then(function(response){}).catch(function(error){})
-          sessionStorage.clear();
-        })
+        // beforeunload 無法分辨瀏覽器重新載入和關閉的區別
+        // window.addEventListener('beforeunload', function (){
+        //   axiosapi.put(`hotel/member/logout/${userId}`).then(function(response){}).catch(function(error){})
+        //   sessionStorage.clear();
+        // })
       }
     })
 </script>
