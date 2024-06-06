@@ -20,8 +20,10 @@
                 <td>{{ employee.premission }}</td>
                 <td>{{ employee.email }}</td>
                 <td>{{ employee.status }}</td>
-                <td v-show="employee.employeeId!=currentManage"><a class="btn btn-outline-success" @click="callShowModify(employee.employeeId)">修改</a></td>
-                <td v-show="employee.employeeId!=currentManage"><a class="btn btn-outline-danger" @click="callDelete(employee.employeeId)">刪除</a></td>
+                <td v-if="employee.employeeId!=currentManage"><a class="btn btn-outline-success" @click="callShowModify(employee.employeeId)">修改</a></td>
+                <td v-else>無法編輯自身狀態</td>
+                <td v-if="employee.employeeId!=currentManage"><a class="btn btn-outline-danger" @click="callDelete(employee.employeeId)">刪除</a></td>
+                <td v-else>無法編輯自身狀態</td>
             </tr>
         </table>
         <button type="button" class="btn btn-outline-light" @click="callShowAdd">+</button>

@@ -102,7 +102,7 @@
 <script setup>
 import axiosapi from '@/plugins/axios.js';
 import { useRouter } from 'vue-router';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import MemberModal from '@/components/member/MemberModal.vue';
 import MemberPassword from '@/components/member/memberPassword.vue';
 import json from '@/CityCountyData.json';// 可能可以改進
@@ -377,7 +377,16 @@ function doclickShow(){
 
     onMounted(function (){
       if (userId){
-        callFindUser()
+        callFindUser();
+        window.addEventListener('beforeunload', function (){
+          axiosapi.put(`hotel/member/logout/${userId}`).then(function(response){}).catch(function(error){})
+          sessionStorage.clear();
+        })
+      }
+    })
+    onBeforeUnmount(function (){
+      if (userId){
+
       }
     })
 </script>
