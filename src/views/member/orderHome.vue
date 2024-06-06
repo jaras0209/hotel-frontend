@@ -37,11 +37,11 @@
 
             <div class="col-md-3">
             <label for="guests">入住大人人數:</label>
-                <input type="number" v-model="formData.adults" min="1" max="10" required class="form-control"><br>
+                <input type="number" v-model="adults" min="1" max="10" required class="form-control"><br>
             </div>
             <div class="col-md-3">
                 <label for="guests">入住小孩人數:</label>
-                <input type="number" v-model="formData.children" min="0" max="10" required class="form-control"><br>
+                <input type="number" v-model="children" min="0" max="10" required class="form-control"><br>
             </div>
             <div class="col-md-3">
                 <label for="guests">預訂房間數:</label>
@@ -302,6 +302,8 @@
     const roomImg = ref(null);
     const orderId = ref(null);
     const allDate = ref([]);
+    const adults = ref('');
+    const children = ref('');
 
     const steps = ref(["選擇房型", "填寫資料", "確認畫面", "付款"]);
     const isNotSamePerson = ref(false)
@@ -367,6 +369,8 @@
             formData.value.transPassword = sessionStorage.getItem("password");
             formData.value.nationality = sessionStorage.getItem("nationality");
         }
+        formData.value.adults = adults.value;
+        formData.value.children = children.value;
 
         console.log("formData.value", formData.value);
         console.log("allDate.value",allDate.value)
@@ -609,7 +613,8 @@
         roomType.value = queryString.typeName || '';
         leftRoomNumer.value = queryString.minLeft || '';
         roomImg.value = queryString.picture || '';
-
+        adults.value = queryString.adults || '';
+        children.value = queryString.children || '';
         console.log("basePrice.value",basePrice.value);
     })
 </script>

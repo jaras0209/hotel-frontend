@@ -6,7 +6,7 @@
       <DateSelected :current-date="today" :selected-date="selectedDate" @dateSelected="selDate" />
       <WeekDate />
       <div class="days-grid">
-        <MonthDate v-for="day in days" :key="day.date" :day="day" :is-today="day.date === today" />
+        <MonthDate v-for="day in days" :key="day.date" :day="day" :is-today="day.date === today" :room-id="room.id" />
       </div>
       <div class="navigation">
         <button @click="selectedPre"><i class="fas fa-arrow-left"></i></button>
@@ -21,6 +21,7 @@ import { ref, computed, onMounted } from 'vue';
 import dayjs from 'dayjs';
 import weekday from 'dayjs/plugin/weekday';
 import axiosapi from '@/plugins/axios.js';
+import Swal from 'sweetalert2';
 
 dayjs.extend(weekday);
 
@@ -101,17 +102,40 @@ const days = computed(() => {
 });
 
 const fetchData = async () => {
+  Swal.fire({
+    text: "Loading......",
+    showConfirmButton: false,
+    allowOutsideClick: false,
+  });
+
   try {
-    const response = await axiosapi.get('/hotel/backend/roomAssignment');
-    const roomData = response.data.reduce((acc, room) => {
+    let page = 1;
+    let allData = [];
+
+    while (true) {
+      const response = await axiosapi.get('/hotel/backend/roomAssignment', {
+        params: {
+          p: page
+        }
+      });
+      const data = response.data;
+      if (data.length === 0) break;
+      allData = [...allData, ...data];
+      page++;
+    }
+
+    const roomData = allData.reduce((acc, room) => {
       const date = dayjs(room.date).format('YYYY-MM-DD');
       if (!acc[date]) acc[date] = [];
       acc[date].push(room);
       return acc;
     }, {});
+
     backendData.value = roomData;
   } catch (error) {
     console.error('Failed to fetch room assignment data:', error);
+  } finally {
+    Swal.close();
   }
 };
 
