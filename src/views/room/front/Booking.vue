@@ -231,7 +231,6 @@ const searchRooms = async () => {
 
 const sortRooms = (type = sortType.value) => {
   sortType.value = type;
-
   if (type === 'lowToHigh') {
     filteredRooms.value.sort((a, b) => a.price - b.price);
   } else if (type === 'highToLow') {
@@ -285,8 +284,8 @@ const goOrder = async () => {
       children: formData.children,
       minLeft: minLeft
     };
-
-    const queryString = encodeURIComponent(JSON.stringify(payload));
+    // const queryString = encodeURIComponent(JSON.stringify(payload));
+    const queryString = new URLSearchParams(payload).toString();
     window.location.href = `/member/orderHome?data=${queryString}`;
   } catch (error) {
     console.error('Failed to fetch minimum left:', error);
