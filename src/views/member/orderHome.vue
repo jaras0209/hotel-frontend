@@ -305,6 +305,8 @@
     const adults = ref('');
     const children = ref('');
 
+    const fronendPoint = import.meta.env.VITE_LINEPAY_URL
+
     const steps = ref(["選擇房型", "填寫資料", "確認畫面", "付款"]);
     const isNotSamePerson = ref(false)
     const formData = ref({
@@ -578,7 +580,10 @@
             "productName" : roomType.value,
             "productPicture" : roomImg.value,
             "productQuality": formData.value.roomAmount,
-            "singlePrice" : basePrice.value*(allDate.value.length-1)
+            "singlePrice" : basePrice.value*(allDate.value.length-1),
+            "successUri" : fronendPoint + '/member/paySuccess',
+            "falseUri" : fronendPoint + '/member/payFalse'
+
         }
         console.log(data)
         axiosapi.post('hotel/orderRoom/transactions/line-pay', data).then(function (response){

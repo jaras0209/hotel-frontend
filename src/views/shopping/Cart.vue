@@ -32,15 +32,21 @@
 import NavigationBar from '../NavigationBar.vue';
 import Cartlist from '@/components/shopping/Cartlist.vue'
 import { useRouter } from "vue-router"
-const router = useRouter();
-const options = ref([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20])
 import { ref, onMounted } from "vue";
 import axiosapi from "@/plugins/axios.js"
+import Swal from 'sweetalert2';
+
+const router = useRouter();
+const options = ref([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20])
+
 const result = ref({})
 const disabled = ref(false) // red
 const disabledd = ref(true) // green
 const userId = ref(null)
 const havesomething=ref(true)
+const token = sessionStorage.getItem("token");
+
+
 onMounted(function () {
     userId.value = sessionStorage.getItem("userId")
     cart()
@@ -71,7 +77,7 @@ function cart() {
     let send = {
         "memberId": userId.value,
     }
-    axiosapi.post(`/hotel/carts/find`, send).then(function (response) {
+    axiosapi.post(`/hotel/carts/find`, send, { headers: {"Authorization" : `Bearer ${token}`} }).then(function (response) {
         console.log(response.data.list);
         console.log(response.data.list.length)
         result.value = response.data.list
@@ -82,10 +88,15 @@ function cart() {
     }).catch(function (error) {
         console.log("callFind error", error);
         Swal.fire({
-            text: '失敗：' + error.message,
+            text: '請登入',
             icon: 'error',
             allowOutsideClick: false,
             confirmButtonText: '確認',
+        }).then(function (){
+            if (error.response.status==403){
+                sessionStorage.clear();
+                router.push({name:"login-link"})
+            }
         });
     });
 }

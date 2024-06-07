@@ -4,8 +4,7 @@
 
     <body>
         <div class="main">
-            <aside class="left">
-            </aside>
+
             <main>
                 <p class="d-inline-flex gap-1">
                     <button class="btn " type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
@@ -126,8 +125,6 @@
                 </div>
                 <button type="button" @click="dopay" style="text-align:center ;">貨到付款</button>
             </main>
-            <aside class="right">
-            </aside>
         </div>
     </body>
     <footer>
@@ -247,6 +244,11 @@ function dopay() {
                 "payeradress": payercity.value + payerdistricts.value + payeraddressback.value,
                 "usebonus": usebonus.value
             }
+            Swal.fire({
+                title: '執行中',
+                allowOutsideClick: false,
+                showConfirmButton: false
+            })
             axiosapi.post(`/hotel/carts/order`, data).then(function (response) {
                 Swal.fire({ title: "謝謝您的購買!", }).then(
                     function (result) {
