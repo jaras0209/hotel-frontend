@@ -13,7 +13,7 @@
       <div class="col-md-4 fixed-center">
         <div class="jumbotron text-center">
           <h1 class="row mb-6 justify-content-center">住客評語</h1>
-          <p class="lead">歡迎透過本聯絡表單留下您的需求與疑問，我們將由專人與您回覆處理，也請記下您的客服編號與我們進行追蹤。</p>
+          <p class="lead">歡迎透過本聯絡表單留下您的需求與疑問，我們將由專人與您回覆處理。</p>
           <hr class="my-4">
           <p class="lead">
             <button class="btn btn-secondary" type="button" @click="openModal">留下評論</button>
@@ -35,11 +35,17 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="commentModalLabel">客服專區</h5>
+          <h5 class="modal-title text-center" id="commentModalLabel">客服專區</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="box">
-          <p>當您於本網頁提供個人基本資料，即表示您同意漢來大飯店蒐集個人相關資料以利處理，並用於客戶服務等意見回饋服務，該等資料之蒐集及使用，您同意由本公司為之，您得隨時透過客服信箱 service@grand-hilai.com.tw 查詢、閱覽、製給複本、補充或更正、停止蒐集、處理或利用、刪除您的個人基本資料。本公司保有修改相關服務及權益條款之權。</p>
+          <p>當您於本網頁提供個人基本資料，
+            即表示您同意我們蒐集個人相關資料以利處理，
+            並用於客戶服務等意見回饋服務，該等資料之蒐集及使用，
+            您同意由本公司為之，
+            您得隨時透過客服信箱 freerelxservice@grand-hilai.com.tw 
+            查詢、閱覽、製給複本、補充或更正、停止蒐集、處理或利用、刪除您的個人基本資料。
+            本公司保有修改相關服務及權益條款之權。</p>
         </div>
         <div class="modal-body">
           <form @submit.prevent="submitComment">
@@ -85,13 +91,15 @@
               「*」為必填項目
             </div>
             <br>
-            <button type="submit" class="btn btn-primary">提交</button>
+            <div class="d-flex justify-content-center">
+              <button type="submit" class="btn btn-primary">提交</button>
+            </div>
           </form>
         </div>
       </div>
     </div>
   </div>
-
+  
   <Footer class="sticky-bottom"></Footer>
 </template>
 
@@ -106,12 +114,13 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 const comments = ref([]);
+const userName = sessionStorage.getItem('userName');
 const form = ref({
-  guestName: '',
+  guestName: 'Ernest Barnes',
   issueType: '',
   contactNumber: '',
   commentText: '',
-  gender: ''
+  gender: '男'
 });
 
 const router = useRouter();

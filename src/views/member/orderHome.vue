@@ -572,21 +572,54 @@
     }
 
     function callLinePay(){
+
+        //v3版本
+        // let data = {
+        //     "orderTotalAmount": basePrice.value*formData.value.roomAmount*(allDate.value.length-1), // 目前只做一個房型的訂購
+        //     "orderId" : orderId.value,
+        //     "totalPrice" : basePrice.value*formData.value.roomAmount*(allDate.value.length-1),
+        //     "productId" : roomInfoId.value,
+        //     "productName" : roomType.value,
+        //     "productPicture" : roomImg.value,
+        //     "productQuality": formData.value.roomAmount,
+        //     "singlePrice" : basePrice.value*(allDate.value.length-1),
+        //     "successUri" : fronendPoint + '/member/paySuccess',
+        //     "falseUri" : fronendPoint + '/member/payFalse'
+
+        // }
+        // console.log(data)
+        // axiosapi.post('hotel/orderRoom/transactions/line-pay', data).then(function (response){
+        //     console.log("response", response.data);
+        //     if (response.data.returnMessage=="Success."){
+        //         // window.location.href = response.data.info.paymentUrl.web;
+                
+        //         sessionStorage.removeItem("transactionId");
+        //         sessionStorage.removeItem("orderTotalAmount");
+        //         sessionStorage.setItem("transactionId", response.data.info.transactionId);
+        //         sessionStorage.setItem("orderTotalAmount", basePrice.value*formData.value.roomAmount*(allDate.value.length-1));
+                
+        //         // 
+
+        //         console.log("transactionId",sessionStorage.getItem("transactionId"));
+        //         console.log("orderTotalAmount",sessionStorage.getItem("orderTotalAmount"));
+        //         // window.location.replace(response.data.info.paymentUrl.web);
+        //         window.open(response.data.info.paymentUrl.web);
+        //     }
+        // }).catch(function (error){
+        //     console.log("error", error);
+        // })
+
+        // v2版本
         let data = {
-            "orderTotalAmount": basePrice.value*formData.value.roomAmount*(allDate.value.length-1), // 目前只做一個房型的訂購
             "orderId" : orderId.value,
             "totalPrice" : basePrice.value*formData.value.roomAmount*(allDate.value.length-1),
-            "productId" : roomInfoId.value,
             "productName" : roomType.value,
             "productPicture" : roomImg.value,
-            "productQuality": formData.value.roomAmount,
-            "singlePrice" : basePrice.value*(allDate.value.length-1),
-            "successUri" : fronendPoint + '/member/paySuccess',
-            "falseUri" : fronendPoint + '/member/payFalse'
+            "successUri" : fronendPoint + '/member/paySuccess'
 
         }
         console.log(data)
-        axiosapi.post('hotel/orderRoom/transactions/line-pay', data).then(function (response){
+        axiosapi.post('hotel/orderRoom/transactions/line-payV2', data).then(function (response){
             console.log("response", response.data);
             if (response.data.returnMessage=="Success."){
                 // window.location.href = response.data.info.paymentUrl.web;
@@ -600,12 +633,14 @@
 
                 console.log("transactionId",sessionStorage.getItem("transactionId"));
                 console.log("orderTotalAmount",sessionStorage.getItem("orderTotalAmount"));
-                // window.location.replace(response.data.info.paymentUrl.web);
-                window.open(response.data.info.paymentUrl.web);
+                window.location.replace(response.data.info.paymentUrl.web);
+                // window.open(response.data.info.paymentUrl.web);
             }
         }).catch(function (error){
             console.log("error", error);
         })
+        //
+
     }
 
     
