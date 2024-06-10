@@ -14,7 +14,7 @@
                             <td v-if="member != null" style="font-size: 40px;"><img :src="PATH+member.memberId"  alt="..." height="60px" width="60px" style="border-radius: 50%;">{{ member.memberName }}</td>
                         </tr>
                         <tr>
-                            <img src="@/assets/images/star1.jpg" alt="..." width="40px" id="iimg1" v-if="score >= 1"
+                            <img src="@/assets/images/star1.jpg" alt="..." width="40px" id="iimg1" v-if="score >= 1" 
                                 @click="ichangecolor1">
                             <img src="@/assets/images/star2.jpg" alt="..." width="40px" id="iimg2" v-if="score >= 2"
                                 @click="ichangecolor2">
@@ -48,6 +48,15 @@
     </div>
 </template>
 <script setup>
+import star1 from '@/assets/images/star1.jpg';
+import star2 from '@/assets/images/star2.jpg';
+import star3 from '@/assets/images/star3.jpg';
+import star4 from '@/assets/images/star4.jpg';
+import star5 from '@/assets/images/star5.jpg';
+import blackstar2 from '@/assets/images/blackstar2.jpg';
+import blackstar3 from '@/assets/images/blackstar3.jpg';
+import blackstar4 from '@/assets/images/blackstar4.jpg';
+import blackstar5 from '@/assets/images/blackstar5.jpg';
 const props = defineProps(["commentId", "member", "commentText", "score", "typeInstance"]);
 const emits = defineEmits(["update:commentText", "update:score", "send"]);
 import { ref, onMounted } from "vue";
@@ -71,47 +80,47 @@ defineExpose({
 function ichangecolor1() {
     emits('update:score', 1)
     newscore.value = 1
-    document.getElementById("iimg1").src = "/src/assets/images/star1.jpg"
-    document.getElementById("iimg2").src = "/src/assets/images/blackstar2.jpg"
-    document.getElementById("iimg3").src = "/src/assets/images/blackstar3.jpg"
-    document.getElementById("iimg4").src = "/src/assets/images/blackstar4.jpg"
-    document.getElementById("iimg5").src = "/src/assets/images/blackstar5.jpg"
+    document.getElementById("iimg1").src = star1
+    document.getElementById("iimg2").src = blackstar2
+    document.getElementById("iimg3").src = blackstar3
+    document.getElementById("iimg4").src = blackstar4
+    document.getElementById("iimg5").src = blackstar5
 }
 function ichangecolor2() {
     emits('update:score', 2)
     newscore.value = 2
-    document.getElementById("iimg1").src = "/src/assets/images/star1.jpg"
-    document.getElementById("iimg2").src = "/src/assets/images/star2.jpg"
-    document.getElementById("iimg3").src = "/src/assets/images/blackstar3.jpg"
-    document.getElementById("iimg4").src = "/src/assets/images/blackstar4.jpg"
-    document.getElementById("iimg5").src = "/src/assets/images/blackstar5.jpg"
+    document.getElementById("iimg1").src = star1
+    document.getElementById("iimg2").src = star2
+    document.getElementById("iimg3").src = blackstar3
+    document.getElementById("iimg4").src = blackstar4
+    document.getElementById("iimg5").src = blackstar5
 }
 function ichangecolor3() {
     emits('update:score', 3)
     newscore.value = 3
-    document.getElementById("iimg1").src = "/src/assets/images/star1.jpg"
-    document.getElementById("iimg2").src = "/src/assets/images/star2.jpg"
-    document.getElementById("iimg3").src = "/src/assets/images/star3.jpg"
-    document.getElementById("iimg4").src = "/src/assets/images/blackstar4.jpg"
-    document.getElementById("iimg5").src = "/src/assets/images/blackstar5.jpg"
+    document.getElementById("iimg1").src = star1
+    document.getElementById("iimg2").src = star2
+    document.getElementById("iimg3").src = star3
+    document.getElementById("iimg4").src = blackstar4
+    document.getElementById("iimg5").src = blackstar5
 }
 function ichangecolor4() {
     emits('update:score', 4)
     newscore.value = 4
-    document.getElementById("iimg1").src = "/src/assets/images/star1.jpg"
-    document.getElementById("iimg2").src = "/src/assets/images/star2.jpg"
-    document.getElementById("iimg3").src = "/src/assets/images/star3.jpg"
-    document.getElementById("iimg4").src = "/src/assets/images/star4.jpg"
-    document.getElementById("iimg5").src = "/src/assets/images/blackstar5.jpg"
+    document.getElementById("iimg1").src = star1
+    document.getElementById("iimg2").src = star2
+    document.getElementById("iimg3").src = star3
+    document.getElementById("iimg4").src = star4
+    document.getElementById("iimg5").src = blackstar5
 }
 function ichangecolor5() {
     emits('update:score', 5)
     newscore.value = 5
-    document.getElementById("iimg1").src = "/src/assets/images/star1.jpg"
-    document.getElementById("iimg2").src = "/src/assets/images/star2.jpg"
-    document.getElementById("iimg3").src = "/src/assets/images/star3.jpg"
-    document.getElementById("iimg4").src = "/src/assets/images/star4.jpg"
-    document.getElementById("iimg5").src = "/src/assets/images/star5.jpg"
+    document.getElementById("iimg1").src = star1
+    document.getElementById("iimg2").src = star2
+    document.getElementById("iimg3").src = star3
+    document.getElementById("iimg4").src = star4
+    document.getElementById("iimg5").src = star5
 }
 </script>
 <style></style>
