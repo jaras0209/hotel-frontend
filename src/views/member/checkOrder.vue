@@ -63,6 +63,7 @@
     const refundType = ref('');
     const refundRatio = ref(0);
     const allDate= ref([]);
+    const fronendPoint = import.meta.env.VITE_LINEPAY_URL
 
     // const roomsData = ref('');
     const router = useRouter();
@@ -72,18 +73,50 @@
     }
 
     function callLinePay(){
-        let data = {
-            "orderTotalAmount": orderPrice.value, // 目前只做一個房型的訂購
+        // v3
+        // let data = {
+        //     "orderTotalAmount": orderPrice.value, // 目前只做一個房型的訂購
+        //     "orderId" : sessionStorage.getItem("orderId"),
+        //     "totalPrice" : orderPrice.value,
+        //     "productId" : roomTypeId.value,
+        //     "productName" : productName.value,
+        //     "productPicture" : productImage.value,
+        //     "productQuality": productQuality.value,
+        //     "singlePrice" : singlePrice.value
+        // }
+        // console.log(data)
+        // axiosapi.post('hotel/orderRoom/transactions/line-pay', data).then(function (response){
+        //     console.log("response", response.data);
+        //     if (response.data.returnMessage=="Success."){
+        //         // window.location.href = response.data.info.paymentUrl.web;
+                
+        //         sessionStorage.removeItem("transactionId");
+        //         sessionStorage.removeItem("orderTotalAmount");
+        //         sessionStorage.setItem("transactionId", response.data.info.transactionId);
+        //         sessionStorage.setItem("orderTotalAmount", orderPrice.value);
+        //         // 
+
+        //         console.log("transactionId",sessionStorage.getItem("transactionId"));
+        //         console.log("orderTotalAmount",sessionStorage.getItem("orderTotalAmount"));
+        //         // window.location.replace(response.data.info.paymentUrl.web);
+        //         window.open(response.data.info.paymentUrl.web);
+        //     }
+        // }).catch(function (error){
+        //     console.log("error", error);
+        // })
+        // -----------------------------------------------
+
+         // v2版本
+         let data = {
             "orderId" : sessionStorage.getItem("orderId"),
             "totalPrice" : orderPrice.value,
-            "productId" : roomTypeId.value,
             "productName" : productName.value,
             "productPicture" : productImage.value,
-            "productQuality": productQuality.value,
-            "singlePrice" : singlePrice.value
+            "successUri" : fronendPoint + '/member/paySuccess'
+
         }
         console.log(data)
-        axiosapi.post('hotel/orderRoom/transactions/line-pay', data).then(function (response){
+        axiosapi.post('hotel/orderRoom/transactions/line-payV2', data).then(function (response){
             console.log("response", response.data);
             if (response.data.returnMessage=="Success."){
                 // window.location.href = response.data.info.paymentUrl.web;
@@ -92,16 +125,18 @@
                 sessionStorage.removeItem("orderTotalAmount");
                 sessionStorage.setItem("transactionId", response.data.info.transactionId);
                 sessionStorage.setItem("orderTotalAmount", orderPrice.value);
+                
                 // 
 
                 console.log("transactionId",sessionStorage.getItem("transactionId"));
                 console.log("orderTotalAmount",sessionStorage.getItem("orderTotalAmount"));
-                // window.location.replace(response.data.info.paymentUrl.web);
-                window.open(response.data.info.paymentUrl.web);
+                window.location.replace(response.data.info.paymentUrl.web);
+                // window.open(response.data.info.paymentUrl.web);
             }
         }).catch(function (error){
             console.log("error", error);
         })
+        //
     }
 
 

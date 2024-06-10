@@ -1,10 +1,16 @@
 <template>
     <backendNavbar></backendNavbar>
-    <div class="wrapper">
+    <<div class="wrapper">
         <div class="context"><RouterLink class="button--secondary" to="/backend/orderRoom" ><span class="text"><font-awesome-icon :icon="['fas', 'house']" />&nbsp;訂房管理</span></RouterLink></div>
         <div class="context"><RouterLink class="button--secondary" to="/backend/memberManage"><span class="text"><font-awesome-icon :icon="['fas', 'user']" />&nbsp;會員管理</span></RouterLink></div>
         <div class="context"><RouterLink class="button--secondary" to="/backend/shoppingManage"><span class="text"><font-awesome-icon :icon="['fas', 'shop']" />&nbsp;商城管理</span></RouterLink></div>
-        <div class="context"><RouterLink class="button--secondary" to="/backend/backIndex"><span class="text"><font-awesome-icon :icon="['fas', 'door-open']" />&nbsp;房務管理</span></RouterLink></div>
+        <div class="context"><RouterLink class="button--secondary" to="/backend/backIndex"><span class="text"><font-awesome-icon :icon="['fas', 'door-open']" />&nbsp;報到管理</span></RouterLink></div>
+        <div class="context"><RouterLink class="button--secondary" to="/room/back/housingManagement"><span class="text"><font-awesome-icon :icon="['fas', 'bed']" />&nbsp;住房管理</span></RouterLink></div>
+        <div class="context"><RouterLink class="button--secondary" to="/room/back/roomManagement"><span class="text"><font-awesome-icon :icon="['fas', 'diagram-project']" />&nbsp;房間管理</span></RouterLink></div>
+        <div class="context"><RouterLink class="button--secondary" to="/room/back/roomAssignment"><span class="text"><font-awesome-icon :icon="['fas', 'hotel']" />&nbsp;房間分配</span></RouterLink></div>
+        <div class="context"><RouterLink class="button--secondary" to="/room/back/additionalCharges"><span class="text"><font-awesome-icon :icon="['fas', 'dollar-sign']" />&nbsp;附加費用</span></RouterLink></div>
+        <div class="context"><RouterLink class="button--secondary" to="/room/back/checkOut"><span class="text"><font-awesome-icon :icon="['fas', 'list-check']" />&nbsp;退房檢查</span></RouterLink></div>
+        <div class="context"><RouterLink class="button--secondary" to="/room/back/roomInfo"><span class="text"><font-awesome-icon :icon="['fas', 'wrench']" />&nbsp;編輯房間資料</span></RouterLink></div>
     </div>
 </template>
     

@@ -9,29 +9,35 @@
           <p class="card-text">房間編號: {{ room.id }}</p>
           <div v-if="!editingState">
             <p class="card-text">房間狀態: {{ room.roomState.state }}</p>
+            <p class="card-text">報修狀態: {{ room.repairStatus }}</p>
             <button type="button" class="btn btn-secondary" @click="toggleEdit">編輯</button>
           </div>
           <div v-else class="form-group">
             <label for="roomState">房間狀態:</label>
             <div class="form-group">
-              <div class="row">
-                <div class="col-sm-10">
-                  <select v-model="selectedRoomState" class="form-control">
-                    <option value="1">待入住</option>
-                    <option value="2">已入住</option>
-                    <option value="3">已退房(未清潔)</option>
-                    <option value="4">準備完成(已清潔)</option>
-                  </select>
-                </div>
-                <div class="col-sm-2">
-                  <button type="button" class="btn btn-primary btn-block" @click="confirmEdit">確定</button>
-                </div>
-              </div>
-            </div>
+  <div class="row justify-content-center">
+    <div class="col-sm-6">
+      <select v-model="selectedRoomState" class="form-control">
+        <option value="1">待入住</option>
+        <option value="2">已入住</option>
+        <option value="3">已退房(未清潔)</option>
+        <option value="4">準備完成(已清潔)</option>
+      </select>
+    </div>
+  </div>
+</div>
+<label for="repairStatus">報修狀態:</label>
+<div class="form-group">
+  <div class="row justify-content-center">
+    <div class="col-sm-6">
+      <input v-model="editedRepairStatus" type="text" class="form-control" id="repairStatus">
+    </div>
+  </div>
+</div>
           </div>
-          <p class="card-text">報修狀態: {{ room.repairStatus }}</p>
         </div>
         <div class="modal-footer">
+          <button type="button" class="btn btn-primary" @click="confirmEdit">確定</button>
           <button type="button" class="btn btn-secondary" @click="closeModal">Close</button>
         </div>
       </div>
@@ -48,8 +54,10 @@ const props = defineProps(["room"]);
 const emits = defineEmits(["close", "updateSuccess"]);
 const isVisible = ref(false);
 const selectedRoomState = ref('');
+const editedRepairStatus = ref('');
 const editingState = ref(false);
 let previousRoomState = '';
+let previousRepairStatus = '';
 
 function showModal() {
   isVisible.value = true;
@@ -64,15 +72,18 @@ function toggleEdit() {
   editingState.value = !editingState.value;
   if (!editingState.value) {
     selectedRoomState.value = previousRoomState;
+    editedRepairStatus.value = previousRepairStatus;
   } else {
     previousRoomState = selectedRoomState.value;
+    previousRepairStatus = editedRepairStatus.value;
   }
 }
 
 async function confirmEdit() {
   const payload = {
     id: props.room.id,
-    roomState: selectedRoomState.value
+    roomState: selectedRoomState.value,
+    repairStatus: editedRepairStatus.value
   };
 
   try {

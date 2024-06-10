@@ -1,6 +1,9 @@
 <template>
   <div class="room-calendar">
-    <h2>{{ room.name }}</h2>
+    <div class="room-header">
+      <h2>{{ room.name }}</h2>
+      <button class="book-now-btn" @click="bookRoom">線上預訂</button>
+    </div>
     <img :src="room.cover" alt="Room Image" class="room-image" />
     <div class="calendar">
       <DateSelected :current-date="today" :selected-date="selectedDate" @dateSelected="selDate" />
@@ -158,11 +161,43 @@ const selectedNext = () => {
     fetchData();
   }
 };
+
+const bookRoom = () => {
+  window.location.href = "/room/front/booking";
+};
 </script>
 
 <style scoped>
 .room-calendar {
   margin-bottom: 2rem;
+}
+
+.room-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.room-header h2 {
+  margin-right: 10px;
+}
+
+.book-now-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: #514644;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.book-now-btn:hover {
+  background-color: #3e3838;
 }
 
 .room-image {

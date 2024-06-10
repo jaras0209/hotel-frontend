@@ -2,6 +2,14 @@
   <backendNavbar></backendNavbar>
   <div class="box">
     <h1 class="title">住房管理</h1>
+    <div class="button-wrapper">
+            <div class="context"><RouterLink class="button--secondary" to="/room/back/housingManagement"><span class="text">住房管理</span></RouterLink></div>
+            <div class="context"><RouterLink class="button--secondary" to="/room/back/roomManagement"><span class="text">房間管理</span></RouterLink></div>
+            <div class="context"><RouterLink class="button--secondary" to="/room/back/roomAssignment"><span class="text">房間分配</span></RouterLink></div>
+            <div class="context"><RouterLink class="button--secondary" to="/room/back/additionalCharges"><span class="text">附加費用</span></RouterLink></div>
+            <div class="context"><RouterLink class="button--secondary" to="/room/back/checkOut"><span class="text">退房檢查</span></RouterLink></div>
+            <div class="context"><RouterLink class="button--secondary" to="/room/back/roomInfo"><span class="text">編輯房間資料</span></RouterLink></div>
+        </div>
     <div>
       <table class="assign">
         <thead>
@@ -261,5 +269,45 @@ onMounted(() => {
 .disabled {
   background-color: grey;
   cursor: not-allowed;
+}
+.button-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+.button-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.context {
+    margin: 0;
+}
+
+.button--secondary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ddd;
+    color: #333;
+    width: 150px;
+    height: 50px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.button--secondary .text {
+    font-size: 16px;
+}
+
+.button--secondary:hover {
+    background-color: #bbb;
+    color: #000;
 }
 </style>
