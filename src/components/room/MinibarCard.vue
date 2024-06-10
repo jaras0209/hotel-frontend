@@ -1,7 +1,8 @@
 <template>
   <div class="minibar-card-container">
     <div class="card">
-      <img class="card-img-top" :src="`data:image/jpeg;base64,${item.photo}`" :alt="item.item">
+      <img class="card-img-top" :src="`/public/images/${item.id}.jpg`" :alt="item.item">
+      <!-- <img class="card-img-top" :src="`data:image/jpeg;base64,${item.photo}`" :alt="item.item"> -->
       <div class="card-body">
         <h5 class="card-title">{{ item.item }}</h5>
         <div class="card-text text-danger text-end">NT$ {{ item.price }}</div>
