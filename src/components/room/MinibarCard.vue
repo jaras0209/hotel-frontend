@@ -1,7 +1,7 @@
 <template>
   <div class="minibar-card-container">
     <div class="card">
-      <img class="card-img-top" :src="`data:image/jpeg;base64,${item.photo}`" :alt="item.item">
+      <img class="card-img-top" :src="`/${item.id}.jpg`" :alt="item.item">
       <div class="card-body">
         <h5 class="card-title">{{ item.item }}</h5>
         <div class="card-text text-danger text-end">NT$ {{ item.price }}</div>
@@ -21,7 +21,7 @@
 <script setup>
 import Swal from 'sweetalert2';
 import axiosapi from '@/plugins/axios.js'; // 確保導入 axiosapi
-
+// import jpgd from '../../../images'
 const props = defineProps(["item"]);
 const emits = defineEmits(["detail", "order"]);
 

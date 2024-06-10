@@ -169,9 +169,10 @@ onMounted(function () {
 const total = ref(0)
 //算總價
 function getTotalPrice() {
+    console.log(result.value)
     let totalPrice = 0;
-    for (let i = 0; i < this.result.length; i++) {
-        totalPrice += this.result[i].productprice * this.result[i].quantity;
+    for (let i = 0; i < result.value.length; i++) {
+        totalPrice += result.value[i].productprice * result.value[i].quantity;
     }
     total.value = totalPrice
     return totalPrice;

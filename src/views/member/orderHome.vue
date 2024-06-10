@@ -435,6 +435,11 @@
 
     // 訂單成立
     function buildOrder(){
+        Swal.fire({
+        text: "Loading....",
+        showConfirmButton: false,
+        allowOutsideClick: false,
+    });
         if (formData.value.spname===''){
             formData.value.spname = null;
         }
@@ -657,6 +662,7 @@
         children.value = queryString.children || '';
         console.log("queryString", queryString)
         console.log("basePrice.value",basePrice.value);
+        console.log(" roomImg.value", roomImg.value);
     })
 </script>
 

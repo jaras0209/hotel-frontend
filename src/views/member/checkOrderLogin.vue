@@ -89,7 +89,7 @@ function login() {
             console.log("error")
             message.value = response.data.message;
             Swal.fire({
-                text:'失敗：'+response.data.message,
+                text:'失敗：'+response.data.message + '，或是還沒訂房',
                 icon: 'error',
                 allowOutsideClick: false,
                 confirmButtonText: '確認',

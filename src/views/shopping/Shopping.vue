@@ -105,6 +105,15 @@
     </footer>
 </template>
 <script setup>
+import star1 from '@/assets/images/star1.jpg';
+import star2 from '@/assets/images/star2.jpg';
+import star3 from '@/assets/images/star3.jpg';
+import star4 from '@/assets/images/star4.jpg';
+import star5 from '@/assets/images/star5.jpg';
+import blackstar2 from '@/assets/images/blackstar2.jpg';
+import blackstar3 from '@/assets/images/blackstar3.jpg';
+import blackstar4 from '@/assets/images/blackstar4.jpg';
+import blackstar5 from '@/assets/images/blackstar5.jpg';
 import NavigationBar from '../NavigationBar.vue';
 const options = ref([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20])
 const data = ref(1)
@@ -192,11 +201,10 @@ function callFindid(id) {
             find.value = response.data.list;
             console.log(find.value)
             productName.value = response.data.list[0].productName
+            callcoment()
+            //換位置
             console.log(productName.value)
         }
-        setTimeout(function () {
-            Swal.close();
-        }, 500);
     }).catch(function (error) {
         console.log("callFindById error", error);
         Swal.fire({
@@ -223,7 +231,6 @@ function callFindProduct(id) {
         console.log(pic.value)
         console.log(pict.value)
         console.log(pictu.value)
-        callcoment()
     }).catch(function (error) {
         console.log("callFind error", error);
         Swal.fire({
@@ -348,48 +355,49 @@ function dodelet(commentId) {
         }
     })
 }
+//第1部分照片  第二部分Shopping.vue的import還有function的更改  第三部分bug的刪除  第四部分CommentModal.vue的import還有function的更改
 function changecolor1() {
     score.value = 1
-    document.getElementById("img1").src = "/src/assets/images/star1.jpg"
-    document.getElementById("img2").src = "/src/assets/images/blackstar2.jpg"
-    document.getElementById("img3").src = "/src/assets/images/blackstar3.jpg"
-    document.getElementById("img4").src = "/src/assets/images/blackstar4.jpg"
-    document.getElementById("img5").src = "/src/assets/images/blackstar5.jpg"
+    document.getElementById("img1").src = star1
+    document.getElementById("img2").src = blackstar2
+    document.getElementById("img3").src = blackstar3
+    document.getElementById("img4").src = blackstar4
+    document.getElementById("img5").src = blackstar5
 }
 function changecolor2() {
     score.value = 2
-    document.getElementById("img1").src = "/src/assets/images/star1.jpg"
-    document.getElementById("img2").src = "/src/assets/images/star2.jpg"
-    document.getElementById("img3").src = "/src/assets/images/blackstar3.jpg"
-    document.getElementById("img4").src = "/src/assets/images/blackstar4.jpg"
-    document.getElementById("img5").src = "/src/assets/images/blackstar5.jpg"
+    document.getElementById("img1").src = star1
+    document.getElementById("img2").src = star2
+    document.getElementById("img3").src = blackstar3
+    document.getElementById("img4").src = blackstar4
+    document.getElementById("img5").src = blackstar5
 }
 function changecolor3() {
     score.value = 3
-    document.getElementById("img1").src = "/src/assets/images/star1.jpg"
-    document.getElementById("img2").src = "/src/assets/images/star2.jpg"
-    document.getElementById("img3").src = "/src/assets/images/star3.jpg"
-    document.getElementById("img4").src = "/src/assets/images/blackstar4.jpg"
-    document.getElementById("img5").src = "/src/assets/images/blackstar5.jpg"
+    document.getElementById("img1").src = star1
+    document.getElementById("img2").src = star2
+    document.getElementById("img3").src = star3
+    document.getElementById("img4").src = blackstar4
+    document.getElementById("img5").src = blackstar5
 }
 function changecolor4() {
     score.value = 4
-    document.getElementById("img1").src = "/src/assets/images/star1.jpg"
-    document.getElementById("img2").src = "/src/assets/images/star2.jpg"
-    document.getElementById("img3").src = "/src/assets/images/star3.jpg"
-    document.getElementById("img4").src = "/src/assets/images/star4.jpg"
-    document.getElementById("img5").src = "/src/assets/images/blackstar5.jpg"
+    document.getElementById("img1").src = star1
+    document.getElementById("img2").src = star2
+    document.getElementById("img3").src = star3
+    document.getElementById("img4").src = star4
+    document.getElementById("img5").src = blackstar5
 }
 function changecolor5() {
     score.value = 5
-    document.getElementById("img1").src = "/src/assets/images/star1.jpg"
-    document.getElementById("img2").src = "/src/assets/images/star2.jpg"
-    document.getElementById("img3").src = "/src/assets/images/star3.jpg"
-    document.getElementById("img4").src = "/src/assets/images/star4.jpg"
-    document.getElementById("img5").src = "/src/assets/images/star5.jpg"
+    document.getElementById("img1").src = star1
+    document.getElementById("img2").src = star2
+    document.getElementById("img3").src = star3
+    document.getElementById("img4").src = star4
+    document.getElementById("img5").src = star5
 }
 function update(commentId) {
-    mfind.value = null
+    //3
     axiosapi.get(`/hotel/comments/one/${commentId}`).then(function (response) {
         mfind.value = response.data
         console.log(mfind.value)

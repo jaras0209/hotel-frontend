@@ -28,16 +28,29 @@
     import { ref, onMounted } from 'vue';
     import Swal from 'sweetalert2';
 
-    const productImage = sessionStorage.getItem("productPicture");
-    const orderPrice = sessionStorage.getItem("orderTotalAmount");
-    const orderId = "RnJlZVJlbHggSE9URUw_"+sessionStorage.getItem("orderId");
-    const productName = sessionStorage.getItem("productName");
-    const productQuality = sessionStorage.getItem("productQuality");
-    const singlePrice = sessionStorage.getItem("singlePrice");
-    const checkInDate = sessionStorage.getItem("arrival_date");
-    const checkOutdate = sessionStorage.getItem("checkout_date");
-    const days = sessionStorage.getItem('days');
+  
+    const productImage = ref(null);
+    const orderPrice = ref(null);
+    const orderId = ref(null);
+    const productName = ref(null);
+    const productQuality = ref(null);
+    const singlePrice = ref(null);
+    const checkInDate = ref(null);
+    const checkOutdate = ref(null);
+    const days = ref(null);
 
+    function callInit(){
+        productImage.value = sessionStorage.getItem("productPicture");
+        orderPrice.value = sessionStorage.getItem("orderTotalAmount");
+        orderId.value = "RnJlZVJlbHggSE9URUw_"+sessionStorage.getItem("orderId");
+        productName.value = sessionStorage.getItem("productName");
+        productQuality.value = sessionStorage.getItem("productQuality");
+        singlePrice.value = sessionStorage.getItem("singlePrice");
+        checkInDate.value = sessionStorage.getItem("arrival_date");
+        checkOutdate.value = sessionStorage.getItem("checkout_date");
+        days.value = sessionStorage.getItem('days');
+        console.log("productImage.value",productImage.value)
+    }
     function confirmLine(){
         Swal.fire({
             text: "繳費成功",
@@ -103,7 +116,8 @@
     }
 
     onMounted(function (){
-        confirmLine()
+        confirmLine();
+        callInit();
     })
 
 </script >
