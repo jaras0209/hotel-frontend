@@ -201,11 +201,10 @@ function callFindid(id) {
             find.value = response.data.list;
             console.log(find.value)
             productName.value = response.data.list[0].productName
+            callcoment()
+            //換位置
             console.log(productName.value)
         }
-        setTimeout(function () {
-            Swal.close();
-        }, 500);
     }).catch(function (error) {
         console.log("callFindById error", error);
         Swal.fire({
@@ -232,7 +231,6 @@ function callFindProduct(id) {
         console.log(pic.value)
         console.log(pict.value)
         console.log(pictu.value)
-        callcoment()
     }).catch(function (error) {
         console.log("callFind error", error);
         Swal.fire({
