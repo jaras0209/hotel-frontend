@@ -18,7 +18,7 @@
   <div class="row justify-content-center">
     <div class="col-sm-6">
       <select v-model="selectedRoomState" class="form-control">
-        <option value="1">待入住</option>
+        <option value="1">維護中</option>
         <option value="2">已入住</option>
         <option value="3">已退房(未清潔)</option>
         <option value="4">準備完成(已清潔)</option>
