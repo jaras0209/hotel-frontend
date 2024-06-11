@@ -143,8 +143,8 @@ const onSubmit = async () => {
             orderid: formData.orderid,
             roomid: formData.roomNumber,
             remarks: formData.remarks || 'No remarks',
-            totalAdditional: 0.000000,
-            totalCompensation: 0.000000
+            totalAdditional: '0.000000',
+            totalCompensation: '0.000000'
         };
 
         try {
